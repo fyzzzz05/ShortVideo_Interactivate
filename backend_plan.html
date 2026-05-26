@@ -1,0 +1,95 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>后端20天落地计划（仅后端）</title>
+  <style>
+    :root { --bg:#f7f8fb; --card:#fff; --text:#1f2937; --muted:#6b7280; --line:#e5e7eb; --accent:#2563eb; }
+    * { box-sizing:border-box; }
+    body { margin:0; font-family: "Segoe UI","PingFang SC","Microsoft YaHei",sans-serif; background:var(--bg); color:var(--text); }
+    .wrap { max-width:980px; margin:32px auto; padding:0 16px 32px; }
+    .card { background:var(--card); border:1px solid var(--line); border-radius:14px; padding:20px 22px; margin-bottom:14px; }
+    h1 { margin:0 0 8px; font-size:28px; }
+    h2 { margin:0 0 10px; font-size:20px; color:var(--accent); }
+    h3 { margin:10px 0 8px; font-size:16px; }
+    p, li { line-height:1.65; }
+    .muted { color:var(--muted); }
+    ul, ol { margin:8px 0 0 22px; }
+    code { background:#eef2ff; border-radius:6px; padding:2px 6px; font-size:13px; }
+  </style>
+</head>
+<body>
+  <div class="wrap">
+    <div class="card">
+      <h1>后端20天落地计划（仅后端，具体可执行）</h1>
+      <p class="muted">目标：20天内交付可演示后端，支持高光检测双模式、同款识别外链、场景互动映射、剧末人格测试，并完成本地+云上部署。</p>
+    </div>
+
+    <section class="card">
+      <h2>技术栈（固定建议）</h2>
+      <ul>
+        <li><code>Python 3.11 + FastAPI + Uvicorn</code></li>
+        <li><code>PostgreSQL 16</code>（本地可先 SQLite，D8 前切 PG）</li>
+        <li><code>SQLAlchemy 2.x + Alembic</code></li>
+        <li><code>Redis 7 + slowapi</code>（限流）</li>
+        <li><code>Celery + Redis</code>（离线任务）</li>
+        <li><code>httpx</code>（模型服务调用）</li>
+        <li><code>structlog + Prometheus + Grafana</code></li>
+        <li><code>Docker + docker-compose</code></li>
+        <li><code>pytest + pytest-asyncio</code></li>
+      </ul>
+    </section>
+
+    <section class="card">
+      <h2>核心接口</h2>
+      <ul>
+        <li><code>GET /dramas</code></li>
+        <li><code>GET /episodes/{episode_id}/events?mode=offline|hybrid</code></li>
+        <li><code>POST /events/realtime-detect</code></li>
+        <li><code>POST /interactions/click</code></li>
+        <li><code>POST /interactions/like</code></li>
+        <li><code>GET /interactions/summary?episode_id=...</code></li>
+        <li><code>POST /shop/search-link</code></li>
+        <li><code>GET /quiz/{episode_id}/profile</code></li>
+        <li><code>POST /quiz/submit</code></li>
+      </ul>
+    </section>
+
+    <section class="card">
+      <h2>20天排期（后端）</h2>
+      <ol>
+        <li>D1-D2：工程骨架、配置、日志、Alembic、基础表。</li>
+        <li>D3-D4：离线事件主链路与导入脚本。</li>
+        <li>D5-D6：互动写入与聚合、幂等与去重。</li>
+        <li>D7-D8：实时检测接口、超时重试、切 PostgreSQL。</li>
+        <li>D9-D10：hybrid 合并、去重、熔断开关。</li>
+        <li>D11-D12：同款识别外链生成。</li>
+        <li>D13-D14：小游戏/特效映射规则配置化。</li>
+        <li>D15-D16：人格测试评分与负面角色过滤。</li>
+        <li>D17-D18：限流、监控、日志追踪、压测优化。</li>
+        <li>D19-D20：Docker化、云部署、回归与交付文档。</li>
+      </ol>
+    </section>
+
+    <section class="card">
+      <h2>测试与验收</h2>
+      <ul>
+        <li>功能：offline/hybrid 都可用，互动计数正确。</li>
+        <li>鲁棒性：实时失败自动回退离线，不阻塞主链路。</li>
+        <li>一致性：按 <code>dedup_key + event_type</code> 去重。</li>
+        <li>性能：<code>/events</code> 在演示数据量下 P95 &lt; 300ms。</li>
+      </ul>
+    </section>
+
+    <section class="card">
+      <h2>默认假设</h2>
+      <ul>
+        <li>模型 API 可用，密钥通过环境变量管理。</li>
+        <li>同款仅做“识别标签 → 搜索外链”，不做成交闭环。</li>
+        <li>实时不稳时可关闭开关，保离线主链路按时交付。</li>
+      </ul>
+    </section>
+  </div>
+</body>
+</html>

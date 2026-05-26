@@ -1,1 +1,4 @@
-backend_plan.html
+__pycache__/
+*.pyc
+.env
+shortvideo.db
