@@ -1,0 +1,28 @@
+[
+  {
+    "episode_id": 1,
+    "start_ms": 12000,
+    "end_ms": 18000,
+    "type": "highlight",
+    "title": "反转名场面",
+    "confidence": 0.92,
+    "source": "offline",
+    "dedup_key": "ep1-12000-reverse",
+    "event_type": "highlight",
+    "scene_tag": "revenge",
+    "payload": "{\"cta\":\"tap\"}"
+  },
+  {
+    "episode_id": 1,
+    "start_ms": 30000,
+    "end_ms": 36000,
+    "type": "highlight",
+    "title": "甜蜜发糖",
+    "confidence": 0.88,
+    "source": "offline",
+    "dedup_key": "ep1-30000-sweet",
+    "event_type": "effect",
+    "scene_tag": "sweet",
+    "payload": "{\"effect\":\"kswl\"}"
+  }
+]

@@ -1,0 +1,2162 @@
+[
+  {
+    "id": "danmaku_0001",
+    "drama_title": "十八岁太奶奶驾到，重整家族荣耀第三部",
+    "drama_id": "十八岁太奶奶驾到_重整家族荣耀第三部",
+    "episode_id": "第3集",
+    "start_time": 165,
+    "end_time": 180,
+    "type": "funny",
+    "confidence": 0.986,
+    "title": "弹幕高热高光：第3集 165-180s",
+    "reason": "该时间窗口弹幕热度较高，弹幕数 3109，累计点赞 4839，情绪密度 1.0727。",
+    "evidence": {
+      "source": "danmaku",
+      "danmaku_count": 3109,
+      "like_sum": 4839,
+      "emotion_density": 1.0727,
+      "sample_text": "我不行了；哇哦；哈哈哈哈哈；[笑哭][笑哭][笑哭]；行[捂脸][笑哭]"
+    },
+    "interaction": {
+      "buttons": [
+        "笑不活了",
+        "太好笑了",
+        "绷不住了"
+      ],
+      "effect": "float"
+    }
+  },
+  {
+    "id": "danmaku_0002",
+    "drama_title": "十八岁太奶奶驾到，重整家族荣耀第三部",
+    "drama_id": "十八岁太奶奶驾到_重整家族荣耀第三部",
+    "episode_id": "第3集",
+    "start_time": 180,
+    "end_time": 195,
+    "type": "funny",
+    "confidence": 0.952,
+    "title": "弹幕高热高光：第3集 180-195s",
+    "reason": "该时间窗口弹幕热度较高，弹幕数 2898，累计点赞 4686，情绪密度 1.0542。",
+    "evidence": {
+      "source": "danmaku",
+      "danmaku_count": 2898,
+      "like_sum": 4686,
+      "emotion_density": 1.0542,
+      "sample_text": "笑不活了[捂脸][捂脸]；[捂脸][捂脸][捂脸]；好搞笑；[捂脸][捂脸][捂脸]；我？？？"
+    },
+    "interaction": {
+      "buttons": [
+        "笑不活了",
+        "太好笑了",
+        "绷不住了"
+      ],
+      "effect": "float"
+    }
+  },
+  {
+    "id": "danmaku_0003",
+    "drama_title": "天下第一纨绔",
+    "drama_id": "天下第一纨绔",
+    "episode_id": "第5集",
+    "start_time": 30,
+    "end_time": 45,
+    "type": "funny",
+    "confidence": 0.937,
+    "title": "弹幕高热高光：第5集 30-45s",
+    "reason": "该时间窗口弹幕热度较高，弹幕数 157，累计点赞 69，情绪密度 0.8854。",
+    "evidence": {
+      "source": "danmaku",
+      "danmaku_count": 157,
+      "like_sum": 69,
+      "emotion_density": 0.8854,
+      "sample_text": "真是处变不惊啊[赞]；[笑哭][笑哭]名场面；[笑哭][笑哭][笑哭]；万万没想到[捂脸]；咦惹"
+    },
+    "interaction": {
+      "buttons": [
+        "笑不活了",
+        "太好笑了",
+        "绷不住了"
+      ],
+      "effect": "float"
+    }
+  },
+  {
+    "id": "danmaku_0004",
+    "drama_title": "家里家外",
+    "drama_id": "家里家外",
+    "episode_id": "第4集",
+    "start_time": 60,
+    "end_time": 75,
+    "type": "funny",
+    "confidence": 0.937,
+    "title": "弹幕高热高光：第4集 60-75s",
+    "reason": "该时间窗口弹幕热度较高，弹幕数 376，累计点赞 1281，情绪密度 0.7473。",
+    "evidence": {
+      "source": "danmaku",
+      "danmaku_count": 376,
+      "like_sum": 1281,
+      "emotion_density": 0.7473,
+      "sample_text": "人情世故这块[赞]；哈哈哈哈哈 听起好像小时候看哈儿司长；孩子好可爱啊；哈哈哈哈；哈哈哈[赞]"
+    },
+    "interaction": {
+      "buttons": [
+        "笑不活了",
+        "太好笑了",
+        "绷不住了"
+      ],
+      "effect": "float"
+    }
+  },
+  {
+    "id": "danmaku_0005",
+    "drama_title": "北往",
+    "drama_id": "北往",
+    "episode_id": "第3集",
+    "start_time": 0,
+    "end_time": 15,
+    "type": "funny",
+    "confidence": 0.933,
+    "title": "弹幕高热高光：第3集 0-15s",
+    "reason": "该时间窗口弹幕热度较高，弹幕数 276，累计点赞 391，情绪密度 0.7319。",
+    "evidence": {
+      "source": "danmaku",
+      "danmaku_count": 276,
+      "like_sum": 391,
+      "emotion_density": 0.7319,
+      "sample_text": "这俩东北局搞笑担当；这剧两大男主合作啊！；皮总和李总整一块了；西双版纳。怎么能冷了；这回还带个媳妇回去"
+    },
+    "interaction": {
+      "buttons": [
+        "笑不活了",
+        "太好笑了",
+        "绷不住了"
+      ],
+      "effect": "float"
+    }
+  },
+  {
+    "id": "danmaku_0006",
+    "drama_title": "北往",
+    "drama_id": "北往",
+    "episode_id": "第5集",
+    "start_time": 135,
+    "end_time": 150,
+    "type": "funny",
+    "confidence": 0.933,
+    "title": "弹幕高热高光：第5集 135-150s",
+    "reason": "该时间窗口弹幕热度较高，弹幕数 539，累计点赞 93，情绪密度 1.1113。",
+    "evidence": {
+      "source": "danmaku",
+      "danmaku_count": 539,
+      "like_sum": 93,
+      "emotion_density": 1.1113,
+      "sample_text": "[捂脸][捂脸][捂脸][捂脸][捂脸]；[笑哭][笑哭][笑哭][笑哭][笑哭]；[捂脸][捂脸][捂脸][捂脸]；看一遍笑一遍要岔气了[捂脸]；哈哈哈"
+    },
+    "interaction": {
+      "buttons": [
+        "笑不活了",
+        "太好笑了",
+        "绷不住了"
+      ],
+      "effect": "float"
+    }
+  },
+  {
+    "id": "danmaku_0007",
+    "drama_title": "撕夜",
+    "drama_id": "撕夜",
+    "episode_id": "第2集",
+    "start_time": 60,
+    "end_time": 75,
+    "type": "cool",
+    "confidence": 0.931,
+    "title": "弹幕高热高光：第2集 60-75s",
+    "reason": "该时间窗口弹幕热度较高，弹幕数 296，累计点赞 219，情绪密度 0.7601。",
+    "evidence": {
+      "source": "danmaku",
+      "danmaku_count": 296,
+      "like_sum": 219,
+      "emotion_density": 0.7601,
+      "sample_text": "帅；男主好像韩国的欧巴；帅；好帅；得劲"
+    },
+    "interaction": {
+      "buttons": [
+        "爽到了",
+        "打脸成功",
+        "继续上强度"
+      ],
+      "effect": "burst"
+    }
+  },
+  {
+    "id": "danmaku_0008",
+    "drama_title": "云渺1：我修仙多年强亿点怎么了",
+    "drama_id": "云渺1_我修仙多年强亿点怎么了",
+    "episode_id": "第4集",
+    "start_time": 30,
+    "end_time": 45,
+    "type": "suspense",
+    "confidence": 0.914,
+    "title": "弹幕高热高光：第4集 30-45s",
+    "reason": "该时间窗口弹幕热度较高，弹幕数 34，累计点赞 78，情绪密度 0.7353。",
+    "evidence": {
+      "source": "danmaku",
+      "danmaku_count": 34,
+      "like_sum": 78,
+      "emotion_density": 0.7353,
+      "sample_text": "为了父亲低声下气，周源也是个孝子了；你让我留步我就留步，我不要面子的啊；云渺小姐冷不冷啊；周家地位？；敌人都请来看了，怎么这个旧识，就在这拉扯"
+    },
+    "interaction": {
+      "buttons": [
+        "快继续",
+        "怎么回事",
+        "等不及了"
+      ],
+      "effect": "pulse"
+    }
+  },
+  {
+    "id": "danmaku_0009",
+    "drama_title": "十八岁太奶奶驾到，重整家族荣耀第三部",
+    "drama_id": "十八岁太奶奶驾到_重整家族荣耀第三部",
+    "episode_id": "第4集",
+    "start_time": 75,
+    "end_time": 90,
+    "type": "funny",
+    "confidence": 0.909,
+    "title": "弹幕高热高光：第4集 75-90s",
+    "reason": "该时间窗口弹幕热度较高，弹幕数 1479，累计点赞 1581，情绪密度 0.7897。",
+    "evidence": {
+      "source": "danmaku",
+      "danmaku_count": 1479,
+      "like_sum": 1581,
+      "emotion_density": 0.7897,
+      "sample_text": "现在的技术，孩子在肚子里也可以做DNA检测吧。；[笑哭][笑哭]；[笑哭]；[捂脸][捂脸]；小傻瓜[捂脸]"
+    },
+    "interaction": {
+      "buttons": [
+        "笑不活了",
+        "太好笑了",
+        "绷不住了"
+      ],
+      "effect": "float"
+    }
+  },
+  {
+    "id": "danmaku_0010",
+    "drama_title": "十八岁太奶奶驾到，重整家族荣耀第三部",
+    "drama_id": "十八岁太奶奶驾到_重整家族荣耀第三部",
+    "episode_id": "第2集",
+    "start_time": 105,
+    "end_time": 120,
+    "type": "funny",
+    "confidence": 0.907,
+    "title": "弹幕高热高光：第2集 105-120s",
+    "reason": "该时间窗口弹幕热度较高，弹幕数 6147，累计点赞 4132，情绪密度 0.7478。",
+    "evidence": {
+      "source": "danmaku",
+      "danmaku_count": 6147,
+      "like_sum": 4132,
+      "emotion_density": 0.7478,
+      "sample_text": "[捂脸][捂脸][捂脸]；我的妈诶，老三是这个人设啊[笑哭][笑哭][笑哭]；[捂脸][捂脸][捂脸]；我要恋爱了；[什么]"
+    },
+    "interaction": {
+      "buttons": [
+        "笑不活了",
+        "太好笑了",
+        "绷不住了"
+      ],
+      "effect": "float"
+    }
+  },
+  {
+    "id": "danmaku_0011",
+    "drama_title": "幸得相遇离婚时",
+    "drama_id": "幸得相遇离婚时",
+    "episode_id": "第4集",
+    "start_time": 30,
+    "end_time": 45,
+    "type": "funny",
+    "confidence": 0.903,
+    "title": "弹幕高热高光：第4集 30-45s",
+    "reason": "该时间窗口弹幕热度较高，弹幕数 199，累计点赞 167，情绪密度 0.6834。",
+    "evidence": {
+      "source": "danmaku",
+      "danmaku_count": 199,
+      "like_sum": 167,
+      "emotion_density": 0.6834,
+      "sample_text": "霸道总裁爱上，啥也不是且怀孕的我[笑哭]；霸总暗恋邻家小妹；[捂脸][捂脸]；[赞]；[鼓掌]好喜欢刘萧旭"
+    },
+    "interaction": {
+      "buttons": [
+        "笑不活了",
+        "太好笑了",
+        "绷不住了"
+      ],
+      "effect": "float"
+    }
+  },
+  {
+    "id": "danmaku_0012",
+    "drama_title": "天下第一纨绔",
+    "drama_id": "天下第一纨绔",
+    "episode_id": "第2集",
+    "start_time": 30,
+    "end_time": 45,
+    "type": "funny",
+    "confidence": 0.902,
+    "title": "弹幕高热高光：第2集 30-45s",
+    "reason": "该时间窗口弹幕热度较高，弹幕数 204，累计点赞 90，情绪密度 0.6078。",
+    "evidence": {
+      "source": "danmaku",
+      "danmaku_count": 204,
+      "like_sum": 90,
+      "emotion_density": 0.6078,
+      "sample_text": "怪侠一撮毛！[笑哭][笑哭][笑哭]；肯定是马老师出手了[捂脸]；离歌笑；[笑哭]；霍建华:我不在，不是我"
+    },
+    "interaction": {
+      "buttons": [
+        "笑不活了",
+        "太好笑了",
+        "绷不住了"
+      ],
+      "effect": "float"
+    }
+  },
+  {
+    "id": "danmaku_0013",
+    "drama_title": "荒年全村啃树皮，我有系统满仓肉",
+    "drama_id": "荒年全村啃树皮_我有系统满仓肉",
+    "episode_id": "第1集",
+    "start_time": 45,
+    "end_time": 60,
+    "type": "funny",
+    "confidence": 0.896,
+    "title": "弹幕高热高光：第1集 45-60s",
+    "reason": "该时间窗口弹幕热度较高，弹幕数 144，累计点赞 117，情绪密度 0.5833。",
+    "evidence": {
+      "source": "danmaku",
+      "danmaku_count": 144,
+      "like_sum": 117,
+      "emotion_density": 0.5833,
+      "sample_text": "送你穿越；自然是穿越了[捂脸]；穿越了；穿越过来上市前，第一件事就是被砸头；[捂脸][捂脸][捂脸]"
+    },
+    "interaction": {
+      "buttons": [
+        "笑不活了",
+        "太好笑了",
+        "绷不住了"
+      ],
+      "effect": "float"
+    }
+  },
+  {
+    "id": "danmaku_0014",
+    "drama_title": "十八岁太奶奶驾到，重整家族荣耀第三部",
+    "drama_id": "十八岁太奶奶驾到_重整家族荣耀第三部",
+    "episode_id": "第4集",
+    "start_time": 45,
+    "end_time": 60,
+    "type": "funny",
+    "confidence": 0.892,
+    "title": "弹幕高热高光：第4集 45-60s",
+    "reason": "该时间窗口弹幕热度较高，弹幕数 1379，累计点赞 2115，情绪密度 0.8252。",
+    "evidence": {
+      "source": "danmaku",
+      "danmaku_count": 1379,
+      "like_sum": 2115,
+      "emotion_density": 0.8252,
+      "sample_text": "哈哈哈哈[偷笑]；笑死我了；哈哈哈，我自己还是个宝宝呢；[爽][爽][爽]；失忆是你搞的事儿吧 大姐"
+    },
+    "interaction": {
+      "buttons": [
+        "笑不活了",
+        "太好笑了",
+        "绷不住了"
+      ],
+      "effect": "float"
+    }
+  },
+  {
+    "id": "danmaku_0015",
+    "drama_title": "天下第一纨绔",
+    "drama_id": "天下第一纨绔",
+    "episode_id": "第5集",
+    "start_time": 45,
+    "end_time": 60,
+    "type": "funny",
+    "confidence": 0.892,
+    "title": "弹幕高热高光：第5集 45-60s",
+    "reason": "该时间窗口弹幕热度较高，弹幕数 148，累计点赞 45，情绪密度 0.9054。",
+    "evidence": {
+      "source": "danmaku",
+      "danmaku_count": 148,
+      "like_sum": 45,
+      "emotion_density": 0.9054,
+      "sample_text": "故意的[笑哭]；其实他知道；[捂脸][捂脸][偷笑][偷笑][笑哭]；咯吱窝比女人还干净；雄孩子不装早被一家子害死"
+    },
+    "interaction": {
+      "buttons": [
+        "笑不活了",
+        "太好笑了",
+        "绷不住了"
+      ],
+      "effect": "float"
+    }
+  },
+  {
+    "id": "danmaku_0016",
+    "drama_title": "撕夜",
+    "drama_id": "撕夜",
+    "episode_id": "第4集",
+    "start_time": 0,
+    "end_time": 15,
+    "type": "funny",
+    "confidence": 0.887,
+    "title": "弹幕高热高光：第4集 0-15s",
+    "reason": "该时间窗口弹幕热度较高，弹幕数 273，累计点赞 692，情绪密度 0.5495。",
+    "evidence": {
+      "source": "danmaku",
+      "danmaku_count": 273,
+      "like_sum": 692,
+      "emotion_density": 0.5495,
+      "sample_text": "今天是看的第二遍了，根本看不够[捂脸][捂脸][捂脸]；还不敢相信[偷笑]；二刷，还是好激动；五刷了；[没看够]"
+    },
+    "interaction": {
+      "buttons": [
+        "笑不活了",
+        "太好笑了",
+        "绷不住了"
+      ],
+      "effect": "float"
+    }
+  },
+  {
+    "id": "danmaku_0017",
+    "drama_title": "云渺1：我修仙多年强亿点怎么了",
+    "drama_id": "云渺1_我修仙多年强亿点怎么了",
+    "episode_id": "第5集",
+    "start_time": 90,
+    "end_time": 105,
+    "type": "suspense",
+    "confidence": 0.881,
+    "title": "弹幕高热高光：第5集 90-105s",
+    "reason": "该时间窗口弹幕热度较高，弹幕数 35，累计点赞 61，情绪密度 0.6571。",
+    "evidence": {
+      "source": "danmaku",
+      "danmaku_count": 35,
+      "like_sum": 61,
+      "emotion_density": 0.6571,
+      "sample_text": "周源道歉专业户；老太太台词挺稳的；老太太演挺好；为了看懂第五部，重新刷第一部；什么玩意儿啊？这是，怎么说话的？"
+    },
+    "interaction": {
+      "buttons": [
+        "快继续",
+        "怎么回事",
+        "等不及了"
+      ],
+      "effect": "pulse"
+    }
+  },
+  {
+    "id": "danmaku_0018",
+    "drama_title": "荒年全村啃树皮，我有系统满仓肉",
+    "drama_id": "荒年全村啃树皮_我有系统满仓肉",
+    "episode_id": "第2集",
+    "start_time": 90,
+    "end_time": 105,
+    "type": "suspense",
+    "confidence": 0.881,
+    "title": "弹幕高热高光：第2集 90-105s",
+    "reason": "该时间窗口弹幕热度较高，弹幕数 137，累计点赞 87，情绪密度 0.6934。",
+    "evidence": {
+      "source": "danmaku",
+      "danmaku_count": 137,
+      "like_sum": 87,
+      "emotion_density": 0.6934,
+      "sample_text": "[没看够][没看够][没看够]；你好；伤的后脑，怎么前额出血；不绑前面的话绑不上[捂脸]；不错不错，好看"
+    },
+    "interaction": {
+      "buttons": [
+        "快继续",
+        "怎么回事",
+        "等不及了"
+      ],
+      "effect": "pulse"
+    }
+  },
+  {
+    "id": "danmaku_0019",
+    "drama_title": "荒年全村啃树皮，我有系统满仓肉",
+    "drama_id": "荒年全村啃树皮_我有系统满仓肉",
+    "episode_id": "第5集",
+    "start_time": 45,
+    "end_time": 60,
+    "type": "funny",
+    "confidence": 0.881,
+    "title": "弹幕高热高光：第5集 45-60s",
+    "reason": "该时间窗口弹幕热度较高，弹幕数 90，累计点赞 98，情绪密度 0.5222。",
+    "evidence": {
+      "source": "danmaku",
+      "danmaku_count": 90,
+      "like_sum": 98,
+      "emotion_density": 0.5222,
+      "sample_text": "二刷中。；[赞]；这部剧热度挺大；只剩十文钱；因为我背下来"
+    },
+    "interaction": {
+      "buttons": [
+        "笑不活了",
+        "太好笑了",
+        "绷不住了"
+      ],
+      "effect": "float"
+    }
+  },
+  {
+    "id": "danmaku_0020",
+    "drama_title": "十八岁太奶奶驾到，重整家族荣耀第三部",
+    "drama_id": "十八岁太奶奶驾到_重整家族荣耀第三部",
+    "episode_id": "第1集",
+    "start_time": 0,
+    "end_time": 15,
+    "type": "famous_scene",
+    "confidence": 0.879,
+    "title": "弹幕高热高光：第1集 0-15s",
+    "reason": "该时间窗口弹幕热度较高，弹幕数 4663，累计点赞 4122，情绪密度 0.5837。",
+    "evidence": {
+      "source": "danmaku",
+      "danmaku_count": 4663,
+      "like_sum": 4122,
+      "emotion_density": 0.5837,
+      "sample_text": "刚看完第二季 太棒啦；出了第四季才从第一季开始看，真幸福[送花][送花][送花]；啊啊啊啊啊[爱慕]；家人们来回忆三了，过年不是要看四吗？我来回忆三；根本看不够啊，四什么时候出？不能让我重刷30遍吧"
+    },
+    "interaction": {
+      "buttons": [
+        "名场面",
+        "高能来了",
+        "封神一刻"
+      ],
+      "effect": "spotlight"
+    }
+  },
+  {
+    "id": "danmaku_0021",
+    "drama_title": "云渺1：我修仙多年强亿点怎么了",
+    "drama_id": "云渺1_我修仙多年强亿点怎么了",
+    "episode_id": "第4集",
+    "start_time": 0,
+    "end_time": 15,
+    "type": "suspense",
+    "confidence": 0.875,
+    "title": "弹幕高热高光：第4集 0-15s",
+    "reason": "该时间窗口弹幕热度较高，弹幕数 31，累计点赞 71，情绪密度 0.7742。",
+    "evidence": {
+      "source": "danmaku",
+      "danmaku_count": 31,
+      "like_sum": 71,
+      "emotion_density": 0.7742,
+      "sample_text": "怎么不打伞[捂脸]；态度变得快；云渺好飒！；老爷子心心念念70年的人到底是谁？；[爱慕][爱慕][爱慕][送花][送花][送花]"
+    },
+    "interaction": {
+      "buttons": [
+        "快继续",
+        "怎么回事",
+        "等不及了"
+      ],
+      "effect": "pulse"
+    }
+  },
+  {
+    "id": "danmaku_0022",
+    "drama_title": "荒年全村啃树皮，我有系统满仓肉",
+    "drama_id": "荒年全村啃树皮_我有系统满仓肉",
+    "episode_id": "第3集",
+    "start_time": 30,
+    "end_time": 45,
+    "type": "funny",
+    "confidence": 0.875,
+    "title": "弹幕高热高光：第3集 30-45s",
+    "reason": "该时间窗口弹幕热度较高，弹幕数 117，累计点赞 101，情绪密度 0.6068。",
+    "evidence": {
+      "source": "danmaku",
+      "danmaku_count": 117,
+      "like_sum": 101,
+      "emotion_density": 0.6068,
+      "sample_text": "[酷][伤心][恐惧]；[爱心][爱心][爱心]；[没看够]；[笑哭]；[没看够][没看够]"
+    },
+    "interaction": {
+      "buttons": [
+        "笑不活了",
+        "太好笑了",
+        "绷不住了"
+      ],
+      "effect": "float"
+    }
+  },
+  {
+    "id": "danmaku_0023",
+    "drama_title": "家里家外",
+    "drama_id": "家里家外",
+    "episode_id": "第2集",
+    "start_time": 210,
+    "end_time": 225,
+    "type": "funny",
+    "confidence": 0.872,
+    "title": "弹幕高热高光：第2集 210-225s",
+    "reason": "该时间窗口弹幕热度较高，弹幕数 241，累计点赞 246，情绪密度 0.61。",
+    "evidence": {
+      "source": "danmaku",
+      "danmaku_count": 241,
+      "like_sum": 246,
+      "emotion_density": 0.61,
+      "sample_text": "好直接；你有车有房有存款吗？？；哇[偷笑]；这不是纪家二少爷吗[捂脸]；[捂脸][捂脸][捂脸][捂脸][捂脸]"
+    },
+    "interaction": {
+      "buttons": [
+        "笑不活了",
+        "太好笑了",
+        "绷不住了"
+      ],
+      "effect": "float"
+    }
+  },
+  {
+    "id": "danmaku_0024",
+    "drama_title": "天下第一纨绔",
+    "drama_id": "天下第一纨绔",
+    "episode_id": "第1集",
+    "start_time": 60,
+    "end_time": 75,
+    "type": "funny",
+    "confidence": 0.868,
+    "title": "弹幕高热高光：第1集 60-75s",
+    "reason": "该时间窗口弹幕热度较高，弹幕数 632，累计点赞 213，情绪密度 0.4715。",
+    "evidence": {
+      "source": "danmaku",
+      "danmaku_count": 632,
+      "like_sum": 213,
+      "emotion_density": 0.4715,
+      "sample_text": "伤口呢[探究][探究][探究]；有辱如烟大帝之名；还不睡；勾栏；柳如烟"
+    },
+    "interaction": {
+      "buttons": [
+        "笑不活了",
+        "太好笑了",
+        "绷不住了"
+      ],
+      "effect": "float"
+    }
+  },
+  {
+    "id": "danmaku_0025",
+    "drama_title": "云渺1：我修仙多年强亿点怎么了",
+    "drama_id": "云渺1_我修仙多年强亿点怎么了",
+    "episode_id": "第1集",
+    "start_time": 0,
+    "end_time": 15,
+    "type": "funny",
+    "confidence": 0.867,
+    "title": "弹幕高热高光：第1集 0-15s",
+    "reason": "该时间窗口弹幕热度较高，弹幕数 108，累计点赞 114，情绪密度 0.4722。",
+    "evidence": {
+      "source": "danmaku",
+      "danmaku_count": 108,
+      "like_sum": 114,
+      "emotion_density": 0.4722,
+      "sample_text": "太好了是小亿我们有救了；我爱王小艺[爱慕]；[赞]；我是从第5季重追来的；五刷"
+    },
+    "interaction": {
+      "buttons": [
+        "笑不活了",
+        "太好笑了",
+        "绷不住了"
+      ],
+      "effect": "float"
+    }
+  },
+  {
+    "id": "danmaku_0026",
+    "drama_title": "北往",
+    "drama_id": "北往",
+    "episode_id": "第2集",
+    "start_time": 15,
+    "end_time": 30,
+    "type": "funny",
+    "confidence": 0.865,
+    "title": "弹幕高热高光：第2集 15-30s",
+    "reason": "该时间窗口弹幕热度较高，弹幕数 1017，累计点赞 228，情绪密度 0.6942。",
+    "evidence": {
+      "source": "danmaku",
+      "danmaku_count": 1017,
+      "like_sum": 228,
+      "emotion_density": 0.6942,
+      "sample_text": "这是要走多久[笑哭]；为什么不做绿皮啊[捂脸]；人在囚途吗；[赞][赞][赞]；这是哪到哪啊[尬笑]"
+    },
+    "interaction": {
+      "buttons": [
+        "笑不活了",
+        "太好笑了",
+        "绷不住了"
+      ],
+      "effect": "float"
+    }
+  },
+  {
+    "id": "danmaku_0027",
+    "drama_title": "云渺1：我修仙多年强亿点怎么了",
+    "drama_id": "云渺1_我修仙多年强亿点怎么了",
+    "episode_id": "第4集",
+    "start_time": 15,
+    "end_time": 30,
+    "type": "funny",
+    "confidence": 0.864,
+    "title": "弹幕高热高光：第4集 15-30s",
+    "reason": "该时间窗口弹幕热度较高，弹幕数 33，累计点赞 84，情绪密度 0.5758。",
+    "evidence": {
+      "source": "danmaku",
+      "danmaku_count": 33,
+      "like_sum": 84,
+      "emotion_density": 0.5758,
+      "sample_text": "孝心可嘉；又挽留了；这剧的台词逻辑严谨；孝心；为啥不打伞"
+    },
+    "interaction": {
+      "buttons": [
+        "笑不活了",
+        "太好笑了",
+        "绷不住了"
+      ],
+      "effect": "float"
+    }
+  },
+  {
+    "id": "danmaku_0028",
+    "drama_title": "北往",
+    "drama_id": "北往",
+    "episode_id": "第1集",
+    "start_time": 15,
+    "end_time": 30,
+    "type": "funny",
+    "confidence": 0.857,
+    "title": "弹幕高热高光：第1集 15-30s",
+    "reason": "该时间窗口弹幕热度较高，弹幕数 1064，累计点赞 308，情绪密度 0.6297。",
+    "evidence": {
+      "source": "danmaku",
+      "danmaku_count": 1064,
+      "like_sum": 308,
+      "emotion_density": 0.6297,
+      "sample_text": "一人拿一根甘蔗去打人？；拿甘蔗干仗！打累了还能补补糖是吧！[捂脸][捂脸]；甘蔗；甘蔗？；甘蔗能干嘛"
+    },
+    "interaction": {
+      "buttons": [
+        "笑不活了",
+        "太好笑了",
+        "绷不住了"
+      ],
+      "effect": "float"
+    }
+  },
+  {
+    "id": "danmaku_0029",
+    "drama_title": "天下第一纨绔",
+    "drama_id": "天下第一纨绔",
+    "episode_id": "第3集",
+    "start_time": 45,
+    "end_time": 60,
+    "type": "funny",
+    "confidence": 0.856,
+    "title": "弹幕高热高光：第3集 45-60s",
+    "reason": "该时间窗口弹幕热度较高，弹幕数 462，累计点赞 318，情绪密度 0.4416。",
+    "evidence": {
+      "source": "danmaku",
+      "danmaku_count": 462,
+      "like_sum": 318,
+      "emotion_density": 0.4416,
+      "sample_text": "这个后娘[鼓掌]好。；主母故意养废，实则藏拙了；这后妈也太好了；范闲；捧杀"
+    },
+    "interaction": {
+      "buttons": [
+        "笑不活了",
+        "太好笑了",
+        "绷不住了"
+      ],
+      "effect": "float"
+    }
+  },
+  {
+    "id": "danmaku_0030",
+    "drama_title": "家里家外",
+    "drama_id": "家里家外",
+    "episode_id": "第3集",
+    "start_time": 0,
+    "end_time": 15,
+    "type": "funny",
+    "confidence": 0.855,
+    "title": "弹幕高热高光：第3集 0-15s",
+    "reason": "该时间窗口弹幕热度较高，弹幕数 270，累计点赞 322，情绪密度 0.4852。",
+    "evidence": {
+      "source": "danmaku",
+      "danmaku_count": 270,
+      "like_sum": 322,
+      "emotion_density": 0.4852,
+      "sample_text": "短剧现在质量这么高[鼓掌]；新婚快乐；[没看够][没看够][没看够]；新婚快乐；这部剧质感好好，四川话也蛮亲切"
+    },
+    "interaction": {
+      "buttons": [
+        "笑不活了",
+        "太好笑了",
+        "绷不住了"
+      ],
+      "effect": "float"
+    }
+  },
+  {
+    "id": "danmaku_0031",
+    "drama_title": "北往",
+    "drama_id": "北往",
+    "episode_id": "第4集",
+    "start_time": 15,
+    "end_time": 30,
+    "type": "funny",
+    "confidence": 0.854,
+    "title": "弹幕高热高光：第4集 15-30s",
+    "reason": "该时间窗口弹幕热度较高，弹幕数 488，累计点赞 83，情绪密度 0.6578。",
+    "evidence": {
+      "source": "danmaku",
+      "danmaku_count": 488,
+      "like_sum": 83,
+      "emotion_density": 0.6578,
+      "sample_text": "好家伙，全明星阵容咩[捂脸][捂脸][捂脸]；说嘎就嘎，不带一丝犹豫；二刷；[笑哭][笑哭][笑哭]这哥们儿也熟人啊[笑哭]；呦，都是老熟人[笑哭]"
+    },
+    "interaction": {
+      "buttons": [
+        "笑不活了",
+        "太好笑了",
+        "绷不住了"
+      ],
+      "effect": "float"
+    }
+  },
+  {
+    "id": "danmaku_0032",
+    "drama_title": "十八岁太奶奶驾到，重整家族荣耀第三部",
+    "drama_id": "十八岁太奶奶驾到_重整家族荣耀第三部",
+    "episode_id": "第4集",
+    "start_time": 60,
+    "end_time": 75,
+    "type": "funny",
+    "confidence": 0.846,
+    "title": "弹幕高热高光：第4集 60-75s",
+    "reason": "该时间窗口弹幕热度较高，弹幕数 1170，累计点赞 5012，情绪密度 0.8231。",
+    "evidence": {
+      "source": "danmaku",
+      "danmaku_count": 1170,
+      "like_sum": 5012,
+      "emotion_density": 0.8231,
+      "sample_text": "好可爱啊；好萌；装的。 包装的；老天爷呀；三弟好可爱"
+    },
+    "interaction": {
+      "buttons": [
+        "笑不活了",
+        "太好笑了",
+        "绷不住了"
+      ],
+      "effect": "float"
+    }
+  },
+  {
+    "id": "danmaku_0033",
+    "drama_title": "幸得相遇离婚时",
+    "drama_id": "幸得相遇离婚时",
+    "episode_id": "第3集",
+    "start_time": 0,
+    "end_time": 15,
+    "type": "funny",
+    "confidence": 0.84,
+    "title": "弹幕高热高光：第3集 0-15s",
+    "reason": "该时间窗口弹幕热度较高，弹幕数 319，累计点赞 210，情绪密度 0.4075。",
+    "evidence": {
+      "source": "danmaku",
+      "danmaku_count": 319,
+      "like_sum": 210,
+      "emotion_density": 0.4075,
+      "sample_text": "这个角度好美；可能是他的孩子[笑哭][笑哭]；[送花][送花][送花]；这弟九八年看着真是成熟啊！；女主好漂亮啊"
+    },
+    "interaction": {
+      "buttons": [
+        "笑不活了",
+        "太好笑了",
+        "绷不住了"
+      ],
+      "effect": "float"
+    }
+  },
+  {
+    "id": "danmaku_0034",
+    "drama_title": "幸得相遇离婚时",
+    "drama_id": "幸得相遇离婚时",
+    "episode_id": "第2集",
+    "start_time": 105,
+    "end_time": 120,
+    "type": "funny",
+    "confidence": 0.84,
+    "title": "弹幕高热高光：第2集 105-120s",
+    "reason": "该时间窗口弹幕热度较高，弹幕数 270，累计点赞 329，情绪密度 0.5667。",
+    "evidence": {
+      "source": "danmaku",
+      "danmaku_count": 270,
+      "like_sum": 329,
+      "emotion_density": 0.5667,
+      "sample_text": "其实孕妇怕热；男主帅；真的好好看；以为老刘脱自己的外套呢；女主老公有钱是一分不往家里拿啊"
+    },
+    "interaction": {
+      "buttons": [
+        "笑不活了",
+        "太好笑了",
+        "绷不住了"
+      ],
+      "effect": "float"
+    }
+  },
+  {
+    "id": "danmaku_0035",
+    "drama_title": "家里家外",
+    "drama_id": "家里家外",
+    "episode_id": "第2集",
+    "start_time": 150,
+    "end_time": 165,
+    "type": "funny",
+    "confidence": 0.835,
+    "title": "弹幕高热高光：第2集 150-165s",
+    "reason": "该时间窗口弹幕热度较高，弹幕数 233，累计点赞 530，情绪密度 0.4077。",
+    "evidence": {
+      "source": "danmaku",
+      "danmaku_count": 233,
+      "like_sum": 530,
+      "emotion_density": 0.4077,
+      "sample_text": "好女人呀；一到这里我就哭；演的好；还是重庆方言好听[捂脸]；有普通话的就好了"
+    },
+    "interaction": {
+      "buttons": [
+        "笑不活了",
+        "太好笑了",
+        "绷不住了"
+      ],
+      "effect": "float"
+    }
+  },
+  {
+    "id": "danmaku_0036",
+    "drama_title": "荒年全村啃树皮，我有系统满仓肉",
+    "drama_id": "荒年全村啃树皮_我有系统满仓肉",
+    "episode_id": "第4集",
+    "start_time": 0,
+    "end_time": 15,
+    "type": "funny",
+    "confidence": 0.832,
+    "title": "弹幕高热高光：第4集 0-15s",
+    "reason": "该时间窗口弹幕热度较高，弹幕数 85，累计点赞 68，情绪密度 0.4353。",
+    "evidence": {
+      "source": "danmaku",
+      "danmaku_count": 85,
+      "like_sum": 68,
+      "emotion_density": 0.4353,
+      "sample_text": "v陈弯弯太惨了吧。还有儿媳也很惨，为什么要抱怨陈弯弯[捂脸]；复古；[赞][赞][赞]；[送花]；这个看多少遍也看不腻"
+    },
+    "interaction": {
+      "buttons": [
+        "笑不活了",
+        "太好笑了",
+        "绷不住了"
+      ],
+      "effect": "float"
+    }
+  },
+  {
+    "id": "danmaku_0037",
+    "drama_title": "荒年全村啃树皮，我有系统满仓肉",
+    "drama_id": "荒年全村啃树皮_我有系统满仓肉",
+    "episode_id": "第1集",
+    "start_time": 60,
+    "end_time": 75,
+    "type": "funny",
+    "confidence": 0.832,
+    "title": "弹幕高热高光：第1集 60-75s",
+    "reason": "该时间窗口弹幕热度较高，弹幕数 133，累计点赞 73，情绪密度 0.5789。",
+    "evidence": {
+      "source": "danmaku",
+      "danmaku_count": 133,
+      "like_sum": 73,
+      "emotion_density": 0.5789,
+      "sample_text": "[捂脸]；[没看够]；[捂脸]；666，异世界穿越器；[恐惧][吐][笑哭][探究][震惊]"
+    },
+    "interaction": {
+      "buttons": [
+        "笑不活了",
+        "太好笑了",
+        "绷不住了"
+      ],
+      "effect": "float"
+    }
+  },
+  {
+    "id": "danmaku_0038",
+    "drama_title": "幸得相遇离婚时",
+    "drama_id": "幸得相遇离婚时",
+    "episode_id": "第1集",
+    "start_time": 0,
+    "end_time": 15,
+    "type": "funny",
+    "confidence": 0.83,
+    "title": "弹幕高热高光：第1集 0-15s",
+    "reason": "该时间窗口弹幕热度较高，弹幕数 396，累计点赞 272，情绪密度 0.3687。",
+    "evidence": {
+      "source": "danmaku",
+      "danmaku_count": 396,
+      "like_sum": 272,
+      "emotion_density": 0.3687,
+      "sample_text": "小资[翻白眼]，有闲有钱有情[鼓掌][鼓掌]；二刷[爱慕][爱慕]；好喜欢小亿；好看这部？？；二刷"
+    },
+    "interaction": {
+      "buttons": [
+        "笑不活了",
+        "太好笑了",
+        "绷不住了"
+      ],
+      "effect": "float"
+    }
+  },
+  {
+    "id": "danmaku_0039",
+    "drama_title": "北往",
+    "drama_id": "北往",
+    "episode_id": "第5集",
+    "start_time": 15,
+    "end_time": 30,
+    "type": "funny",
+    "confidence": 0.829,
+    "title": "弹幕高热高光：第5集 15-30s",
+    "reason": "该时间窗口弹幕热度较高，弹幕数 470，累计点赞 187，情绪密度 0.7298。",
+    "evidence": {
+      "source": "danmaku",
+      "danmaku_count": 470,
+      "like_sum": 187,
+      "emotion_density": 0.7298,
+      "sample_text": "吴大娘[偷笑]；野狗一样[捂脸][捂脸][捂脸]；扫地阿姨老熟人了；[笑哭][笑哭][笑哭]；合理"
+    },
+    "interaction": {
+      "buttons": [
+        "笑不活了",
+        "太好笑了",
+        "绷不住了"
+      ],
+      "effect": "float"
+    }
+  },
+  {
+    "id": "danmaku_0040",
+    "drama_title": "家里家外",
+    "drama_id": "家里家外",
+    "episode_id": "第2集",
+    "start_time": 105,
+    "end_time": 120,
+    "type": "funny",
+    "confidence": 0.829,
+    "title": "弹幕高热高光：第2集 105-120s",
+    "reason": "该时间窗口弹幕热度较高，弹幕数 228，累计点赞 418，情绪密度 0.4605。",
+    "evidence": {
+      "source": "danmaku",
+      "danmaku_count": 228,
+      "like_sum": 418,
+      "emotion_density": 0.4605,
+      "sample_text": "夏目；还好我四川的，全程听得懂；BGM你要搞事情啊[哭]；有点意思[捂脸]；老汉儿就是爸爸"
+    },
+    "interaction": {
+      "buttons": [
+        "笑不活了",
+        "太好笑了",
+        "绷不住了"
+      ],
+      "effect": "float"
+    }
+  },
+  {
+    "id": "danmaku_0041",
+    "drama_title": "荒年全村啃树皮，我有系统满仓肉",
+    "drama_id": "荒年全村啃树皮_我有系统满仓肉",
+    "episode_id": "第1集",
+    "start_time": 0,
+    "end_time": 15,
+    "type": "funny",
+    "confidence": 0.828,
+    "title": "弹幕高热高光：第1集 0-15s",
+    "reason": "该时间窗口弹幕热度较高，弹幕数 138，累计点赞 112，情绪密度 0.4058。",
+    "evidence": {
+      "source": "danmaku",
+      "danmaku_count": 138,
+      "like_sum": 112,
+      "emotion_density": 0.4058,
+      "sample_text": "无可奉告！；[偷笑]；三刷；N刷了；七刷"
+    },
+    "interaction": {
+      "buttons": [
+        "笑不活了",
+        "太好笑了",
+        "绷不住了"
+      ],
+      "effect": "float"
+    }
+  },
+  {
+    "id": "danmaku_0042",
+    "drama_title": "云渺1：我修仙多年强亿点怎么了",
+    "drama_id": "云渺1_我修仙多年强亿点怎么了",
+    "episode_id": "第3集",
+    "start_time": 0,
+    "end_time": 15,
+    "type": "funny",
+    "confidence": 0.827,
+    "title": "弹幕高热高光：第3集 0-15s",
+    "reason": "该时间窗口弹幕热度较高，弹幕数 29，累计点赞 103，情绪密度 0.5517。",
+    "evidence": {
+      "source": "danmaku",
+      "danmaku_count": 29,
+      "like_sum": 103,
+      "emotion_density": 0.5517,
+      "sample_text": "瘆得慌+1；王小亿我爱你[爱慕][爱慕]；都是原声 好厉害；司藤[偷笑]；气场好强！"
+    },
+    "interaction": {
+      "buttons": [
+        "笑不活了",
+        "太好笑了",
+        "绷不住了"
+      ],
+      "effect": "float"
+    }
+  },
+  {
+    "id": "danmaku_0043",
+    "drama_title": "撕夜",
+    "drama_id": "撕夜",
+    "episode_id": "第3集",
+    "start_time": 15,
+    "end_time": 30,
+    "type": "funny",
+    "confidence": 0.826,
+    "title": "弹幕高热高光：第3集 15-30s",
+    "reason": "该时间窗口弹幕热度较高，弹幕数 521，累计点赞 232，情绪密度 0.3608。",
+    "evidence": {
+      "source": "danmaku",
+      "danmaku_count": 521,
+      "like_sum": 232,
+      "emotion_density": 0.3608,
+      "sample_text": "二刷；我六刷了；三刷了[捂脸]；二刷；二刷"
+    },
+    "interaction": {
+      "buttons": [
+        "笑不活了",
+        "太好笑了",
+        "绷不住了"
+      ],
+      "effect": "float"
+    }
+  },
+  {
+    "id": "danmaku_0044",
+    "drama_title": "家里家外",
+    "drama_id": "家里家外",
+    "episode_id": "第2集",
+    "start_time": 165,
+    "end_time": 180,
+    "type": "funny",
+    "confidence": 0.824,
+    "title": "弹幕高热高光：第2集 165-180s",
+    "reason": "该时间窗口弹幕热度较高，弹幕数 236，累计点赞 260，情绪密度 0.4492。",
+    "evidence": {
+      "source": "danmaku",
+      "danmaku_count": 236,
+      "like_sum": 260,
+      "emotion_density": 0.4492,
+      "sample_text": "男主出现了[捂脸][笑哭]；好剧！当赏！；二刷[爱慕]；哎呀，是他俩哇；这个蜂窝煤摔不烂啊！"
+    },
+    "interaction": {
+      "buttons": [
+        "笑不活了",
+        "太好笑了",
+        "绷不住了"
+      ],
+      "effect": "float"
+    }
+  },
+  {
+    "id": "danmaku_0045",
+    "drama_title": "家里家外",
+    "drama_id": "家里家外",
+    "episode_id": "第1集",
+    "start_time": 90,
+    "end_time": 105,
+    "type": "funny",
+    "confidence": 0.823,
+    "title": "弹幕高热高光：第1集 90-105s",
+    "reason": "该时间窗口弹幕热度较高，弹幕数 351，累计点赞 143，情绪密度 0.3675。",
+    "evidence": {
+      "source": "danmaku",
+      "danmaku_count": 351,
+      "like_sum": 143,
+      "emotion_density": 0.3675,
+      "sample_text": "这是王道铁嘛；二刷；二刷；二刷；父母爱情"
+    },
+    "interaction": {
+      "buttons": [
+        "笑不活了",
+        "太好笑了",
+        "绷不住了"
+      ],
+      "effect": "float"
+    }
+  },
+  {
+    "id": "danmaku_0046",
+    "drama_title": "家里家外",
+    "drama_id": "家里家外",
+    "episode_id": "第2集",
+    "start_time": 60,
+    "end_time": 75,
+    "type": "cool",
+    "confidence": 0.822,
+    "title": "弹幕高热高光：第2集 60-75s",
+    "reason": "该时间窗口弹幕热度较高，弹幕数 215，累计点赞 263，情绪密度 0.614。",
+    "evidence": {
+      "source": "danmaku",
+      "danmaku_count": 215,
+      "like_sum": 263,
+      "emotion_density": 0.614,
+      "sample_text": "爽；再看一遍还是这么爽啊[爽][爽][爽][爽]；赵春红来了！冲突开始；川渝的女娃儿就是这么直爽；就喜欢直接掀桌子滴，想让受气？想都别想"
+    },
+    "interaction": {
+      "buttons": [
+        "爽到了",
+        "打脸成功",
+        "继续上强度"
+      ],
+      "effect": "burst"
+    }
+  },
+  {
+    "id": "danmaku_0047",
+    "drama_title": "荒年全村啃树皮，我有系统满仓肉",
+    "drama_id": "荒年全村啃树皮_我有系统满仓肉",
+    "episode_id": "第3集",
+    "start_time": 75,
+    "end_time": 90,
+    "type": "funny",
+    "confidence": 0.821,
+    "title": "弹幕高热高光：第3集 75-90s",
+    "reason": "该时间窗口弹幕热度较高，弹幕数 110，累计点赞 69，情绪密度 0.5818。",
+    "evidence": {
+      "source": "danmaku",
+      "danmaku_count": 110,
+      "like_sum": 69,
+      "emotion_density": 0.5818,
+      "sample_text": "瘦子；[捂脸][捂脸][捂脸]；[没看够]；[没看够][没看够][没看够][没看够]；收着呗。"
+    },
+    "interaction": {
+      "buttons": [
+        "笑不活了",
+        "太好笑了",
+        "绷不住了"
+      ],
+      "effect": "float"
+    }
+  },
+  {
+    "id": "danmaku_0048",
+    "drama_title": "撕夜",
+    "drama_id": "撕夜",
+    "episode_id": "第1集",
+    "start_time": 0,
+    "end_time": 15,
+    "type": "funny",
+    "confidence": 0.811,
+    "title": "弹幕高热高光：第1集 0-15s",
+    "reason": "该时间窗口弹幕热度较高，弹幕数 444，累计点赞 198，情绪密度 0.2432。",
+    "evidence": {
+      "source": "danmaku",
+      "danmaku_count": 444,
+      "like_sum": 198,
+      "emotion_density": 0.2432,
+      "sample_text": "二刷了；又来看一遍；好看吗；二刷了；听他们说很好看，我也来看了。我是鹿单东的粉丝"
+    },
+    "interaction": {
+      "buttons": [
+        "笑不活了",
+        "太好笑了",
+        "绷不住了"
+      ],
+      "effect": "float"
+    }
+  },
+  {
+    "id": "danmaku_0049",
+    "drama_title": "家里家外",
+    "drama_id": "家里家外",
+    "episode_id": "第5集",
+    "start_time": 60,
+    "end_time": 75,
+    "type": "funny",
+    "confidence": 0.811,
+    "title": "弹幕高热高光：第5集 60-75s",
+    "reason": "该时间窗口弹幕热度较高，弹幕数 266，累计点赞 469，情绪密度 0.3008。",
+    "evidence": {
+      "source": "danmaku",
+      "danmaku_count": 266,
+      "like_sum": 469,
+      "emotion_density": 0.3008,
+      "sample_text": "屋头领导；好温情的作品；演技不错；女式的给老汉带哈哈哈；过日子"
+    },
+    "interaction": {
+      "buttons": [
+        "笑不活了",
+        "太好笑了",
+        "绷不住了"
+      ],
+      "effect": "float"
+    }
+  },
+  {
+    "id": "danmaku_0050",
+    "drama_title": "云渺1：我修仙多年强亿点怎么了",
+    "drama_id": "云渺1_我修仙多年强亿点怎么了",
+    "episode_id": "第2集",
+    "start_time": 45,
+    "end_time": 60,
+    "type": "funny",
+    "confidence": 0.809,
+    "title": "弹幕高热高光：第2集 45-60s",
+    "reason": "该时间窗口弹幕热度较高，弹幕数 44，累计点赞 73，情绪密度 0.8636。",
+    "evidence": {
+      "source": "danmaku",
+      "danmaku_count": 44,
+      "like_sum": 73,
+      "emotion_density": 0.8636,
+      "sample_text": "阴阳怪气的一家人；手里是魔丸吗？；小时候的“大姐头”来了！；宗庆后旧时来了[笑哭]；珠子太大了[笑哭]"
+    },
+    "interaction": {
+      "buttons": [
+        "笑不活了",
+        "太好笑了",
+        "绷不住了"
+      ],
+      "effect": "float"
+    }
+  },
+  {
+    "id": "danmaku_0051",
+    "drama_title": "幸得相遇离婚时",
+    "drama_id": "幸得相遇离婚时",
+    "episode_id": "第5集",
+    "start_time": 75,
+    "end_time": 90,
+    "type": "funny",
+    "confidence": 0.807,
+    "title": "弹幕高热高光：第5集 75-90s",
+    "reason": "该时间窗口弹幕热度较高，弹幕数 169，累计点赞 85，情绪密度 0.5089。",
+    "evidence": {
+      "source": "danmaku",
+      "danmaku_count": 169,
+      "like_sum": 85,
+      "emotion_density": 0.5089,
+      "sample_text": "孙子5个月了[笑哭]；大胆猜测一下，孩子是男主的；好喜欢这样的男主；早就暗恋了；可以"
+    },
+    "interaction": {
+      "buttons": [
+        "笑不活了",
+        "太好笑了",
+        "绷不住了"
+      ],
+      "effect": "float"
+    }
+  },
+  {
+    "id": "danmaku_0052",
+    "drama_title": "北往",
+    "drama_id": "北往",
+    "episode_id": "第5集",
+    "start_time": 105,
+    "end_time": 120,
+    "type": "funny",
+    "confidence": 0.806,
+    "title": "弹幕高热高光：第5集 105-120s",
+    "reason": "该时间窗口弹幕热度较高，弹幕数 356，累计点赞 274，情绪密度 1.0927。",
+    "evidence": {
+      "source": "danmaku",
+      "danmaku_count": 356,
+      "like_sum": 274,
+      "emotion_density": 1.0927,
+      "sample_text": "[捂脸][捂脸][捂脸]；[笑哭][笑哭][笑哭]；[捂脸][捂脸][捂脸][捂脸]；[捂脸][捂脸][捂脸][笑哭][笑哭][笑哭]；[捂脸][捂脸][捂脸]"
+    },
+    "interaction": {
+      "buttons": [
+        "笑不活了",
+        "太好笑了",
+        "绷不住了"
+      ],
+      "effect": "float"
+    }
+  },
+  {
+    "id": "danmaku_0053",
+    "drama_title": "十八岁太奶奶驾到，重整家族荣耀第三部",
+    "drama_id": "十八岁太奶奶驾到_重整家族荣耀第三部",
+    "episode_id": "第2集",
+    "start_time": 90,
+    "end_time": 105,
+    "type": "funny",
+    "confidence": 0.806,
+    "title": "弹幕高热高光：第2集 90-105s",
+    "reason": "该时间窗口弹幕热度较高，弹幕数 4433，累计点赞 12891，情绪密度 0.7812。",
+    "evidence": {
+      "source": "danmaku",
+      "danmaku_count": 4433,
+      "like_sum": 12891,
+      "emotion_density": 0.7812,
+      "sample_text": "啊啊啊！好会说！！！；哈哈哈哈哈，笑死我了，是这种人设吗[笑哭][笑哭][笑哭]；这三少出场怎么有点渣男的味道？；的确帅；好油腻"
+    },
+    "interaction": {
+      "buttons": [
+        "笑不活了",
+        "太好笑了",
+        "绷不住了"
+      ],
+      "effect": "float"
+    }
+  },
+  {
+    "id": "danmaku_0054",
+    "drama_title": "幸得相遇离婚时",
+    "drama_id": "幸得相遇离婚时",
+    "episode_id": "第4集",
+    "start_time": 45,
+    "end_time": 60,
+    "type": "funny",
+    "confidence": 0.799,
+    "title": "弹幕高热高光：第4集 45-60s",
+    "reason": "该时间窗口弹幕热度较高，弹幕数 196，累计点赞 43，情绪密度 0.5408。",
+    "evidence": {
+      "source": "danmaku",
+      "danmaku_count": 196,
+      "like_sum": 43,
+      "emotion_density": 0.5408,
+      "sample_text": "有点董洁的感觉；男主的脸适合演横屏 非常专业；霸道总裁爱上怀孕的我[捂脸][捂脸][捂脸][捂脸]；小孩儿哥挺好玩儿 哈哈哈[笑哭]；江辞云经典台词特好[赞]"
+    },
+    "interaction": {
+      "buttons": [
+        "笑不活了",
+        "太好笑了",
+        "绷不住了"
+      ],
+      "effect": "float"
+    }
+  },
+  {
+    "id": "danmaku_0055",
+    "drama_title": "云渺1：我修仙多年强亿点怎么了",
+    "drama_id": "云渺1_我修仙多年强亿点怎么了",
+    "episode_id": "第2集",
+    "start_time": 90,
+    "end_time": 105,
+    "type": "funny",
+    "confidence": 0.799,
+    "title": "弹幕高热高光：第2集 90-105s",
+    "reason": "该时间窗口弹幕热度较高，弹幕数 59，累计点赞 30，情绪密度 0.4915。",
+    "evidence": {
+      "source": "danmaku",
+      "danmaku_count": 59,
+      "like_sum": 30,
+      "emotion_density": 0.4915,
+      "sample_text": "她手里在盘鸡蛋吗；[送花]；这么大声蛐蛐婆婆吗；反正就是非要搞点雌竞嘛 才舒服；儿媳妇当着老太太面蛐蛐老爷子[笑哭]"
+    },
+    "interaction": {
+      "buttons": [
+        "笑不活了",
+        "太好笑了",
+        "绷不住了"
+      ],
+      "effect": "float"
+    }
+  },
+  {
+    "id": "danmaku_0056",
+    "drama_title": "幸得相遇离婚时",
+    "drama_id": "幸得相遇离婚时",
+    "episode_id": "第2集",
+    "start_time": 120,
+    "end_time": 135,
+    "type": "funny",
+    "confidence": 0.797,
+    "title": "弹幕高热高光：第2集 120-135s",
+    "reason": "该时间窗口弹幕热度较高，弹幕数 301，累计点赞 74，情绪密度 0.4452。",
+    "evidence": {
+      "source": "danmaku",
+      "danmaku_count": 301,
+      "like_sum": 74,
+      "emotion_density": 0.4452,
+      "sample_text": "女主好像李梦；二刷；好霸道，小刘真是演啥像啥；[笑哭][笑哭][笑哭][笑哭]；刚从大嫂过来的，这一下子成受气包了"
+    },
+    "interaction": {
+      "buttons": [
+        "笑不活了",
+        "太好笑了",
+        "绷不住了"
+      ],
+      "effect": "float"
+    }
+  },
+  {
+    "id": "danmaku_0057",
+    "drama_title": "云渺1：我修仙多年强亿点怎么了",
+    "drama_id": "云渺1_我修仙多年强亿点怎么了",
+    "episode_id": "第5集",
+    "start_time": 0,
+    "end_time": 15,
+    "type": "funny",
+    "confidence": 0.796,
+    "title": "弹幕高热高光：第5集 0-15s",
+    "reason": "该时间窗口弹幕热度较高，弹幕数 32，累计点赞 90，情绪密度 0.4062。",
+    "evidence": {
+      "source": "danmaku",
+      "danmaku_count": 32,
+      "like_sum": 90,
+      "emotion_density": 0.4062,
+      "sample_text": "第一次见盘台球的；老糊涂了[笑哭][笑哭]；[偷笑][偷笑][偷笑]；又要搞事了；好几个版本"
+    },
+    "interaction": {
+      "buttons": [
+        "笑不活了",
+        "太好笑了",
+        "绷不住了"
+      ],
+      "effect": "float"
+    }
+  },
+  {
+    "id": "danmaku_0058",
+    "drama_title": "荒年全村啃树皮，我有系统满仓肉",
+    "drama_id": "荒年全村啃树皮_我有系统满仓肉",
+    "episode_id": "第3集",
+    "start_time": 0,
+    "end_time": 15,
+    "type": "funny",
+    "confidence": 0.795,
+    "title": "弹幕高热高光：第3集 0-15s",
+    "reason": "该时间窗口弹幕热度较高，弹幕数 95，累计点赞 176，情绪密度 0.5579。",
+    "evidence": {
+      "source": "danmaku",
+      "danmaku_count": 95,
+      "like_sum": 176,
+      "emotion_density": 0.5579,
+      "sample_text": "还好有系统[捂脸][捂脸]；白冰？；好像白冰啊；系统启动；挂来了"
+    },
+    "interaction": {
+      "buttons": [
+        "笑不活了",
+        "太好笑了",
+        "绷不住了"
+      ],
+      "effect": "float"
+    }
+  },
+  {
+    "id": "danmaku_0059",
+    "drama_title": "天下第一纨绔",
+    "drama_id": "天下第一纨绔",
+    "episode_id": "第4集",
+    "start_time": 105,
+    "end_time": 120,
+    "type": "funny",
+    "confidence": 0.792,
+    "title": "弹幕高热高光：第4集 105-120s",
+    "reason": "该时间窗口弹幕热度较高，弹幕数 213，累计点赞 45，情绪密度 0.4272。",
+    "evidence": {
+      "source": "danmaku",
+      "danmaku_count": 213,
+      "like_sum": 45,
+      "emotion_density": 0.4272,
+      "sample_text": "[爽]；这大儿子也是拉胯的不行；后妈永远是后妈；想的美；这是嫡母？？[笑哭][笑哭][笑哭]"
+    },
+    "interaction": {
+      "buttons": [
+        "笑不活了",
+        "太好笑了",
+        "绷不住了"
+      ],
+      "effect": "float"
+    }
+  },
+  {
+    "id": "danmaku_0060",
+    "drama_title": "天下第一纨绔",
+    "drama_id": "天下第一纨绔",
+    "episode_id": "第3集",
+    "start_time": 75,
+    "end_time": 90,
+    "type": "funny",
+    "confidence": 0.79,
+    "title": "弹幕高热高光：第3集 75-90s",
+    "reason": "该时间窗口弹幕热度较高，弹幕数 439，累计点赞 258，情绪密度 0.3144。",
+    "evidence": {
+      "source": "danmaku",
+      "danmaku_count": 439,
+      "like_sum": 258,
+      "emotion_density": 0.3144,
+      "sample_text": "后妈这波可太厉害了；你就宠着他吧[偷笑]；不是后妈；这个二娘有问题啊！；这后妈心思歹毒"
+    },
+    "interaction": {
+      "buttons": [
+        "笑不活了",
+        "太好笑了",
+        "绷不住了"
+      ],
+      "effect": "float"
+    }
+  },
+  {
+    "id": "danmaku_0061",
+    "drama_title": "云渺1：我修仙多年强亿点怎么了",
+    "drama_id": "云渺1_我修仙多年强亿点怎么了",
+    "episode_id": "第3集",
+    "start_time": 15,
+    "end_time": 30,
+    "type": "funny",
+    "confidence": 0.789,
+    "title": "弹幕高热高光：第3集 15-30s",
+    "reason": "该时间窗口弹幕热度较高，弹幕数 33，累计点赞 29，情绪密度 0.4242。",
+    "evidence": {
+      "source": "danmaku",
+      "danmaku_count": 33,
+      "like_sum": 29,
+      "emotion_density": 0.4242,
+      "sample_text": "云鸟？是云渺啦；看来四部不同的，云渺，回来二刷[笑哭]；王小亿好耐看！；小亿加油[送花][送花][送花]；不关门"
+    },
+    "interaction": {
+      "buttons": [
+        "笑不活了",
+        "太好笑了",
+        "绷不住了"
+      ],
+      "effect": "float"
+    }
+  },
+  {
+    "id": "danmaku_0062",
+    "drama_title": "撕夜",
+    "drama_id": "撕夜",
+    "episode_id": "第5集",
+    "start_time": 0,
+    "end_time": 15,
+    "type": "funny",
+    "confidence": 0.788,
+    "title": "弹幕高热高光：第5集 0-15s",
+    "reason": "该时间窗口弹幕热度较高，弹幕数 76，累计点赞 170，情绪密度 0.5526。",
+    "evidence": {
+      "source": "danmaku",
+      "danmaku_count": 76,
+      "like_sum": 170,
+      "emotion_density": 0.5526,
+      "sample_text": "好心疼女主；太坏了他们。；天呐他爸也太狠了；啊啊啊，太疯狂了，好喜欢，又开始了[没看够][没看够]；女主复仇计划开始了[捂脸]"
+    },
+    "interaction": {
+      "buttons": [
+        "笑不活了",
+        "太好笑了",
+        "绷不住了"
+      ],
+      "effect": "float"
+    }
+  },
+  {
+    "id": "danmaku_0063",
+    "drama_title": "十八岁太奶奶驾到，重整家族荣耀第三部",
+    "drama_id": "十八岁太奶奶驾到_重整家族荣耀第三部",
+    "episode_id": "第5集",
+    "start_time": 15,
+    "end_time": 30,
+    "type": "funny",
+    "confidence": 0.785,
+    "title": "弹幕高热高光：第5集 15-30s",
+    "reason": "该时间窗口弹幕热度较高，弹幕数 1218，累计点赞 2395，情绪密度 0.2496。",
+    "evidence": {
+      "source": "danmaku",
+      "danmaku_count": 1218,
+      "like_sum": 2395,
+      "emotion_density": 0.2496,
+      "sample_text": "盲猜一下，司机跟张丽丽一伙的；这孩子是他的；一伙的；他俩一对；我猜司机的吧"
+    },
+    "interaction": {
+      "buttons": [
+        "笑不活了",
+        "太好笑了",
+        "绷不住了"
+      ],
+      "effect": "float"
+    }
+  },
+  {
+    "id": "danmaku_0064",
+    "drama_title": "天下第一纨绔",
+    "drama_id": "天下第一纨绔",
+    "episode_id": "第3集",
+    "start_time": 60,
+    "end_time": 75,
+    "type": "funny",
+    "confidence": 0.784,
+    "title": "弹幕高热高光：第3集 60-75s",
+    "reason": "该时间窗口弹幕热度较高，弹幕数 398，累计点赞 357，情绪密度 0.4121。",
+    "evidence": {
+      "source": "danmaku",
+      "danmaku_count": 398,
+      "like_sum": 357,
+      "emotion_density": 0.4121,
+      "sample_text": "故意养成这样的；不知道他是高手；捧杀，顾廷烨的后娘；捧杀，败家败的是武侯的家，她又不损失什么，还能赚个好名声！；后妈故意的"
+    },
+    "interaction": {
+      "buttons": [
+        "笑不活了",
+        "太好笑了",
+        "绷不住了"
+      ],
+      "effect": "float"
+    }
+  },
+  {
+    "id": "danmaku_0065",
+    "drama_title": "天下第一纨绔",
+    "drama_id": "天下第一纨绔",
+    "episode_id": "第5集",
+    "start_time": 0,
+    "end_time": 15,
+    "type": "funny",
+    "confidence": 0.784,
+    "title": "弹幕高热高光：第5集 0-15s",
+    "reason": "该时间窗口弹幕热度较高，弹幕数 115，累计点赞 137，情绪密度 0.6696。",
+    "evidence": {
+      "source": "danmaku",
+      "danmaku_count": 115,
+      "like_sum": 137,
+      "emotion_density": 0.6696,
+      "sample_text": "[捂脸]幸好你这声“算了”；然后收获了惊喜；有惊喜[爽][鼓掌]；田松[偷笑]；不测就没戏看了[笑哭]"
+    },
+    "interaction": {
+      "buttons": [
+        "笑不活了",
+        "太好笑了",
+        "绷不住了"
+      ],
+      "effect": "float"
+    }
+  },
+  {
+    "id": "danmaku_0066",
+    "drama_title": "幸得相遇离婚时",
+    "drama_id": "幸得相遇离婚时",
+    "episode_id": "第1集",
+    "start_time": 30,
+    "end_time": 45,
+    "type": "funny",
+    "confidence": 0.782,
+    "title": "弹幕高热高光：第1集 30-45s",
+    "reason": "该时间窗口弹幕热度较高，弹幕数 403，累计点赞 100，情绪密度 0.3151。",
+    "evidence": {
+      "source": "danmaku",
+      "danmaku_count": 403,
+      "like_sum": 100,
+      "emotion_density": 0.3151,
+      "sample_text": "又来了又来了[爱慕][爱慕][爱慕]；[赞][赞][赞]；[送花][送花][送花]；云渺[笑][笑][笑]；[送花]"
+    },
+    "interaction": {
+      "buttons": [
+        "笑不活了",
+        "太好笑了",
+        "绷不住了"
+      ],
+      "effect": "float"
+    }
+  },
+  {
+    "id": "danmaku_0067",
+    "drama_title": "撕夜",
+    "drama_id": "撕夜",
+    "episode_id": "第5集",
+    "start_time": 45,
+    "end_time": 60,
+    "type": "funny",
+    "confidence": 0.781,
+    "title": "弹幕高热高光：第5集 45-60s",
+    "reason": "该时间窗口弹幕热度较高，弹幕数 95，累计点赞 29，情绪密度 0.4632。",
+    "evidence": {
+      "source": "danmaku",
+      "danmaku_count": 95,
+      "like_sum": 29,
+      "emotion_density": 0.4632,
+      "sample_text": "好心的女主宝宝呢[送花][送花]；[没看够][没看够][没看够]；心疼女主。；复仇了开始；懂得依靠能力强的人怎么样都不会输的"
+    },
+    "interaction": {
+      "buttons": [
+        "笑不活了",
+        "太好笑了",
+        "绷不住了"
+      ],
+      "effect": "float"
+    }
+  },
+  {
+    "id": "danmaku_0068",
+    "drama_title": "荒年全村啃树皮，我有系统满仓肉",
+    "drama_id": "荒年全村啃树皮_我有系统满仓肉",
+    "episode_id": "第5集",
+    "start_time": 15,
+    "end_time": 30,
+    "type": "funny",
+    "confidence": 0.78,
+    "title": "弹幕高热高光：第5集 15-30s",
+    "reason": "该时间窗口弹幕热度较高，弹幕数 75，累计点赞 44，情绪密度 0.6267。",
+    "evidence": {
+      "source": "danmaku",
+      "danmaku_count": 75,
+      "like_sum": 44,
+      "emotion_density": 0.6267,
+      "sample_text": "小样，跟我斗；程弯弯借粮被拒还这么淡定真厉害；[捂脸][捂脸]；那借钱呢？；[马上有福]"
+    },
+    "interaction": {
+      "buttons": [
+        "笑不活了",
+        "太好笑了",
+        "绷不住了"
+      ],
+      "effect": "float"
+    }
+  },
+  {
+    "id": "danmaku_0069",
+    "drama_title": "十八岁太奶奶驾到，重整家族荣耀第三部",
+    "drama_id": "十八岁太奶奶驾到_重整家族荣耀第三部",
+    "episode_id": "第1集",
+    "start_time": 90,
+    "end_time": 105,
+    "type": "funny",
+    "confidence": 0.78,
+    "title": "弹幕高热高光：第1集 90-105s",
+    "reason": "该时间窗口弹幕热度较高，弹幕数 3759，累计点赞 6514，情绪密度 0.5211。",
+    "evidence": {
+      "source": "danmaku",
+      "danmaku_count": 3759,
+      "like_sum": 6514,
+      "emotion_density": 0.5211,
+      "sample_text": "[送花]；英宝来了。[笑哭]；英宝来了；啊啊啊啊；英宝！"
+    },
+    "interaction": {
+      "buttons": [
+        "笑不活了",
+        "太好笑了",
+        "绷不住了"
+      ],
+      "effect": "float"
+    }
+  },
+  {
+    "id": "danmaku_0070",
+    "drama_title": "荒年全村啃树皮，我有系统满仓肉",
+    "drama_id": "荒年全村啃树皮_我有系统满仓肉",
+    "episode_id": "第2集",
+    "start_time": 0,
+    "end_time": 15,
+    "type": "funny",
+    "confidence": 0.778,
+    "title": "弹幕高热高光：第2集 0-15s",
+    "reason": "该时间窗口弹幕热度较高，弹幕数 109，累计点赞 218，情绪密度 0.5229。",
+    "evidence": {
+      "source": "danmaku",
+      "danmaku_count": 109,
+      "like_sum": 218,
+      "emotion_density": 0.5229,
+      "sample_text": "开局四个儿子？；书接上回；开局四儿子一女儿；[捂脸][捂脸][捂脸]；[没看够][没看够][没看够][没看够]"
+    },
+    "interaction": {
+      "buttons": [
+        "笑不活了",
+        "太好笑了",
+        "绷不住了"
+      ],
+      "effect": "float"
+    }
+  },
+  {
+    "id": "danmaku_0071",
+    "drama_title": "幸得相遇离婚时",
+    "drama_id": "幸得相遇离婚时",
+    "episode_id": "第5集",
+    "start_time": 15,
+    "end_time": 30,
+    "type": "funny",
+    "confidence": 0.778,
+    "title": "弹幕高热高光：第5集 15-30s",
+    "reason": "该时间窗口弹幕热度较高，弹幕数 146，累计点赞 494，情绪密度 0.3836。",
+    "evidence": {
+      "source": "danmaku",
+      "danmaku_count": 146,
+      "like_sum": 494,
+      "emotion_density": 0.3836,
+      "sample_text": "肯定吃饱了；确实吃挺饱的；我还是喜欢看你桀骜不驯的剧；这是我看过短剧质量最高的一部，BGM配的也好[赞]；看人，第一一定要看面相"
+    },
+    "interaction": {
+      "buttons": [
+        "笑不活了",
+        "太好笑了",
+        "绷不住了"
+      ],
+      "effect": "float"
+    }
+  },
+  {
+    "id": "danmaku_0072",
+    "drama_title": "云渺1：我修仙多年强亿点怎么了",
+    "drama_id": "云渺1_我修仙多年强亿点怎么了",
+    "episode_id": "第5集",
+    "start_time": 45,
+    "end_time": 60,
+    "type": "funny",
+    "confidence": 0.775,
+    "title": "弹幕高热高光：第5集 45-60s",
+    "reason": "该时间窗口弹幕热度较高，弹幕数 28，累计点赞 69，情绪密度 0.6071。",
+    "evidence": {
+      "source": "danmaku",
+      "danmaku_count": 28,
+      "like_sum": 69,
+      "emotion_density": 0.6071,
+      "sample_text": "好狠的心；[鼓掌][鼓掌][鼓掌]哈哈哈哈老太太说得好；哈哈哈；[捂脸][捂脸][捂脸][捂脸]；我家的狗就叫豆芽"
+    },
+    "interaction": {
+      "buttons": [
+        "笑不活了",
+        "太好笑了",
+        "绷不住了"
+      ],
+      "effect": "float"
+    }
+  },
+  {
+    "id": "danmaku_0073",
+    "drama_title": "荒年全村啃树皮，我有系统满仓肉",
+    "drama_id": "荒年全村啃树皮_我有系统满仓肉",
+    "episode_id": "第1集",
+    "start_time": 75,
+    "end_time": 90,
+    "type": "funny",
+    "confidence": 0.774,
+    "title": "弹幕高热高光：第1集 75-90s",
+    "reason": "该时间窗口弹幕热度较高，弹幕数 132，累计点赞 36，情绪密度 0.5076。",
+    "evidence": {
+      "source": "danmaku",
+      "danmaku_count": 132,
+      "like_sum": 36,
+      "emotion_density": 0.5076,
+      "sample_text": "[没看够][没看够]；张博文；[捂脸][捂脸][捂脸]；我看第三遍了；好大儿"
+    },
+    "interaction": {
+      "buttons": [
+        "笑不活了",
+        "太好笑了",
+        "绷不住了"
+      ],
+      "effect": "float"
+    }
+  },
+  {
+    "id": "danmaku_0074",
+    "drama_title": "家里家外",
+    "drama_id": "家里家外",
+    "episode_id": "第4集",
+    "start_time": 90,
+    "end_time": 105,
+    "type": "funny",
+    "confidence": 0.773,
+    "title": "弹幕高热高光：第4集 90-105s",
+    "reason": "该时间窗口弹幕热度较高，弹幕数 282，累计点赞 1129，情绪密度 0.6099。",
+    "evidence": {
+      "source": "danmaku",
+      "danmaku_count": 282,
+      "like_sum": 1129,
+      "emotion_density": 0.6099,
+      "sample_text": "哈哈哈，小帅哥随母；演的好真实；这男娃情商高[赞][赞][赞]；道具组真的用心 我四川老家一模一样的碗；这儿子我喜欢"
+    },
+    "interaction": {
+      "buttons": [
+        "笑不活了",
+        "太好笑了",
+        "绷不住了"
+      ],
+      "effect": "float"
+    }
+  },
+  {
+    "id": "danmaku_0075",
+    "drama_title": "天下第一纨绔",
+    "drama_id": "天下第一纨绔",
+    "episode_id": "第4集",
+    "start_time": 165,
+    "end_time": 180,
+    "type": "funny",
+    "confidence": 0.768,
+    "title": "弹幕高热高光：第4集 165-180s",
+    "reason": "该时间窗口弹幕热度较高，弹幕数 169，累计点赞 37，情绪密度 0.7811。",
+    "evidence": {
+      "source": "danmaku",
+      "danmaku_count": 169,
+      "like_sum": 37,
+      "emotion_density": 0.7811,
+      "sample_text": "看这不像装的[捂脸][捂脸]；这才是生活；音乐不错；好看；[捂脸][捂脸][捂脸]"
+    },
+    "interaction": {
+      "buttons": [
+        "笑不活了",
+        "太好笑了",
+        "绷不住了"
+      ],
+      "effect": "float"
+    }
+  },
+  {
+    "id": "danmaku_0076",
+    "drama_title": "北往",
+    "drama_id": "北往",
+    "episode_id": "第3集",
+    "start_time": 90,
+    "end_time": 105,
+    "type": "funny",
+    "confidence": 0.767,
+    "title": "弹幕高热高光：第3集 90-105s",
+    "reason": "该时间窗口弹幕热度较高，弹幕数 210，累计点赞 363，情绪密度 0.5571。",
+    "evidence": {
+      "source": "danmaku",
+      "danmaku_count": 210,
+      "like_sum": 363,
+      "emotion_density": 0.5571,
+      "sample_text": "这两个人往人家心窝子里戳吧[捂脸]；这剧不错；这女的是哪的口音；刚走苦衷那来[偷笑]；[捂脸]"
+    },
+    "interaction": {
+      "buttons": [
+        "笑不活了",
+        "太好笑了",
+        "绷不住了"
+      ],
+      "effect": "float"
+    }
+  },
+  {
+    "id": "danmaku_0077",
+    "drama_title": "撕夜",
+    "drama_id": "撕夜",
+    "episode_id": "第2集",
+    "start_time": 45,
+    "end_time": 60,
+    "type": "cool",
+    "confidence": 0.766,
+    "title": "弹幕高热高光：第2集 45-60s",
+    "reason": "该时间窗口弹幕热度较高，弹幕数 216，累计点赞 162，情绪密度 0.6944。",
+    "evidence": {
+      "source": "danmaku",
+      "danmaku_count": 216,
+      "like_sum": 162,
+      "emotion_density": 0.6944,
+      "sample_text": "bgm不错啊；他来了；好好笑哦[爽]；薄唇男人最深情；主动抱了！"
+    },
+    "interaction": {
+      "buttons": [
+        "爽到了",
+        "打脸成功",
+        "继续上强度"
+      ],
+      "effect": "burst"
+    }
+  },
+  {
+    "id": "danmaku_0078",
+    "drama_title": "荒年全村啃树皮，我有系统满仓肉",
+    "drama_id": "荒年全村啃树皮_我有系统满仓肉",
+    "episode_id": "第3集",
+    "start_time": 105,
+    "end_time": 120,
+    "type": "funny",
+    "confidence": 0.765,
+    "title": "弹幕高热高光：第3集 105-120s",
+    "reason": "该时间窗口弹幕热度较高，弹幕数 101，累计点赞 110，情绪密度 0.4257。",
+    "evidence": {
+      "source": "danmaku",
+      "danmaku_count": 101,
+      "like_sum": 110,
+      "emotion_density": 0.4257,
+      "sample_text": "孕妇抱怨婆婆只顾娘家，也是没办法；孩爹呢；演的不错；孩子又不是我的，我才不管；伤心的眼泪从嘴巴里流出来了[捂脸]"
+    },
+    "interaction": {
+      "buttons": [
+        "笑不活了",
+        "太好笑了",
+        "绷不住了"
+      ],
+      "effect": "float"
+    }
+  },
+  {
+    "id": "danmaku_0079",
+    "drama_title": "十八岁太奶奶驾到，重整家族荣耀第三部",
+    "drama_id": "十八岁太奶奶驾到_重整家族荣耀第三部",
+    "episode_id": "第5集",
+    "start_time": 120,
+    "end_time": 135,
+    "type": "funny",
+    "confidence": 0.763,
+    "title": "弹幕高热高光：第5集 120-135s",
+    "reason": "该时间窗口弹幕热度较高，弹幕数 730，累计点赞 1756，情绪密度 1.0205。",
+    "evidence": {
+      "source": "danmaku",
+      "danmaku_count": 730,
+      "like_sum": 1756,
+      "emotion_density": 1.0205,
+      "sample_text": "陈添祥不像演的[笑哭][笑哭][笑哭]笑死我了哈哈哈；陈添祥呀你也太可爱了吧[送花]；笑死我了；[捂脸][捂脸][捂脸]；大逆不道"
+    },
+    "interaction": {
+      "buttons": [
+        "笑不活了",
+        "太好笑了",
+        "绷不住了"
+      ],
+      "effect": "float"
+    }
+  },
+  {
+    "id": "danmaku_0080",
+    "drama_title": "天下第一纨绔",
+    "drama_id": "天下第一纨绔",
+    "episode_id": "第2集",
+    "start_time": 15,
+    "end_time": 30,
+    "type": "funny",
+    "confidence": 0.755,
+    "title": "弹幕高热高光：第2集 15-30s",
+    "reason": "该时间窗口弹幕热度较高，弹幕数 147，累计点赞 90，情绪密度 0.5782。",
+    "evidence": {
+      "source": "danmaku",
+      "danmaku_count": 147,
+      "like_sum": 90,
+      "emotion_density": 0.5782,
+      "sample_text": "弹指神通；这个纨绔原来是高手呀[笑]；黑豹；[捂脸]；难道他的纨绔是为了藏拙？"
+    },
+    "interaction": {
+      "buttons": [
+        "笑不活了",
+        "太好笑了",
+        "绷不住了"
+      ],
+      "effect": "float"
+    }
+  }
+]

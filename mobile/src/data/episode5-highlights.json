@@ -1,0 +1,44 @@
+{
+  "episode": 5,
+  "title": "第5集",
+  "highlights": [
+    {
+      "id": "highlight_1",
+      "time": 15.0,
+      "scene": "REVENGE",
+      "trigger": "SLAP",
+      "duration": 3,
+      "triggered": false,
+      "character": {
+        "type": "villain",
+        "name": "反派",
+        "facePosition": {
+          "x": 0.5,
+          "y": 0.35,
+          "width": 0.25,
+          "height": 0.3
+        }
+      },
+      "hint": "点击屏幕帮助主角惩治反派"
+    },
+    {
+      "id": "highlight_2",
+      "time": 86.0,
+      "scene": "REVENGE",
+      "trigger": "SLAP",
+      "duration": 3,
+      "triggered": false,
+      "character": {
+        "type": "villain",
+        "name": "反派",
+        "facePosition": {
+          "x": 0.5,
+          "y": 0.4,
+          "width": 0.28,
+          "height": 0.32
+        }
+      },
+      "hint": "点击屏幕帮助主角惩治反派"
+    }
+  ]
+}

@@ -1,0 +1,62 @@
+[
+  {
+    "id": "drama_001_ep_01_seg_0001",
+    "drama_id": "drama_001",
+    "episode_id": "ep_01",
+    "segment_id": "seg_0001",
+    "start_time": 0.0,
+    "end_time": 18.4,
+    "type": "cool",
+    "confidence": 0.92,
+    "title": "被嘲讽穷小子当场亮出沈氏董事长身份",
+    "reason": "男主曾被家人赶出家门，此次回归后遭到对方嘲讽是穷小子，随即当场揭露自己已是沈氏集团董事长，完成强势打脸，属于典型的爽点高光",
+    "interaction": {
+      "buttons": [
+        "爽到了",
+        "打脸成功",
+        "继续看"
+      ],
+      "effect": "burst"
+    }
+  },
+  {
+    "id": "drama_001_ep_01_seg_0002",
+    "drama_id": "drama_001",
+    "episode_id": "ep_01",
+    "segment_id": "seg_0002",
+    "start_time": 18.4,
+    "end_time": 34.4,
+    "type": "cool",
+    "confidence": 0.92,
+    "title": "男主亮出神秘继承人身份放话讨债",
+    "reason": "主角当众揭露自己神秘继承人的身份，放话要将过往所有亏欠逐一讨回，属于典型的爽点打脸高光，门外女主意外听到全部真相也为后续剧情埋下钩子",
+    "interaction": {
+      "buttons": [
+        "爽到了",
+        "打脸成功",
+        "继续看"
+      ],
+      "effect": "burst"
+    }
+  },
+  {
+    "id": "drama_001_ep_01_seg_0003",
+    "drama_id": "drama_001",
+    "episode_id": "ep_01",
+    "segment_id": "seg_0003",
+    "start_time": 34.4,
+    "end_time": 39.6,
+    "type": "reverse",
+    "confidence": 0.85,
+    "title": "女主得知他多年来一直在暗中保护自己",
+    "reason": "该片段揭晓了此前铺垫的隐藏剧情，女主终于知晓过去多年对方一直在默默守护自己，属于关键的剧情反转节点，能够大幅调动观众的情绪与好奇心",
+    "interaction": {
+      "buttons": [
+        "我就知道他是好人",
+        "太好嗑了",
+        "继续看"
+      ],
+      "effect": "burst"
+    }
+  }
+]

@@ -1,0 +1,2242 @@
+[
+  {
+    "id": "danmaku_0001",
+    "drama_title": "撕夜",
+    "drama_id": "撕夜",
+    "episode_id": "第2集",
+    "start_time": 60,
+    "end_time": 75,
+    "type": "cool",
+    "confidence": 0.92,
+    "title": "男主颜值超高帅炸了",
+    "reason": "该时间窗口弹幕数量达296，累计点赞219，多条弹幕集中夸赞男主外形帅气，观众正向情绪高涨，符合爽点高光特征",
+    "evidence": {
+      "source": "danmaku",
+      "danmaku_count": 296,
+      "like_sum": 219,
+      "emotion_density": 0.7601,
+      "sample_text": "帅；男主好像韩国的欧巴；帅；好帅；得劲"
+    },
+    "interaction": {
+      "buttons": [
+        "帅到我了",
+        "颜值暴击",
+        "太对味了"
+      ],
+      "effect": "float"
+    },
+    "refined_by": "doubao_danmaku_only"
+  },
+  {
+    "id": "danmaku_0002",
+    "drama_title": "家里家外",
+    "drama_id": "家里家外",
+    "episode_id": "第2集",
+    "start_time": 60,
+    "end_time": 75,
+    "type": "cool",
+    "confidence": 0.92,
+    "title": "直爽硬刚掀桌爽感拉满",
+    "reason": "该时间窗口弹幕数量达215，累计点赞263，多条弹幕提及内容很爽、直接掀桌子不受气，观众正向爽感情绪集中爆发，符合爽点打脸的高光特征",
+    "evidence": {
+      "source": "danmaku",
+      "danmaku_count": 215,
+      "like_sum": 263,
+      "emotion_density": 0.614,
+      "sample_text": "爽；再看一遍还是这么爽啊[爽][爽][爽][爽]；赵春红来了！冲突开始；川渝的女娃儿就是这么直爽；就喜欢直接掀桌子滴，想让受气？想都别想"
+    },
+    "interaction": {
+      "buttons": [
+        "太解气了",
+        "爽到飞起",
+        "干得漂亮"
+      ],
+      "effect": "float"
+    },
+    "refined_by": "doubao_danmaku_only"
+  },
+  {
+    "id": "danmaku_0003",
+    "drama_title": "撕夜",
+    "drama_id": "撕夜",
+    "episode_id": "第2集",
+    "start_time": 45,
+    "end_time": 60,
+    "type": "funny",
+    "confidence": 0.78,
+    "title": "这段剧情笑点十足",
+    "reason": "该时间窗口弹幕数量达216，累计点赞162，有观众明确发弹幕表示内容好笑，整体互动热度高，符合搞笑类高光特征",
+    "evidence": {
+      "source": "danmaku",
+      "danmaku_count": 216,
+      "like_sum": 162,
+      "emotion_density": 0.6944,
+      "sample_text": "bgm不错啊；他来了；好好笑哦[爽]；薄唇男人最深情；主动抱了！"
+    },
+    "interaction": {
+      "buttons": [
+        "笑不活了",
+        "太好笑了",
+        "绷不住了"
+      ],
+      "effect": "float"
+    },
+    "refined_by": "doubao_danmaku_only"
+  },
+  {
+    "id": "danmaku_0004",
+    "drama_title": "撕夜",
+    "drama_id": "撕夜",
+    "episode_id": "第2集",
+    "start_time": 75,
+    "end_time": 90,
+    "type": "famous_scene",
+    "confidence": 0.82,
+    "title": "楚爷烟掉了名场面",
+    "reason": "该时间窗口弹幕数量达231，累计点赞160，大量观众围绕楚爷烟掉落的相关内容展开讨论，还有观众表示磕到了、夸赞角色，属于观众集中热议的经典名场面片段",
+    "evidence": {
+      "source": "danmaku",
+      "danmaku_count": 231,
+      "like_sum": 160,
+      "emotion_density": 0.5152,
+      "sample_text": "磕到了。；病娇[顶帖][求爆更]；帅？；孩子们，他的烟丢了。；楚爷，烟都掉了"
+    },
+    "interaction": {
+      "buttons": [
+        "名场面打卡",
+        "反复刷N遍",
+        "太经典了"
+      ],
+      "effect": "float"
+    },
+    "refined_by": "doubao_danmaku_only"
+  },
+  {
+    "id": "danmaku_0005",
+    "drama_title": "十八岁太奶奶驾到，重整家族荣耀第三部",
+    "drama_id": "十八岁太奶奶驾到_重整家族荣耀第三部",
+    "episode_id": "第2集",
+    "start_time": 75,
+    "end_time": 90,
+    "type": "cool",
+    "confidence": 0.88,
+    "title": "角色帅气值直接拉满",
+    "reason": "该时间窗口弹幕数量高达3791，累计点赞超3000，大量观众刷666、夸赞角色帅气，互动热度极高，符合爽点高光特征",
+    "evidence": {
+      "source": "danmaku",
+      "danmaku_count": 3791,
+      "like_sum": 3054,
+      "emotion_density": 0.8225,
+      "sample_text": "666转起来了；[捂脸]；啊啊啊啊陈添祥好帅[偷笑]；一个字，“帅”[爱慕][爱慕]；哈哈哈哈"
+    },
+    "interaction": {
+      "buttons": [
+        "太帅了",
+        "666刷起来",
+        "直接爽到"
+      ],
+      "effect": "float"
+    },
+    "refined_by": "doubao_danmaku_only"
+  },
+  {
+    "id": "danmaku_0006",
+    "drama_title": "那年冬至",
+    "drama_id": "那年冬至",
+    "episode_id": "第5集",
+    "start_time": 60,
+    "end_time": 75,
+    "type": "cool",
+    "confidence": 0.9,
+    "title": "角色乱立flag观众坐等打脸",
+    "reason": "该时间窗口弹幕数量多，情绪密度高，大量弹幕提及角色乱立flag，观众纷纷表示坐等打脸，符合爽点打脸的高光特征",
+    "evidence": {
+      "source": "danmaku",
+      "danmaku_count": 643,
+      "like_sum": 0,
+      "emotion_density": 0.7558,
+      "sample_text": "确定这辈子都不叫吗？；你看 又乱立flag；不可能[偷笑]；翅翅好帅；坐等打脸"
+    },
+    "interaction": {
+      "buttons": [
+        "坐等打脸",
+        "太解气了",
+        "爽到跺脚"
+      ],
+      "effect": "float"
+    },
+    "refined_by": "doubao_danmaku_only"
+  },
+  {
+    "id": "danmaku_0007",
+    "drama_title": "十八岁太奶奶驾到，重整家族荣耀第三部",
+    "drama_id": "十八岁太奶奶驾到_重整家族荣耀第三部",
+    "episode_id": "第2集",
+    "start_time": 60,
+    "end_time": 75,
+    "type": "cool",
+    "confidence": 0.88,
+    "title": "祥子帅炸全场爽感拉满",
+    "reason": "该时间窗口弹幕数量达2414，累计点赞8458，观众情绪密度极高，大量弹幕夸赞角色帅气，同时有弹幕表达对其他角色的不屑，符合爽点打脸的高光特征",
+    "evidence": {
+      "source": "danmaku",
+      "danmaku_count": 2414,
+      "like_sum": 8458,
+      "emotion_density": 0.8115,
+      "sample_text": "像玄彬；哇哇哇哇；[赞]；还小王子，我呸。；祥子太帅了。"
+    },
+    "interaction": {
+      "buttons": [
+        "帅炸了",
+        "太解气了",
+        "直接打脸"
+      ],
+      "effect": "float"
+    },
+    "refined_by": "doubao_danmaku_only"
+  },
+  {
+    "id": "danmaku_0008",
+    "drama_title": "撕夜",
+    "drama_id": "撕夜",
+    "episode_id": "第2集",
+    "start_time": 30,
+    "end_time": 45,
+    "type": "cool",
+    "confidence": 0.91,
+    "title": "高能爽点直呼过瘾",
+    "reason": "该时间窗口内弹幕数量达108，累计点赞74，多条弹幕提及解气、太棒了，不少观众表示反复刷该片段，爽感反馈强烈，符合爽点打脸类高光特征",
+    "evidence": {
+      "source": "danmaku",
+      "danmaku_count": 108,
+      "like_sum": 74,
+      "emotion_density": 0.6296,
+      "sample_text": "太解气了[爽]；数不清了 n刷了 太喜欢了[爱慕][爱慕][爱慕]；太棒了[鼓掌]；女主太美了；二刷"
+    },
+    "interaction": {
+      "buttons": [
+        "太解气了",
+        "爽到跺脚",
+        "干得漂亮"
+      ],
+      "effect": "float"
+    },
+    "refined_by": "doubao_danmaku_only"
+  },
+  {
+    "id": "danmaku_0009",
+    "drama_title": "撕夜",
+    "drama_id": "撕夜",
+    "episode_id": "第2集",
+    "start_time": 15,
+    "end_time": 30,
+    "type": "cool",
+    "confidence": 0.85,
+    "title": "怼得实在太解气了",
+    "reason": "该15秒-30秒时间窗口弹幕数量达132，多条观众弹幕刷骂得好并附带点赞，观众正向情绪高涨，符合爽点打脸的高光特征",
+    "evidence": {
+      "source": "danmaku",
+      "danmaku_count": 132,
+      "like_sum": 84,
+      "emotion_density": 0.4394,
+      "sample_text": "骂的好。；骂得好[赞]；我已经二刷了；[赞][赞]；好像看过差不多的"
+    },
+    "interaction": {
+      "buttons": [
+        "太解气了",
+        "怼得漂亮",
+        "爽到飞起"
+      ],
+      "effect": "float"
+    },
+    "refined_by": "doubao_danmaku_only"
+  },
+  {
+    "id": "danmaku_0010",
+    "drama_title": "撕夜",
+    "drama_id": "撕夜",
+    "episode_id": "第2集",
+    "start_time": 90,
+    "end_time": 105,
+    "type": "famous_scene",
+    "confidence": 0.85,
+    "title": "情敌见面名场面",
+    "reason": "该时间窗口弹幕数量达93条，累计点赞146，大量弹幕夸赞男主颜值高，提及情敌见面场景，观众热情高涨纷纷求爆更，观众关注度极高",
+    "evidence": {
+      "source": "danmaku",
+      "danmaku_count": 93,
+      "like_sum": 146,
+      "emotion_density": 0.6022,
+      "sample_text": "情敌见面；男主长的像韩国欧巴；太帅了！；太帅了。；[没看够][求爆更]"
+    },
+    "interaction": {
+      "buttons": [
+        "太帅了",
+        "求爆更",
+        "反复回看"
+      ],
+      "effect": "float"
+    },
+    "refined_by": "doubao_danmaku_only"
+  },
+  {
+    "id": "danmaku_0011",
+    "drama_title": "云渺1：我修仙多年强亿点怎么了",
+    "drama_id": "云渺1_我修仙多年强亿点怎么了",
+    "episode_id": "第4集",
+    "start_time": 30,
+    "end_time": 45,
+    "type": "conflict",
+    "confidence": 0.82,
+    "title": "现场拉扯互不相让",
+    "reason": "该时间窗口弹幕数量达34条，累计点赞78，观众集中讨论角色要面子、周家地位以及现场拉扯的相关内容，情绪密度较高，符合冲突类高光特征",
+    "evidence": {
+      "source": "danmaku",
+      "danmaku_count": 34,
+      "like_sum": 78,
+      "emotion_density": 0.7353,
+      "sample_text": "为了父亲低声下气，周源也是个孝子了；你让我留步我就留步，我不要面子的啊；云渺小姐冷不冷啊；周家地位？；敌人都请来看了，怎么这个旧识，就在这拉扯"
+    },
+    "interaction": {
+      "buttons": [
+        "吵起来了",
+        "太刚了",
+        "谁也不服谁"
+      ],
+      "effect": "shake"
+    },
+    "refined_by": "doubao_danmaku_only"
+  },
+  {
+    "id": "danmaku_0012",
+    "drama_title": "云渺1：我修仙多年强亿点怎么了",
+    "drama_id": "云渺1_我修仙多年强亿点怎么了",
+    "episode_id": "第5集",
+    "start_time": 90,
+    "end_time": 105,
+    "type": "funny",
+    "confidence": 0.78,
+    "title": "周源堪称道歉专业户",
+    "reason": "该15秒时间窗口内弹幕数量达35条，累计点赞61，有观众调侃角色是道歉专业户，互动情绪活跃，符合搞笑类高光特征",
+    "evidence": {
+      "source": "danmaku",
+      "danmaku_count": 35,
+      "like_sum": 61,
+      "emotion_density": 0.6571,
+      "sample_text": "周源道歉专业户；老太太台词挺稳的；老太太演挺好；为了看懂第五部，重新刷第一部；什么玩意儿啊？这是，怎么说话的？"
+    },
+    "interaction": {
+      "buttons": [
+        "笑不活了",
+        "太逗了吧",
+        "绷不住了"
+      ],
+      "effect": "float"
+    },
+    "refined_by": "doubao_danmaku_only"
+  },
+  {
+    "id": "danmaku_0013",
+    "drama_title": "荒年全村啃树皮，我有系统满仓肉",
+    "drama_id": "荒年全村啃树皮_我有系统满仓肉",
+    "episode_id": "第2集",
+    "start_time": 90,
+    "end_time": 105,
+    "type": "funny",
+    "confidence": 0.78,
+    "title": "细节穿帮笑点密集",
+    "reason": "该15秒时间窗口弹幕数量达137条，累计点赞87，有不少观众指出剧情细节的不合理穿帮内容，附带捂脸表情，搞笑属性突出，还有大量观众反馈内容好看没看够，互动热度高",
+    "evidence": {
+      "source": "danmaku",
+      "danmaku_count": 137,
+      "like_sum": 87,
+      "emotion_density": 0.6934,
+      "sample_text": "[没看够][没看够][没看够]；你好；伤的后脑，怎么前额出血；不绑前面的话绑不上[捂脸]；不错不错，好看"
+    },
+    "interaction": {
+      "buttons": [
+        "笑不活了",
+        "这穿帮太离谱",
+        "绷不住了"
+      ],
+      "effect": "float"
+    },
+    "refined_by": "doubao_danmaku_only"
+  },
+  {
+    "id": "danmaku_0014",
+    "drama_title": "云渺1：我修仙多年强亿点怎么了",
+    "drama_id": "云渺1_我修仙多年强亿点怎么了",
+    "episode_id": "第4集",
+    "start_time": 0,
+    "end_time": 15,
+    "type": "suspense",
+    "confidence": 0.82,
+    "title": "老爷子挂念70年的人身份引好奇",
+    "reason": "该时间窗口弹幕数量达31，累计点赞71，情绪密度较高，出现观众询问老爷子心心念念70年的人到底是谁的相关内容，引发观众对未知人物身份的强烈好奇，符合悬念类高光特征",
+    "evidence": {
+      "source": "danmaku",
+      "danmaku_count": 31,
+      "like_sum": 71,
+      "emotion_density": 0.7742,
+      "sample_text": "怎么不打伞[捂脸]；态度变得快；云渺好飒！；老爷子心心念念70年的人到底是谁？；[爱慕][爱慕][爱慕][送花][送花][送花]"
+    },
+    "interaction": {
+      "buttons": [
+        "太好奇了",
+        "坐等揭秘",
+        "快公布答案"
+      ],
+      "effect": "float"
+    },
+    "refined_by": "doubao_danmaku_only"
+  },
+  {
+    "id": "danmaku_0015",
+    "drama_title": "荒年全村啃树皮，我有系统满仓肉",
+    "drama_id": "荒年全村啃树皮_我有系统满仓肉",
+    "episode_id": "第2集",
+    "start_time": 240,
+    "end_time": 255,
+    "type": "funny",
+    "confidence": 0.78,
+    "title": "观众吐槽画面穿帮笑点密集",
+    "reason": "该15秒时间窗口内弹幕数量达117条，有弹幕带笑哭表情吐槽画面细节穿帮，观众互动热情较高，符合搞笑类高光特征",
+    "evidence": {
+      "source": "danmaku",
+      "danmaku_count": 117,
+      "like_sum": 73,
+      "emotion_density": 0.5128,
+      "sample_text": "愈合挺快啊；房子太新了[笑哭]；好[鼓掌][鼓掌]；太好看了；新年祝福"
+    },
+    "interaction": {
+      "buttons": [
+        "笑不活了",
+        "绷不住了",
+        "穿帮好搞笑"
+      ],
+      "effect": "float"
+    },
+    "refined_by": "doubao_danmaku_only"
+  },
+  {
+    "id": "danmaku_0016",
+    "drama_title": "云渺1：我修仙多年强亿点怎么了",
+    "drama_id": "云渺1_我修仙多年强亿点怎么了",
+    "episode_id": "第3集",
+    "start_time": 30,
+    "end_time": 45,
+    "type": "funny",
+    "confidence": 0.82,
+    "title": "弹幕玩梗笑点密集",
+    "reason": "该时间窗口内弹幕包含多个笑哭表情，还有观众趣味玩梗的吐槽内容，整体氛围轻松诙谐，符合搞笑类高光特征",
+    "evidence": {
+      "source": "danmaku",
+      "danmaku_count": 31,
+      "like_sum": 27,
+      "emotion_density": 0.4194,
+      "sample_text": "这管家是蓝战非吗；云渺1挺漂亮的；[笑哭][笑哭][笑哭]；对；耳环变了"
+    },
+    "interaction": {
+      "buttons": [
+        "笑不活了",
+        "绷不住了",
+        "笑到打鸣"
+      ],
+      "effect": "float"
+    },
+    "refined_by": "doubao_danmaku_only"
+  },
+  {
+    "id": "danmaku_0017",
+    "drama_title": "撕夜",
+    "drama_id": "撕夜",
+    "episode_id": "第4集",
+    "start_time": 30,
+    "end_time": 45,
+    "type": "suspense",
+    "confidence": 0.78,
+    "title": "剧情暗藏悬念感拉满",
+    "reason": "该时间窗口弹幕量较高，不少观众表示察觉剧情不对劲，提及第二人格相关内容，对后续剧情走向充满好奇，符合悬念类高光特征",
+    "evidence": {
+      "source": "danmaku",
+      "danmaku_count": 234,
+      "like_sum": 252,
+      "emotion_density": 0.4316,
+      "sample_text": "2刷还有类似的吗；啊！好看；第二人格[赞]；不要啊；感觉不对"
+    },
+    "interaction": {
+      "buttons": [
+        "细思极恐",
+        "不对劲",
+        "坐等后续"
+      ],
+      "effect": "float"
+    },
+    "refined_by": "doubao_danmaku_only"
+  },
+  {
+    "id": "danmaku_0018",
+    "drama_title": "北往",
+    "drama_id": "北往",
+    "episode_id": "第2集",
+    "start_time": 60,
+    "end_time": 75,
+    "type": "cool",
+    "confidence": 0.78,
+    "title": "众人直呼太帅爽点时刻",
+    "reason": "该时间窗口弹幕数量达789条，累计点赞273，大量观众发弹幕夸赞角色太帅，相关内容引发大量用户互动，符合爽点高光特征",
+    "evidence": {
+      "source": "danmaku",
+      "danmaku_count": 789,
+      "like_sum": 273,
+      "emotion_density": 0.4512,
+      "sample_text": "太帅了；注意安全。一路顺风。；交警叔叔他们两个无证驾驶[笑哭]；有钱没钱回家过年；自驾游[捂脸]"
+    },
+    "interaction": {
+      "buttons": [
+        "太飒了",
+        "帅炸了",
+        "爽到飞起"
+      ],
+      "effect": "float"
+    },
+    "refined_by": "doubao_danmaku_only"
+  },
+  {
+    "id": "danmaku_0019",
+    "drama_title": "云渺1：我修仙多年强亿点怎么了",
+    "drama_id": "云渺1_我修仙多年强亿点怎么了",
+    "episode_id": "第4集",
+    "start_time": 45,
+    "end_time": 60,
+    "type": "suspense",
+    "confidence": 0.88,
+    "title": "云渺身份暗藏巨大信息量",
+    "reason": "该时间窗口弹幕数量达22条，累计点赞113，大量观众对相关台词内容表示震惊，纷纷讨论云渺身份不简单，悬念感强烈，符合高光特征",
+    "evidence": {
+      "source": "danmaku",
+      "danmaku_count": 22,
+      "like_sum": 113,
+      "emotion_density": 0.4545,
+      "sample_text": "\"跟过我\"信息量好大，云渺身份不简单！；这雨只给打伞的下，好雨！[赞]；跟过我？！[震惊]；云渺说毕竟跟过我，信息量太大了；黄帝阴符经"
+    },
+    "interaction": {
+      "buttons": [
+        "太好奇了",
+        "伏笔拉满",
+        "坐等揭秘"
+      ],
+      "effect": "float"
+    },
+    "refined_by": "doubao_danmaku_only"
+  },
+  {
+    "id": "danmaku_0020",
+    "drama_title": "云渺1：我修仙多年强亿点怎么了",
+    "drama_id": "云渺1_我修仙多年强亿点怎么了",
+    "episode_id": "第5集",
+    "start_time": 120,
+    "end_time": 135,
+    "type": "famous_scene",
+    "confidence": 0.78,
+    "title": "高能名场面爆发",
+    "reason": "该时间窗口弹幕数量较多，累计点赞量可观，出现「爆发了」的相关弹幕，大量观众在此处讨论剧情与相关角色内容，观众关注度高，符合名场面特征",
+    "evidence": {
+      "source": "danmaku",
+      "danmaku_count": 29,
+      "like_sum": 12,
+      "emotion_density": 0.5517,
+      "sample_text": "爆发了！；好像是演傩戏那个女主演的；云渺小姐是谁演的？；节哀是啥意思啊？；没有司命果断狠决"
+    },
+    "interaction": {
+      "buttons": [
+        "封神场面",
+        "反复刷这段",
+        "太经典了"
+      ],
+      "effect": "float"
+    },
+    "refined_by": "doubao_danmaku_only"
+  },
+  {
+    "id": "danmaku_0021",
+    "drama_title": "撕夜",
+    "drama_id": "撕夜",
+    "episode_id": "第5集",
+    "start_time": 15,
+    "end_time": 30,
+    "type": "famous_scene",
+    "confidence": 0.81,
+    "title": "观众集体心疼女主",
+    "reason": "该15秒-30秒时间窗口内弹幕数量达73条，累计点赞74，多条弹幕集中表达对女主的心疼情绪，观众共情度高，属于剧集高光名场面",
+    "evidence": {
+      "source": "danmaku",
+      "danmaku_count": 73,
+      "like_sum": 74,
+      "emotion_density": 0.3014,
+      "sample_text": "心疼女主；I love you.；女主好可怜；女主有点像文彩元；女主太让八心疼了"
+    },
+    "interaction": {
+      "buttons": [
+        "太心疼女主了",
+        "女主好可怜",
+        "抱抱女主"
+      ],
+      "effect": "float"
+    },
+    "refined_by": "doubao_danmaku_only"
+  },
+  {
+    "id": "danmaku_0022",
+    "drama_title": "那年冬至",
+    "drama_id": "那年冬至",
+    "episode_id": "第1集",
+    "start_time": 0,
+    "end_time": 15,
+    "type": "famous_scene",
+    "confidence": 0.92,
+    "title": "开篇绝美名场面登场",
+    "reason": "该时间窗口弹幕数量超千，大量观众夸赞开篇画面精美，不少观众表示是二刷，对该段内容认可度极高，属于广受喜爱的名场面片段",
+    "evidence": {
+      "source": "danmaku",
+      "danmaku_count": 1018,
+      "like_sum": 0,
+      "emotion_density": 0.5806,
+      "sample_text": "妈呀，这开头的画面也太美了吧[送花][送花][送花][鼓掌]；回评 不一样的开始 不一样的结局 追[送花][鼓掌]；[捂脸][捂脸]；翅翅宝宝啊啊啊[笑][笑]；二刷了[爱慕][爱慕]"
+    },
+    "interaction": {
+      "buttons": [
+        "画面太美了",
+        "反复刷N遍",
+        "太有氛围感了"
+      ],
+      "effect": "float"
+    },
+    "refined_by": "doubao_danmaku_only"
+  },
+  {
+    "id": "danmaku_0023",
+    "drama_title": "十八岁太奶奶驾到，重整家族荣耀第三部",
+    "drama_id": "十八岁太奶奶驾到_重整家族荣耀第三部",
+    "episode_id": "第2集",
+    "start_time": 240,
+    "end_time": 255,
+    "type": "sweet",
+    "confidence": 0.91,
+    "title": "高甜心动瞬间来袭",
+    "reason": "该时间窗口弹幕数量达2263条，累计点赞5408，情绪密度较高，弹幕内容出现爱慕、一见钟情等相关甜蜜向表述，符合甜蜜撒糖的高光特征",
+    "evidence": {
+      "source": "danmaku",
+      "danmaku_count": 2263,
+      "like_sum": 5408,
+      "emotion_density": 0.8374,
+      "sample_text": "是亲孙子；卷毛小奶狗[送心][爱慕][大笑]；别想勾引；可爱；一见钟情。[捂脸]"
+    },
+    "interaction": {
+      "buttons": [
+        "磕疯了",
+        "太好嗑了",
+        "甜到冒泡"
+      ],
+      "effect": "float"
+    },
+    "refined_by": "doubao_danmaku_only"
+  },
+  {
+    "id": "danmaku_0024",
+    "drama_title": "十八岁太奶奶驾到，重整家族荣耀第三部",
+    "drama_id": "十八岁太奶奶驾到_重整家族荣耀第三部",
+    "episode_id": "第3集",
+    "start_time": 30,
+    "end_time": 45,
+    "type": "funny",
+    "confidence": 0.88,
+    "title": "爆笑片段笑点密集",
+    "reason": "该15秒时间窗口弹幕数量达1068条，累计点赞超4千，多条弹幕提及笑哭、笑声相关内容，整体情绪轻松诙谐，符合搞笑类高光特征",
+    "evidence": {
+      "source": "danmaku",
+      "danmaku_count": 1068,
+      "like_sum": 4311,
+      "emotion_density": 0.7313,
+      "sample_text": "改的这么大吗[捂脸]；一语成谶[笑哭]；笑声绝了。；好可爱呀；好可爱[偷笑]"
+    },
+    "interaction": {
+      "buttons": [
+        "笑不活了",
+        "太好笑了",
+        "绷不住了"
+      ],
+      "effect": "float"
+    },
+    "refined_by": "doubao_danmaku_only"
+  },
+  {
+    "id": "danmaku_0025",
+    "drama_title": "十八岁太奶奶驾到，重整家族荣耀第三部",
+    "drama_id": "十八岁太奶奶驾到_重整家族荣耀第三部",
+    "episode_id": "第2集",
+    "start_time": 225,
+    "end_time": 240,
+    "type": "cool",
+    "confidence": 0.93,
+    "title": "角色帅到炸场",
+    "reason": "该时间窗口弹幕数量达1763条，累计点赞3550，情绪密度高达0.8996，绝大多数弹幕内容都在夸赞角色十分帅气，观众情绪高涨，符合爽点高光特征",
+    "evidence": {
+      "source": "danmaku",
+      "danmaku_count": 1763,
+      "like_sum": 3550,
+      "emotion_density": 0.8996,
+      "sample_text": "不是啊，这怎么这么帅[爱慕][爱慕][爱慕]；哇哦好帅；好帅[爱慕]；好帅啊！；好帅啊"
+    },
+    "interaction": {
+      "buttons": [
+        "太帅了",
+        "帅炸了",
+        "爽到飞起"
+      ],
+      "effect": "burst"
+    },
+    "refined_by": "doubao_danmaku_only"
+  },
+  {
+    "id": "danmaku_0026",
+    "drama_title": "撕夜",
+    "drama_id": "撕夜",
+    "episode_id": "第4集",
+    "start_time": 135,
+    "end_time": 150,
+    "type": "suspense",
+    "confidence": 0.82,
+    "title": "剧情悬念引观众热议",
+    "reason": "该时间窗口弹幕数量较多，累计点赞量高，大量观众对当前剧情内容表示不相信，同时担忧女主后续处境，纷纷期待下一集更新，悬念属性突出",
+    "evidence": {
+      "source": "danmaku",
+      "danmaku_count": 118,
+      "like_sum": 139,
+      "emotion_density": 0.6102,
+      "sample_text": "不信就算[偷笑][偷笑]；下一集等你哟。；咋办啊？女主不幸。；我也不信；[偷笑][偷笑][偷笑][偷笑]"
+    },
+    "interaction": {
+      "buttons": [
+        "太好奇后续",
+        "坐等下集更新",
+        "完全猜不到走向"
+      ],
+      "effect": "float"
+    },
+    "refined_by": "doubao_danmaku_only"
+  },
+  {
+    "id": "danmaku_0027",
+    "drama_title": "那年冬至",
+    "drama_id": "那年冬至",
+    "episode_id": "第2集",
+    "start_time": 45,
+    "end_time": 60,
+    "type": "sweet",
+    "confidence": 0.78,
+    "title": "角色互动甜度拉满",
+    "reason": "该15秒时间窗口内弹幕数量达290条，有观众发弹幕表达对角色状态的喜爱，讨论相关角色剧情，互动热度较高",
+    "evidence": {
+      "source": "danmaku",
+      "danmaku_count": 290,
+      "like_sum": 0,
+      "emotion_density": 0.8241,
+      "sample_text": "有点不像演的[笑哭]；京烁说话都乖乖的[爱慕]；谭序泽不要我们家眠眠了嘛[顶帖]；屋里这么冷吗；[捂脸]"
+    },
+    "interaction": {
+      "buttons": [
+        "磕到了",
+        "太好嗑了",
+        "撒糖啦"
+      ],
+      "effect": "float"
+    },
+    "refined_by": "doubao_danmaku_only"
+  },
+  {
+    "id": "danmaku_0028",
+    "drama_title": "那年冬至",
+    "drama_id": "那年冬至",
+    "episode_id": "第1集",
+    "start_time": 15,
+    "end_time": 30,
+    "type": "famous_scene",
+    "confidence": 0.91,
+    "title": "人气角色登场名场面",
+    "reason": "该15秒-30秒时间窗口弹幕数量达611，大量观众前来打卡喜爱的角色，夸赞角色颜值，还有观众表示N刷该剧仍不腻，属于剧集高人气的经典名场面片段",
+    "evidence": {
+      "source": "danmaku",
+      "danmaku_count": 611,
+      "like_sum": 0,
+      "emotion_density": 0.6743,
+      "sample_text": "翅翅苏苏我来啦；翅翅好帅！；剧荒，N刷居然不腻；范千茹啊啊啊啊终于等到了 [爱慕][爱慕]；翅翅好帅"
+    },
+    "interaction": {
+      "buttons": [
+        "前来打卡",
+        "太经典了",
+        "N刷走起"
+      ],
+      "effect": "float"
+    },
+    "refined_by": "doubao_danmaku_only"
+  },
+  {
+    "id": "danmaku_0029",
+    "drama_title": "撕夜",
+    "drama_id": "撕夜",
+    "episode_id": "第5集",
+    "start_time": 30,
+    "end_time": 45,
+    "type": "cool",
+    "confidence": 0.85,
+    "title": "复仇爽点高能时刻",
+    "reason": "该时间窗口弹幕数量达80，累计点赞104，多条弹幕提及复仇相关内容，观众关注度高情绪集中，符合爽点高光特征",
+    "evidence": {
+      "source": "danmaku",
+      "danmaku_count": 80,
+      "like_sum": 104,
+      "emotion_density": 0.4,
+      "sample_text": "复仇了；心疼女主；复仇了；女主的爸爸也太狠心了吧[撇嘴][撇嘴]；[送花]"
+    },
+    "interaction": {
+      "buttons": [
+        "太解气了",
+        "干得漂亮",
+        "爽到飞起"
+      ],
+      "effect": "float"
+    },
+    "refined_by": "doubao_danmaku_only"
+  },
+  {
+    "id": "danmaku_0030",
+    "drama_title": "十八岁太奶奶驾到，重整家族荣耀第三部",
+    "drama_id": "十八岁太奶奶驾到_重整家族荣耀第三部",
+    "episode_id": "第1集",
+    "start_time": 0,
+    "end_time": 15,
+    "type": "famous_scene",
+    "confidence": 0.91,
+    "title": "系列老粉集体打卡第三部开篇",
+    "reason": "该时间窗口弹幕数量达4663，累计点赞4122，大量弹幕内容为系列老观众留言表示反复刷本季、催更后续季，粉丝热情高涨形成集体打卡的高热度高光时刻",
+    "evidence": {
+      "source": "danmaku",
+      "danmaku_count": 4663,
+      "like_sum": 4122,
+      "emotion_density": 0.5837,
+      "sample_text": "刚看完第二季 太棒啦；出了第四季才从第一季开始看，真幸福[送花][送花][送花]；啊啊啊啊啊[爱慕]；家人们来回忆三了，过年不是要看四吗？我来回忆三；根本看不够啊，四什么时候出？不能让我重刷30遍吧"
+    },
+    "interaction": {
+      "buttons": [
+        "老粉报到",
+        "反复刷N遍",
+        "催更下一季"
+      ],
+      "effect": "float"
+    },
+    "refined_by": "doubao_danmaku_only"
+  },
+  {
+    "id": "danmaku_0031",
+    "drama_title": "十八岁太奶奶驾到，重整家族荣耀第三部",
+    "drama_id": "十八岁太奶奶驾到_重整家族荣耀第三部",
+    "episode_id": "第1集",
+    "start_time": 15,
+    "end_time": 30,
+    "type": "famous_scene",
+    "confidence": 0.91,
+    "title": "观众集体多刷等候更新",
+    "reason": "该15秒-30秒时间窗口弹幕数量达3733，大量观众发布二刷、三刷、四刷的相关内容，还有观众表示已经等待更新数月，受众认可度极高，属于经典名场面高光",
+    "evidence": {
+      "source": "danmaku",
+      "danmaku_count": 3733,
+      "like_sum": 513,
+      "emotion_density": 0.5644,
+      "sample_text": "三刷；席星野（纪舟野）；等了已经好多个月了，都不知道多久了。[捂脸][捂脸][捂脸]；二刷；四刷"
+    },
+    "interaction": {
+      "buttons": [
+        "N刷预定",
+        "等更太久了",
+        "经典名场面"
+      ],
+      "effect": "float"
+    },
+    "refined_by": "doubao_danmaku_only"
+  },
+  {
+    "id": "danmaku_0032",
+    "drama_title": "北往",
+    "drama_id": "北往",
+    "episode_id": "第1集",
+    "start_time": 225,
+    "end_time": 240,
+    "type": "famous_scene",
+    "confidence": 0.82,
+    "title": "剧情戳中观众共情点",
+    "reason": "该时间窗口弹幕数量达766，累计点赞235，大量观众抒发对这段内容的喜爱与共情，相关讨论热度极高，属于高知名度的名场面段落",
+    "evidence": {
+      "source": "danmaku",
+      "danmaku_count": 766,
+      "like_sum": 235,
+      "emotion_density": 0.5065,
+      "sample_text": "我看哭了；真喜欢这样的爸爸妈妈；比现在有的长剧强多了；我奔驰你开回去 替我回家过年呗[哭]；挺像大鹏啊"
+    },
+    "interaction": {
+      "buttons": [
+        "太好哭了",
+        "神级片段",
+        "反复刷N遍"
+      ],
+      "effect": "float"
+    },
+    "refined_by": "doubao_danmaku_only"
+  },
+  {
+    "id": "danmaku_0033",
+    "drama_title": "云渺1：我修仙多年强亿点怎么了",
+    "drama_id": "云渺1_我修仙多年强亿点怎么了",
+    "episode_id": "第4集",
+    "start_time": 90,
+    "end_time": 105,
+    "type": "cool",
+    "confidence": 0.82,
+    "title": "爽点高能预警",
+    "reason": "该时间窗口弹幕提及前方高能、掌嘴相关内容，观众对后续打脸情节充满期待，互动意愿较强，符合爽点高光特征",
+    "evidence": {
+      "source": "danmaku",
+      "danmaku_count": 11,
+      "like_sum": 3,
+      "emotion_density": 0.3636,
+      "sample_text": "前方高能！大嫂要开始搞事情了吗？；王小亿眼神戏好到位，期待后续！；[没看够]；此处应有：慢着！；掌嘴"
+    },
+    "interaction": {
+      "buttons": [
+        "太解气了",
+        "爽到飞起",
+        "干得漂亮"
+      ],
+      "effect": "float"
+    },
+    "refined_by": "doubao_danmaku_only"
+  },
+  {
+    "id": "danmaku_0034",
+    "drama_title": "十八岁太奶奶驾到，重整家族荣耀第三部",
+    "drama_id": "十八岁太奶奶驾到_重整家族荣耀第三部",
+    "episode_id": "第3集",
+    "start_time": 165,
+    "end_time": 180,
+    "type": "funny",
+    "confidence": 0.93,
+    "title": "笑点密集笑到停不下来",
+    "reason": "该时间窗口内弹幕数量高达3109条，累计点赞近5千，大量观众发送哈哈哈哈哈、笑哭类表情弹幕，整体情绪偏向欢乐搞笑，符合搞笑类高光特征",
+    "evidence": {
+      "source": "danmaku",
+      "danmaku_count": 3109,
+      "like_sum": 4839,
+      "emotion_density": 1.0727,
+      "sample_text": "我不行了；哇哦；哈哈哈哈哈；[笑哭][笑哭][笑哭]；行[捂脸][笑哭]"
+    },
+    "interaction": {
+      "buttons": [
+        "笑不活了",
+        "太好笑了",
+        "绷不住了"
+      ],
+      "effect": "float"
+    },
+    "refined_by": "doubao_danmaku_only"
+  },
+  {
+    "id": "danmaku_0035",
+    "drama_title": "十八岁太奶奶驾到，重整家族荣耀第三部",
+    "drama_id": "十八岁太奶奶驾到_重整家族荣耀第三部",
+    "episode_id": "第3集",
+    "start_time": 180,
+    "end_time": 195,
+    "type": "funny",
+    "confidence": 0.93,
+    "title": "笑点密集笑到停不下来",
+    "reason": "该15秒时间窗口内弹幕数量达2898，累计点赞4686，大量用户刷笑哭表情，多条弹幕直接提及内容搞笑，整体情绪偏向欢乐搞笑，符合搞笑类高光特征",
+    "evidence": {
+      "source": "danmaku",
+      "danmaku_count": 2898,
+      "like_sum": 4686,
+      "emotion_density": 1.0542,
+      "sample_text": "笑不活了[捂脸][捂脸]；[捂脸][捂脸][捂脸]；好搞笑；[捂脸][捂脸][捂脸]；我？？？"
+    },
+    "interaction": {
+      "buttons": [
+        "笑不活了",
+        "太好笑了",
+        "绷不住了"
+      ],
+      "effect": "float"
+    },
+    "refined_by": "doubao_danmaku_only"
+  },
+  {
+    "id": "danmaku_0036",
+    "drama_title": "天下第一纨绔",
+    "drama_id": "天下第一纨绔",
+    "episode_id": "第5集",
+    "start_time": 30,
+    "end_time": 45,
+    "type": "funny",
+    "confidence": 0.85,
+    "title": "爆笑名场面高能来袭",
+    "reason": "该时间窗口弹幕量较高，多条弹幕附带笑哭表情，有用户直接提及名场面，整体情绪轻松诙谐，属于高热度搞笑高光片段",
+    "evidence": {
+      "source": "danmaku",
+      "danmaku_count": 157,
+      "like_sum": 69,
+      "emotion_density": 0.8854,
+      "sample_text": "真是处变不惊啊[赞]；[笑哭][笑哭]名场面；[笑哭][笑哭][笑哭]；万万没想到[捂脸]；咦惹"
+    },
+    "interaction": {
+      "buttons": [
+        "笑不活了",
+        "太好笑了",
+        "绷不住了"
+      ],
+      "effect": "float"
+    },
+    "refined_by": "doubao_danmaku_only"
+  },
+  {
+    "id": "danmaku_0037",
+    "drama_title": "家里家外",
+    "drama_id": "家里家外",
+    "episode_id": "第4集",
+    "start_time": 60,
+    "end_time": 75,
+    "type": "funny",
+    "confidence": 0.91,
+    "title": "片段笑点密集欢乐十足",
+    "reason": "该时间窗口弹幕数量较多，大量用户发布哈哈类搞笑相关弹幕，累计点赞数高，整体情绪偏向轻松欢乐，符合搞笑类高光的特征",
+    "evidence": {
+      "source": "danmaku",
+      "danmaku_count": 376,
+      "like_sum": 1281,
+      "emotion_density": 0.7473,
+      "sample_text": "人情世故这块[赞]；哈哈哈哈哈 听起好像小时候看哈儿司长；孩子好可爱啊；哈哈哈哈；哈哈哈[赞]"
+    },
+    "interaction": {
+      "buttons": [
+        "笑不活了",
+        "太好笑了",
+        "绷不住了"
+      ],
+      "effect": "float"
+    },
+    "refined_by": "doubao_danmaku_only"
+  },
+  {
+    "id": "danmaku_0038",
+    "drama_title": "北往",
+    "drama_id": "北往",
+    "episode_id": "第3集",
+    "start_time": 0,
+    "end_time": 15,
+    "type": "funny",
+    "confidence": 0.88,
+    "title": "两大男主同框笑点密集",
+    "reason": "该时间窗口弹幕数量较高，多条弹幕提及剧中两位男主是搞笑担当，整体情绪轻松诙谐，符合搞笑类高光特征",
+    "evidence": {
+      "source": "danmaku",
+      "danmaku_count": 276,
+      "like_sum": 391,
+      "emotion_density": 0.7319,
+      "sample_text": "这俩东北局搞笑担当；这剧两大男主合作啊！；皮总和李总整一块了；西双版纳。怎么能冷了；这回还带个媳妇回去"
+    },
+    "interaction": {
+      "buttons": [
+        "笑不活了",
+        "太好笑了",
+        "绷不住了"
+      ],
+      "effect": "float"
+    },
+    "refined_by": "doubao_danmaku_only"
+  },
+  {
+    "id": "danmaku_0039",
+    "drama_title": "北往",
+    "drama_id": "北往",
+    "episode_id": "第5集",
+    "start_time": 135,
+    "end_time": 150,
+    "type": "funny",
+    "confidence": 0.93,
+    "title": "笑点密集笑到岔气",
+    "reason": "该时间窗口弹幕数量高达539条，大量用户发送捂脸、笑哭类表情，不少观众反馈看一遍笑一遍要岔气，整体满是欢乐搞笑的氛围，符合搞笑类高光特征",
+    "evidence": {
+      "source": "danmaku",
+      "danmaku_count": 539,
+      "like_sum": 93,
+      "emotion_density": 1.1113,
+      "sample_text": "[捂脸][捂脸][捂脸][捂脸][捂脸]；[笑哭][笑哭][笑哭][笑哭][笑哭]；[捂脸][捂脸][捂脸][捂脸]；看一遍笑一遍要岔气了[捂脸]；哈哈哈"
+    },
+    "interaction": {
+      "buttons": [
+        "笑不活了",
+        "太好笑了",
+        "绷不住了"
+      ],
+      "effect": "float"
+    },
+    "refined_by": "doubao_danmaku_only"
+  },
+  {
+    "id": "danmaku_0040",
+    "drama_title": "十八岁太奶奶驾到，重整家族荣耀第三部",
+    "drama_id": "十八岁太奶奶驾到_重整家族荣耀第三部",
+    "episode_id": "第4集",
+    "start_time": 75,
+    "end_time": 90,
+    "type": "funny",
+    "confidence": 0.89,
+    "title": "满屏笑哭搞笑时刻",
+    "reason": "该时间窗口弹幕数量达1479条，累计点赞1581，大量用户发送笑哭、捂脸类表情，整体情绪偏向诙谐轻松，符合搞笑类高光特征",
+    "evidence": {
+      "source": "danmaku",
+      "danmaku_count": 1479,
+      "like_sum": 1581,
+      "emotion_density": 0.7897,
+      "sample_text": "现在的技术，孩子在肚子里也可以做DNA检测吧。；[笑哭][笑哭]；[笑哭]；[捂脸][捂脸]；小傻瓜[捂脸]"
+    },
+    "interaction": {
+      "buttons": [
+        "笑不活了",
+        "太好笑了",
+        "绷不住了"
+      ],
+      "effect": "float"
+    },
+    "refined_by": "doubao_danmaku_only"
+  },
+  {
+    "id": "danmaku_0041",
+    "drama_title": "十八岁太奶奶驾到，重整家族荣耀第三部",
+    "drama_id": "十八岁太奶奶驾到_重整家族荣耀第三部",
+    "episode_id": "第2集",
+    "start_time": 105,
+    "end_time": 120,
+    "type": "funny",
+    "confidence": 0.87,
+    "title": "老三的人设反差太出人意料",
+    "reason": "该时间窗口弹幕数量达6147，累计点赞超4千，大量用户发送捂脸、笑哭类表情，反馈当前剧情笑点密集，用户互动情绪热度极高",
+    "evidence": {
+      "source": "danmaku",
+      "danmaku_count": 6147,
+      "like_sum": 4132,
+      "emotion_density": 0.7478,
+      "sample_text": "[捂脸][捂脸][捂脸]；我的妈诶，老三是这个人设啊[笑哭][笑哭][笑哭]；[捂脸][捂脸][捂脸]；我要恋爱了；[什么]"
+    },
+    "interaction": {
+      "buttons": [
+        "笑不活了",
+        "绷不住了",
+        "笑到打鸣"
+      ],
+      "effect": "float"
+    },
+    "refined_by": "doubao_danmaku_only"
+  },
+  {
+    "id": "danmaku_0042",
+    "drama_title": "幸得相遇离婚时",
+    "drama_id": "幸得相遇离婚时",
+    "episode_id": "第4集",
+    "start_time": 30,
+    "end_time": 45,
+    "type": "funny",
+    "confidence": 0.85,
+    "title": "离谱霸总设定笑到跺脚",
+    "reason": "该15秒时间窗口弹幕数量达199，累计点赞167，多条弹幕附带笑哭、捂脸表情吐槽相关剧情设定，观众互动热度高，符合搞笑类高光特征",
+    "evidence": {
+      "source": "danmaku",
+      "danmaku_count": 199,
+      "like_sum": 167,
+      "emotion_density": 0.6834,
+      "sample_text": "霸道总裁爱上，啥也不是且怀孕的我[笑哭]；霸总暗恋邻家小妹；[捂脸][捂脸]；[赞]；[鼓掌]好喜欢刘萧旭"
+    },
+    "interaction": {
+      "buttons": [
+        "笑不活了",
+        "这设定绝了",
+        "绷不住了"
+      ],
+      "effect": "float"
+    },
+    "refined_by": "doubao_danmaku_only"
+  },
+  {
+    "id": "danmaku_0043",
+    "drama_title": "天下第一纨绔",
+    "drama_id": "天下第一纨绔",
+    "episode_id": "第2集",
+    "start_time": 30,
+    "end_time": 45,
+    "type": "funny",
+    "confidence": 0.91,
+    "title": "爆笑玩梗名场面",
+    "reason": "该时间窗口弹幕数量达204，多条弹幕附带笑哭表情，内容都是跨界玩相关影视梗，整体情绪偏向搞笑欢乐，符合搞笑类高光特征",
+    "evidence": {
+      "source": "danmaku",
+      "danmaku_count": 204,
+      "like_sum": 90,
+      "emotion_density": 0.6078,
+      "sample_text": "怪侠一撮毛！[笑哭][笑哭][笑哭]；肯定是马老师出手了[捂脸]；离歌笑；[笑哭]；霍建华:我不在，不是我"
+    },
+    "interaction": {
+      "buttons": [
+        "笑不活了",
+        "太好笑了",
+        "绷不住了"
+      ],
+      "effect": "float"
+    },
+    "refined_by": "doubao_danmaku_only"
+  },
+  {
+    "id": "danmaku_0044",
+    "drama_title": "天下第一纨绔",
+    "drama_id": "天下第一纨绔",
+    "episode_id": "第2集",
+    "start_time": 75,
+    "end_time": 90,
+    "type": "cool",
+    "confidence": 0.65,
+    "title": "滴水成弹超绝操作",
+    "reason": "该时间窗口下的弹幕提及滴水成弹的强力能力表现，符合爽点高光的特征",
+    "evidence": {
+      "source": "danmaku",
+      "danmaku_count": 1,
+      "like_sum": 0,
+      "emotion_density": 0.0,
+      "sample_text": "滴水成弹"
+    },
+    "interaction": {
+      "buttons": [
+        "帅炸了",
+        "这波太爽",
+        "直接碾压"
+      ],
+      "effect": "float"
+    },
+    "refined_by": "doubao_danmaku_only"
+  },
+  {
+    "id": "danmaku_0045",
+    "drama_title": "荒年全村啃树皮，我有系统满仓肉",
+    "drama_id": "荒年全村啃树皮_我有系统满仓肉",
+    "episode_id": "第1集",
+    "start_time": 45,
+    "end_time": 60,
+    "type": "funny",
+    "confidence": 0.87,
+    "title": "穿越开局设定离谱到好笑",
+    "reason": "该时间窗口弹幕数量多，大量观众吐槽穿越相关的离谱开局内容，多数弹幕附带搞笑捂脸表情，整体氛围诙谐轻松，符合搞笑高光特征",
+    "evidence": {
+      "source": "danmaku",
+      "danmaku_count": 144,
+      "like_sum": 117,
+      "emotion_density": 0.5833,
+      "sample_text": "送你穿越；自然是穿越了[捂脸]；穿越了；穿越过来上市前，第一件事就是被砸头；[捂脸][捂脸][捂脸]"
+    },
+    "interaction": {
+      "buttons": [
+        "笑不活了",
+        "太离谱了",
+        "绷不住了"
+      ],
+      "effect": "float"
+    },
+    "refined_by": "doubao_danmaku_only"
+  },
+  {
+    "id": "danmaku_0046",
+    "drama_title": "十八岁太奶奶驾到，重整家族荣耀第三部",
+    "drama_id": "十八岁太奶奶驾到_重整家族荣耀第三部",
+    "episode_id": "第4集",
+    "start_time": 45,
+    "end_time": 60,
+    "type": "funny",
+    "confidence": 0.88,
+    "title": "密集笑点爆笑来袭",
+    "reason": "该时间窗口弹幕数量达1379条，累计点赞2115，大量用户发送哈哈哈哈、笑死我了等搞笑相关弹幕，情绪密度高，符合搞笑类高光特征",
+    "evidence": {
+      "source": "danmaku",
+      "danmaku_count": 1379,
+      "like_sum": 2115,
+      "emotion_density": 0.8252,
+      "sample_text": "哈哈哈哈[偷笑]；笑死我了；哈哈哈，我自己还是个宝宝呢；[爽][爽][爽]；失忆是你搞的事儿吧 大姐"
+    },
+    "interaction": {
+      "buttons": [
+        "笑不活了",
+        "太好笑了",
+        "绷不住了"
+      ],
+      "effect": "float"
+    },
+    "refined_by": "doubao_danmaku_only"
+  },
+  {
+    "id": "danmaku_0047",
+    "drama_title": "天下第一纨绔",
+    "drama_id": "天下第一纨绔",
+    "episode_id": "第5集",
+    "start_time": 45,
+    "end_time": 60,
+    "type": "funny",
+    "confidence": 0.92,
+    "title": "密集笑点拉满",
+    "reason": "该时间窗口弹幕数量达148，累计点赞45，情绪密度高达0.9054，大量弹幕附带笑哭、偷笑类搞笑表情，内容多为玩梗调侃，整体氛围轻松诙谐，符合搞笑类高光特征",
+    "evidence": {
+      "source": "danmaku",
+      "danmaku_count": 148,
+      "like_sum": 45,
+      "emotion_density": 0.9054,
+      "sample_text": "故意的[笑哭]；其实他知道；[捂脸][捂脸][偷笑][偷笑][笑哭]；咯吱窝比女人还干净；雄孩子不装早被一家子害死"
+    },
+    "interaction": {
+      "buttons": [
+        "笑不活了",
+        "绷不住了",
+        "笑到捶墙"
+      ],
+      "effect": "float"
+    },
+    "refined_by": "doubao_danmaku_only"
+  },
+  {
+    "id": "danmaku_0048",
+    "drama_title": "撕夜",
+    "drama_id": "撕夜",
+    "episode_id": "第4集",
+    "start_time": 0,
+    "end_time": 15,
+    "type": "famous_scene",
+    "confidence": 0.93,
+    "title": "广受观众喜爱的经典名场面",
+    "reason": "该时间窗口弹幕数量达273，累计点赞692，大量观众表示自己二刷甚至五刷该片段仍十分激动、看不够，是认可度极高的出圈高光片段",
+    "evidence": {
+      "source": "danmaku",
+      "danmaku_count": 273,
+      "like_sum": 692,
+      "emotion_density": 0.5495,
+      "sample_text": "今天是看的第二遍了，根本看不够[捂脸][捂脸][捂脸]；还不敢相信[偷笑]；二刷，还是好激动；五刷了；[没看够]"
+    },
+    "interaction": {
+      "buttons": [
+        "百看不厌",
+        "刷了N遍",
+        "太上头了"
+      ],
+      "effect": "float"
+    },
+    "refined_by": "doubao_danmaku_only"
+  },
+  {
+    "id": "danmaku_0049",
+    "drama_title": "荒年全村啃树皮，我有系统满仓肉",
+    "drama_id": "荒年全村啃树皮_我有系统满仓肉",
+    "episode_id": "第5集",
+    "start_time": 45,
+    "end_time": 60,
+    "type": "famous_scene",
+    "confidence": 0.78,
+    "title": "高人气经典名场面",
+    "reason": "该时间窗口弹幕数量较多，累计点赞数高，存在观众二刷打卡的相关弹幕，观众认可度高，属于全剧高热度片段",
+    "evidence": {
+      "source": "danmaku",
+      "danmaku_count": 90,
+      "like_sum": 98,
+      "emotion_density": 0.5222,
+      "sample_text": "二刷中。；[赞]；这部剧热度挺大；只剩十文钱；因为我背下来"
+    },
+    "interaction": {
+      "buttons": [
+        "名场面打卡",
+        "反复回看N遍",
+        "这段太经典了"
+      ],
+      "effect": "float"
+    },
+    "refined_by": "doubao_danmaku_only"
+  },
+  {
+    "id": "danmaku_0050",
+    "drama_title": "荒年全村啃树皮，我有系统满仓肉",
+    "drama_id": "荒年全村啃树皮_我有系统满仓肉",
+    "episode_id": "第3集",
+    "start_time": 30,
+    "end_time": 45,
+    "type": "funny",
+    "confidence": 0.85,
+    "title": "这段笑点密集观众直呼没看够",
+    "reason": "该时间窗口弹幕数量达117，累计点赞超百，弹幕出现笑哭相关表情，大量观众刷没看够，观众反馈热烈，符合搞笑类高光特征",
+    "evidence": {
+      "source": "danmaku",
+      "danmaku_count": 117,
+      "like_sum": 101,
+      "emotion_density": 0.6068,
+      "sample_text": "[酷][伤心][恐惧]；[爱心][爱心][爱心]；[没看够]；[笑哭]；[没看够][没看够]"
+    },
+    "interaction": {
+      "buttons": [
+        "笑不活了",
+        "太好笑了",
+        "绷不住了"
+      ],
+      "effect": "float"
+    },
+    "refined_by": "doubao_danmaku_only"
+  },
+  {
+    "id": "danmaku_0051",
+    "drama_title": "家里家外",
+    "drama_id": "家里家外",
+    "episode_id": "第2集",
+    "start_time": 210,
+    "end_time": 225,
+    "type": "funny",
+    "confidence": 0.85,
+    "title": "笑点密集爆笑现场",
+    "reason": "该时间窗口弹幕数量达241，累计点赞246，大量用户发送捂脸表情，互动热度高，整体氛围诙谐轻松，符合搞笑类高光特征",
+    "evidence": {
+      "source": "danmaku",
+      "danmaku_count": 241,
+      "like_sum": 246,
+      "emotion_density": 0.61,
+      "sample_text": "好直接；你有车有房有存款吗？？；哇[偷笑]；这不是纪家二少爷吗[捂脸]；[捂脸][捂脸][捂脸][捂脸][捂脸]"
+    },
+    "interaction": {
+      "buttons": [
+        "笑不活了",
+        "绷不住了",
+        "笑到捶墙"
+      ],
+      "effect": "float"
+    },
+    "refined_by": "doubao_danmaku_only"
+  },
+  {
+    "id": "danmaku_0052",
+    "drama_title": "天下第一纨绔",
+    "drama_id": "天下第一纨绔",
+    "episode_id": "第1集",
+    "start_time": 60,
+    "end_time": 75,
+    "type": "conflict",
+    "confidence": 0.83,
+    "title": "剧情争议点集中爆发",
+    "reason": "该时间窗口弹幕数量达632，累计点赞213，大量观众发布质疑类讨论弹幕，争议性内容密集，符合冲突类高光特征",
+    "evidence": {
+      "source": "danmaku",
+      "danmaku_count": 632,
+      "like_sum": 213,
+      "emotion_density": 0.4715,
+      "sample_text": "伤口呢[探究][探究][探究]；有辱如烟大帝之名；还不睡；勾栏；柳如烟"
+    },
+    "interaction": {
+      "buttons": [
+        "吵翻了",
+        "就这？",
+        "太离谱了"
+      ],
+      "effect": "float"
+    },
+    "refined_by": "doubao_danmaku_only"
+  },
+  {
+    "id": "danmaku_0053",
+    "drama_title": "云渺1：我修仙多年强亿点怎么了",
+    "drama_id": "云渺1_我修仙多年强亿点怎么了",
+    "episode_id": "第1集",
+    "start_time": 0,
+    "end_time": 15,
+    "type": "famous_scene",
+    "confidence": 0.91,
+    "title": "老粉集体打卡经典开篇名场面",
+    "reason": "该时间窗口弹幕数量超百，累计点赞过百，大量观众表示多刷剧集、喜爱核心角色，是受众认可度极高的经典名场面片段",
+    "evidence": {
+      "source": "danmaku",
+      "danmaku_count": 108,
+      "like_sum": 114,
+      "emotion_density": 0.4722,
+      "sample_text": "太好了是小亿我们有救了；我爱王小艺[爱慕]；[赞]；我是从第5季重追来的；五刷"
+    },
+    "interaction": {
+      "buttons": [
+        "N刷打卡",
+        "经典名场面",
+        "本命登场"
+      ],
+      "effect": "float"
+    },
+    "refined_by": "doubao_danmaku_only"
+  },
+  {
+    "id": "danmaku_0054",
+    "drama_title": "北往",
+    "drama_id": "北往",
+    "episode_id": "第2集",
+    "start_time": 15,
+    "end_time": 30,
+    "type": "funny",
+    "confidence": 0.91,
+    "title": "赶路桥段笑点密集",
+    "reason": "该15-30秒时间窗口弹幕数量超千，多条弹幕附带笑哭、捂脸类搞笑表情，还出现了趣味玩梗的吐槽内容，整体氛围轻松诙谐，符合搞笑类高光特征",
+    "evidence": {
+      "source": "danmaku",
+      "danmaku_count": 1017,
+      "like_sum": 228,
+      "emotion_density": 0.6942,
+      "sample_text": "这是要走多久[笑哭]；为什么不做绿皮啊[捂脸]；人在囚途吗；[赞][赞][赞]；这是哪到哪啊[尬笑]"
+    },
+    "interaction": {
+      "buttons": [
+        "笑不活了",
+        "绷不住了",
+        "太好笑了"
+      ],
+      "effect": "float"
+    },
+    "refined_by": "doubao_danmaku_only"
+  },
+  {
+    "id": "danmaku_0055",
+    "drama_title": "云渺1：我修仙多年强亿点怎么了",
+    "drama_id": "云渺1_我修仙多年强亿点怎么了",
+    "episode_id": "第4集",
+    "start_time": 15,
+    "end_time": 30,
+    "type": "funny",
+    "confidence": 0.82,
+    "title": "趣味吐槽笑点密集",
+    "reason": "该15-30秒时间窗口内弹幕数达33条，多条弹幕出现对剧情的趣味调侃与出戏式疑问，整体氛围轻松诙谐，符合搞笑高光特征",
+    "evidence": {
+      "source": "danmaku",
+      "danmaku_count": 33,
+      "like_sum": 84,
+      "emotion_density": 0.5758,
+      "sample_text": "孝心可嘉；又挽留了；这剧的台词逻辑严谨；孝心；为啥不打伞"
+    },
+    "interaction": {
+      "buttons": [
+        "笑不活了",
+        "绷不住了",
+        "太离谱了"
+      ],
+      "effect": "float"
+    },
+    "refined_by": "doubao_danmaku_only"
+  },
+  {
+    "id": "danmaku_0056",
+    "drama_title": "北往",
+    "drama_id": "北往",
+    "episode_id": "第1集",
+    "start_time": 15,
+    "end_time": 30,
+    "type": "funny",
+    "confidence": 0.91,
+    "title": "拿甘蔗干仗是什么神操作",
+    "reason": "该15-30秒时间窗口弹幕量达1064条，大量观众都在吐槽调侃用甘蔗当打架武器的离谱设定，笑点密集观众互动热情高，符合搞笑类高光特征",
+    "evidence": {
+      "source": "danmaku",
+      "danmaku_count": 1064,
+      "like_sum": 308,
+      "emotion_density": 0.6297,
+      "sample_text": "一人拿一根甘蔗去打人？；拿甘蔗干仗！打累了还能补补糖是吧！[捂脸][捂脸]；甘蔗；甘蔗？；甘蔗能干嘛"
+    },
+    "interaction": {
+      "buttons": [
+        "笑不活了",
+        "太离谱了",
+        "绷不住了"
+      ],
+      "effect": "float"
+    },
+    "refined_by": "doubao_danmaku_only"
+  },
+  {
+    "id": "danmaku_0057",
+    "drama_title": "天下第一纨绔",
+    "drama_id": "天下第一纨绔",
+    "episode_id": "第3集",
+    "start_time": 45,
+    "end_time": 60,
+    "type": "reverse",
+    "confidence": 0.92,
+    "title": "主母藏拙神反转",
+    "reason": "该时间窗口弹幕数量达462，累计点赞318，大量弹幕集中讨论此前对主母的固有认知被推翻，指向藏拙相关的反转剧情，用户讨论热度极高",
+    "evidence": {
+      "source": "danmaku",
+      "danmaku_count": 462,
+      "like_sum": 318,
+      "emotion_density": 0.4416,
+      "sample_text": "这个后娘[鼓掌]好。；主母故意养废，实则藏拙了；这后妈也太好了；范闲；捧杀"
+    },
+    "interaction": {
+      "buttons": [
+        "完全没想到",
+        "这都能反转",
+        "看懵了"
+      ],
+      "effect": "float"
+    },
+    "refined_by": "doubao_danmaku_only"
+  },
+  {
+    "id": "danmaku_0058",
+    "drama_title": "家里家外",
+    "drama_id": "家里家外",
+    "episode_id": "第3集",
+    "start_time": 0,
+    "end_time": 15,
+    "type": "sweet",
+    "confidence": 0.87,
+    "title": "新婚甜蜜氛围拉满",
+    "reason": "该0-15秒时间窗口内弹幕数量达270，累计点赞322，多条弹幕刷新婚快乐，观众纷纷夸赞剧集质感佳，整体氛围甜蜜，符合甜蜜撒糖类高光特征",
+    "evidence": {
+      "source": "danmaku",
+      "danmaku_count": 270,
+      "like_sum": 322,
+      "emotion_density": 0.4852,
+      "sample_text": "短剧现在质量这么高[鼓掌]；新婚快乐；[没看够][没看够][没看够]；新婚快乐；这部剧质感好好，四川话也蛮亲切"
+    },
+    "interaction": {
+      "buttons": [
+        "磕到了",
+        "太好嗑了",
+        "甜到发慌"
+      ],
+      "effect": "float"
+    },
+    "refined_by": "doubao_danmaku_only"
+  },
+  {
+    "id": "danmaku_0059",
+    "drama_title": "北往",
+    "drama_id": "北往",
+    "episode_id": "第4集",
+    "start_time": 15,
+    "end_time": 30,
+    "type": "funny",
+    "confidence": 0.85,
+    "title": "出场角色全是熟面孔",
+    "reason": "该15-30秒时间窗口弹幕量达488条，多条弹幕附带笑哭表情，观众纷纷感慨出场人物都是老熟人，整体氛围轻松诙谐，符合搞笑类高光特征",
+    "evidence": {
+      "source": "danmaku",
+      "danmaku_count": 488,
+      "like_sum": 83,
+      "emotion_density": 0.6578,
+      "sample_text": "好家伙，全明星阵容咩[捂脸][捂脸][捂脸]；说嘎就嘎，不带一丝犹豫；二刷；[笑哭][笑哭][笑哭]这哥们儿也熟人啊[笑哭]；呦，都是老熟人[笑哭]"
+    },
+    "interaction": {
+      "buttons": [
+        "笑不活了",
+        "太好笑了",
+        "全是老熟人"
+      ],
+      "effect": "float"
+    },
+    "refined_by": "doubao_danmaku_only"
+  },
+  {
+    "id": "danmaku_0060",
+    "drama_title": "十八岁太奶奶驾到，重整家族荣耀第三部",
+    "drama_id": "十八岁太奶奶驾到_重整家族荣耀第三部",
+    "episode_id": "第4集",
+    "start_time": 60,
+    "end_time": 75,
+    "type": "funny",
+    "confidence": 0.87,
+    "title": "萌点密集笑点拉满",
+    "reason": "该时间窗口弹幕数量达1170，累计点赞5012，大量弹幕夸赞角色可爱好萌，观众情绪密度高，互动热度极高，符合搞笑类高光特征",
+    "evidence": {
+      "source": "danmaku",
+      "danmaku_count": 1170,
+      "like_sum": 5012,
+      "emotion_density": 0.8231,
+      "sample_text": "好可爱啊；好萌；装的。 包装的；老天爷呀；三弟好可爱"
+    },
+    "interaction": {
+      "buttons": [
+        "萌化了",
+        "太可爱了",
+        "笑不活了"
+      ],
+      "effect": "float"
+    },
+    "refined_by": "doubao_danmaku_only"
+  },
+  {
+    "id": "danmaku_0061",
+    "drama_title": "幸得相遇离婚时",
+    "drama_id": "幸得相遇离婚时",
+    "episode_id": "第3集",
+    "start_time": 0,
+    "end_time": 15,
+    "type": "famous_scene",
+    "confidence": 0.78,
+    "title": "画面养眼角色颜值超高",
+    "reason": "该时间窗口弹幕数量达319，累计点赞210，大量观众夸赞画面角度优美、女主颜值出众，相关讨论热度很高，符合名场面高光特征",
+    "evidence": {
+      "source": "danmaku",
+      "danmaku_count": 319,
+      "like_sum": 210,
+      "emotion_density": 0.4075,
+      "sample_text": "这个角度好美；可能是他的孩子[笑哭][笑哭]；[送花][送花][送花]；这弟九八年看着真是成熟啊！；女主好漂亮啊"
+    },
+    "interaction": {
+      "buttons": [
+        "颜值好绝",
+        "画面好美",
+        "太养眼了"
+      ],
+      "effect": "float"
+    },
+    "refined_by": "doubao_danmaku_only"
+  },
+  {
+    "id": "danmaku_0062",
+    "drama_title": "幸得相遇离婚时",
+    "drama_id": "幸得相遇离婚时",
+    "episode_id": "第2集",
+    "start_time": 105,
+    "end_time": 120,
+    "type": "cool",
+    "confidence": 0.75,
+    "title": "丈夫有钱却分文不往家拿",
+    "reason": "该时间窗口弹幕数量达270，累计点赞329，大量观众围绕女主丈夫有钱却不往家里拿钱的内容展开热烈讨论，整体热度极高",
+    "evidence": {
+      "source": "danmaku",
+      "danmaku_count": 270,
+      "like_sum": 329,
+      "emotion_density": 0.5667,
+      "sample_text": "其实孕妇怕热；男主帅；真的好好看；以为老刘脱自己的外套呢；女主老公有钱是一分不往家里拿啊"
+    },
+    "interaction": {
+      "buttons": [
+        "太离谱了",
+        "这男的绝了",
+        "离得好"
+      ],
+      "effect": "float"
+    },
+    "refined_by": "doubao_danmaku_only"
+  },
+  {
+    "id": "danmaku_0063",
+    "drama_title": "家里家外",
+    "drama_id": "家里家外",
+    "episode_id": "第2集",
+    "start_time": 150,
+    "end_time": 165,
+    "type": "famous_scene",
+    "confidence": 0.85,
+    "title": "这段剧情太戳人了",
+    "reason": "该时间窗口弹幕数量多，累计点赞高，大量观众被这段内容打动落泪，纷纷夸赞演员演技出色，属于观众认可度很高的经典名场面",
+    "evidence": {
+      "source": "danmaku",
+      "danmaku_count": 233,
+      "like_sum": 530,
+      "emotion_density": 0.4077,
+      "sample_text": "好女人呀；一到这里我就哭；演的好；还是重庆方言好听[捂脸]；有普通话的就好了"
+    },
+    "interaction": {
+      "buttons": [
+        "太好哭了",
+        "演技封神",
+        "名场面打卡"
+      ],
+      "effect": "float"
+    },
+    "refined_by": "doubao_danmaku_only"
+  },
+  {
+    "id": "danmaku_0064",
+    "drama_title": "荒年全村啃树皮，我有系统满仓肉",
+    "drama_id": "荒年全村啃树皮_我有系统满仓肉",
+    "episode_id": "第4集",
+    "start_time": 0,
+    "end_time": 15,
+    "type": "famous_scene",
+    "confidence": 0.82,
+    "title": "经典片段百看不厌",
+    "reason": "该时间窗口弹幕数量达85条，累计点赞68，有观众表示这段内容看多少遍也看不腻，观众认可度极高，属于高人气名场面片段",
+    "evidence": {
+      "source": "danmaku",
+      "danmaku_count": 85,
+      "like_sum": 68,
+      "emotion_density": 0.4353,
+      "sample_text": "v陈弯弯太惨了吧。还有儿媳也很惨，为什么要抱怨陈弯弯[捂脸]；复古；[赞][赞][赞]；[送花]；这个看多少遍也看不腻"
+    },
+    "interaction": {
+      "buttons": [
+        "百看不厌",
+        "经典名场面",
+        "刷了N遍"
+      ],
+      "effect": "float"
+    },
+    "refined_by": "doubao_danmaku_only"
+  },
+  {
+    "id": "danmaku_0065",
+    "drama_title": "荒年全村啃树皮，我有系统满仓肉",
+    "drama_id": "荒年全村啃树皮_我有系统满仓肉",
+    "episode_id": "第1集",
+    "start_time": 60,
+    "end_time": 75,
+    "type": "funny",
+    "confidence": 0.82,
+    "title": "离谱设定笑料拉满",
+    "reason": "该15秒时间窗口弹幕数达133，累计点赞73，弹幕包含笑哭等搞笑类表情，观众对当前内容反应热烈，符合搞笑高光特征",
+    "evidence": {
+      "source": "danmaku",
+      "danmaku_count": 133,
+      "like_sum": 73,
+      "emotion_density": 0.5789,
+      "sample_text": "[捂脸]；[没看够]；[捂脸]；666，异世界穿越器；[恐惧][吐][笑哭][探究][震惊]"
+    },
+    "interaction": {
+      "buttons": [
+        "笑不活了",
+        "绷不住了",
+        "离谱到家了"
+      ],
+      "effect": "float"
+    },
+    "refined_by": "doubao_danmaku_only"
+  },
+  {
+    "id": "danmaku_0066",
+    "drama_title": "幸得相遇离婚时",
+    "drama_id": "幸得相遇离婚时",
+    "episode_id": "第1集",
+    "start_time": 0,
+    "end_time": 15,
+    "type": "famous_scene",
+    "confidence": 0.85,
+    "title": "开篇经典名场面",
+    "reason": "该时间窗口弹幕数量多，累计点赞高，大量观众发布二刷、喜爱角色、夸赞剧集的相关弹幕，属于受众认可度极高的经典名场面片段",
+    "evidence": {
+      "source": "danmaku",
+      "danmaku_count": 396,
+      "like_sum": 272,
+      "emotion_density": 0.3687,
+      "sample_text": "小资[翻白眼]，有闲有钱有情[鼓掌][鼓掌]；二刷[爱慕][爱慕]；好喜欢小亿；好看这部？？；二刷"
+    },
+    "interaction": {
+      "buttons": [
+        "名场面打卡",
+        "N刷前来报到",
+        "这段太经典了"
+      ],
+      "effect": "float"
+    },
+    "refined_by": "doubao_danmaku_only"
+  },
+  {
+    "id": "danmaku_0067",
+    "drama_title": "北往",
+    "drama_id": "北往",
+    "episode_id": "第5集",
+    "start_time": 15,
+    "end_time": 30,
+    "type": "funny",
+    "confidence": 0.91,
+    "title": "这段剧情笑点密集",
+    "reason": "该15-30秒时间窗口弹幕量达470条，大量弹幕附带笑哭、捂脸类趣味表情，用户普遍反馈内容诙谐有趣，符合搞笑类高光特征",
+    "evidence": {
+      "source": "danmaku",
+      "danmaku_count": 470,
+      "like_sum": 187,
+      "emotion_density": 0.7298,
+      "sample_text": "吴大娘[偷笑]；野狗一样[捂脸][捂脸][捂脸]；扫地阿姨老熟人了；[笑哭][笑哭][笑哭]；合理"
+    },
+    "interaction": {
+      "buttons": [
+        "笑不活了",
+        "太好笑了",
+        "绷不住了"
+      ],
+      "effect": "float"
+    },
+    "refined_by": "doubao_danmaku_only"
+  },
+  {
+    "id": "danmaku_0068",
+    "drama_title": "家里家外",
+    "drama_id": "家里家外",
+    "episode_id": "第2集",
+    "start_time": 105,
+    "end_time": 120,
+    "type": "funny",
+    "confidence": 0.82,
+    "title": "方言梗笑点密集",
+    "reason": "该时间窗口弹幕数量达228，累计点赞418，大量观众讨论方言相关趣味内容，整体氛围轻松诙谐，符合搞笑类高光特征",
+    "evidence": {
+      "source": "danmaku",
+      "danmaku_count": 228,
+      "like_sum": 418,
+      "emotion_density": 0.4605,
+      "sample_text": "夏目；还好我四川的，全程听得懂；BGM你要搞事情啊[哭]；有点意思[捂脸]；老汉儿就是爸爸"
+    },
+    "interaction": {
+      "buttons": [
+        "笑不活了",
+        "太好笑了",
+        "绷不住了"
+      ],
+      "effect": "float"
+    },
+    "refined_by": "doubao_danmaku_only"
+  },
+  {
+    "id": "danmaku_0069",
+    "drama_title": "荒年全村啃树皮，我有系统满仓肉",
+    "drama_id": "荒年全村啃树皮_我有系统满仓肉",
+    "episode_id": "第1集",
+    "start_time": 0,
+    "end_time": 15,
+    "type": "famous_scene",
+    "confidence": 0.91,
+    "title": "开篇经典名场面 观众反复刷",
+    "reason": "该时间窗口弹幕数量达138，累计点赞112，大量观众发布弹幕表示自己三刷、N刷、七刷，受众认可度极高，属于大家反复回看的经典名场面",
+    "evidence": {
+      "source": "danmaku",
+      "danmaku_count": 138,
+      "like_sum": 112,
+      "emotion_density": 0.4058,
+      "sample_text": "无可奉告！；[偷笑]；三刷；N刷了；七刷"
+    },
+    "interaction": {
+      "buttons": [
+        "百看不厌",
+        "刷了N遍",
+        "太经典了"
+      ],
+      "effect": "float"
+    },
+    "refined_by": "doubao_danmaku_only"
+  },
+  {
+    "id": "danmaku_0070",
+    "drama_title": "云渺1：我修仙多年强亿点怎么了",
+    "drama_id": "云渺1_我修仙多年强亿点怎么了",
+    "episode_id": "第3集",
+    "start_time": 0,
+    "end_time": 15,
+    "type": "cool",
+    "confidence": 0.82,
+    "title": "角色气场全开超带感",
+    "reason": "该0-15秒时间窗口弹幕数量达29条，累计点赞超百，多条弹幕夸赞角色气场强大，观众正向情绪集中爆发，符合爽点高光特征",
+    "evidence": {
+      "source": "danmaku",
+      "danmaku_count": 29,
+      "like_sum": 103,
+      "emotion_density": 0.5517,
+      "sample_text": "瘆得慌+1；王小亿我爱你[爱慕][爱慕]；都是原声 好厉害；司藤[偷笑]；气场好强！"
+    },
+    "interaction": {
+      "buttons": [
+        "气场拉满",
+        "太飒了",
+        "爽到跺脚"
+      ],
+      "effect": "float"
+    },
+    "refined_by": "doubao_danmaku_only"
+  },
+  {
+    "id": "danmaku_0071",
+    "drama_title": "撕夜",
+    "drama_id": "撕夜",
+    "episode_id": "第3集",
+    "start_time": 15,
+    "end_time": 30,
+    "type": "famous_scene",
+    "confidence": 0.91,
+    "title": "观众反复刷的经典名场面",
+    "reason": "该时间窗口弹幕数量达521条，大量观众发布弹幕表示自己二刷、三刷甚至六刷该片段，观众认可度极高，属于公认的经典名场面",
+    "evidence": {
+      "source": "danmaku",
+      "danmaku_count": 521,
+      "like_sum": 232,
+      "emotion_density": 0.3608,
+      "sample_text": "二刷；我六刷了；三刷了[捂脸]；二刷；二刷"
+    },
+    "interaction": {
+      "buttons": [
+        "N刷预定",
+        "经典名场面",
+        "刻进DNA"
+      ],
+      "effect": "float"
+    },
+    "refined_by": "doubao_danmaku_only"
+  },
+  {
+    "id": "danmaku_0072",
+    "drama_title": "家里家外",
+    "drama_id": "家里家外",
+    "episode_id": "第2集",
+    "start_time": 165,
+    "end_time": 180,
+    "type": "funny",
+    "confidence": 0.87,
+    "title": "离谱道具笑翻观众",
+    "reason": "该时间窗口弹幕数量达236条，累计点赞260，弹幕中出现吐槽蜂窝煤摔不烂的趣味内容，还有大量观众搭配笑哭类表情互动，整体氛围轻松诙谐，符合搞笑类高光特征",
+    "evidence": {
+      "source": "danmaku",
+      "danmaku_count": 236,
+      "like_sum": 260,
+      "emotion_density": 0.4492,
+      "sample_text": "男主出现了[捂脸][笑哭]；好剧！当赏！；二刷[爱慕]；哎呀，是他俩哇；这个蜂窝煤摔不烂啊！"
+    },
+    "interaction": {
+      "buttons": [
+        "笑不活了",
+        "离谱到家",
+        "绷不住了"
+      ],
+      "effect": "float"
+    },
+    "refined_by": "doubao_danmaku_only"
+  },
+  {
+    "id": "danmaku_0073",
+    "drama_title": "家里家外",
+    "drama_id": "家里家外",
+    "episode_id": "第1集",
+    "start_time": 90,
+    "end_time": 105,
+    "type": "famous_scene",
+    "confidence": 0.85,
+    "title": "经典名场面引大量观众二刷",
+    "reason": "该时间窗口弹幕数量达351条，多条弹幕发布二刷相关内容，观众认可度高，属于大家反复回看的经典名场面片段",
+    "evidence": {
+      "source": "danmaku",
+      "danmaku_count": 351,
+      "like_sum": 143,
+      "emotion_density": 0.3675,
+      "sample_text": "这是王道铁嘛；二刷；二刷；二刷；父母爱情"
+    },
+    "interaction": {
+      "buttons": [
+        "名场面打卡",
+        "我也是来二刷的",
+        "这段太经典了"
+      ],
+      "effect": "float"
+    },
+    "refined_by": "doubao_danmaku_only"
+  },
+  {
+    "id": "danmaku_0074",
+    "drama_title": "荒年全村啃树皮，我有系统满仓肉",
+    "drama_id": "荒年全村啃树皮_我有系统满仓肉",
+    "episode_id": "第3集",
+    "start_time": 75,
+    "end_time": 90,
+    "type": "funny",
+    "confidence": 0.82,
+    "title": "桥段有趣观众直呼没看够",
+    "reason": "该时间窗口弹幕数量达110条，累计点赞69，出现大量捂脸表情和重复的没看够弹幕，观众反馈轻松愉悦，符合搞笑高光特征",
+    "evidence": {
+      "source": "danmaku",
+      "danmaku_count": 110,
+      "like_sum": 69,
+      "emotion_density": 0.5818,
+      "sample_text": "瘦子；[捂脸][捂脸][捂脸]；[没看够]；[没看够][没看够][没看够][没看够]；收着呗。"
+    },
+    "interaction": {
+      "buttons": [
+        "笑不活了",
+        "太好笑了",
+        "根本没看够"
+      ],
+      "effect": "float"
+    },
+    "refined_by": "doubao_danmaku_only"
+  },
+  {
+    "id": "danmaku_0075",
+    "drama_title": "撕夜",
+    "drama_id": "撕夜",
+    "episode_id": "第1集",
+    "start_time": 0,
+    "end_time": 15,
+    "type": "famous_scene",
+    "confidence": 0.91,
+    "title": "高人气经典开篇名场面",
+    "reason": "该0-15秒时间窗口弹幕数量达444，大量弹幕表示是二刷、听闻口碑专程前来观看，受众认可度极高，属于剧集经典名场面片段",
+    "evidence": {
+      "source": "danmaku",
+      "danmaku_count": 444,
+      "like_sum": 198,
+      "emotion_density": 0.2432,
+      "sample_text": "二刷了；又来看一遍；好看吗；二刷了；听他们说很好看，我也来看了。我是鹿单东的粉丝"
+    },
+    "interaction": {
+      "buttons": [
+        "反复刷N遍",
+        "慕名前来打卡",
+        "经典百看不厌"
+      ],
+      "effect": "float"
+    },
+    "refined_by": "doubao_danmaku_only"
+  },
+  {
+    "id": "danmaku_0076",
+    "drama_title": "家里家外",
+    "drama_id": "家里家外",
+    "episode_id": "第5集",
+    "start_time": 60,
+    "end_time": 75,
+    "type": "funny",
+    "confidence": 0.79,
+    "title": "搞笑日常片段来袭",
+    "reason": "该时间窗口弹幕数量充足，累计点赞数较高，多条弹幕带有调侃搞笑的语气，观众互动热情高，符合搞笑类高光特征",
+    "evidence": {
+      "source": "danmaku",
+      "danmaku_count": 266,
+      "like_sum": 469,
+      "emotion_density": 0.3008,
+      "sample_text": "屋头领导；好温情的作品；演技不错；女式的给老汉带哈哈哈；过日子"
+    },
+    "interaction": {
+      "buttons": [
+        "笑不活了",
+        "太好笑了",
+        "绷不住了"
+      ],
+      "effect": "float"
+    },
+    "refined_by": "doubao_danmaku_only"
+  },
+  {
+    "id": "danmaku_0077",
+    "drama_title": "云渺1：我修仙多年强亿点怎么了",
+    "drama_id": "云渺1_我修仙多年强亿点怎么了",
+    "episode_id": "第2集",
+    "start_time": 45,
+    "end_time": 60,
+    "type": "funny",
+    "confidence": 0.86,
+    "title": "密集笑点拉满",
+    "reason": "该时间窗口弹幕数量较多，多条弹幕附带笑哭表情，观众纷纷吐槽相关内容，搞笑情绪密度高，符合搞笑类高光特征",
+    "evidence": {
+      "source": "danmaku",
+      "danmaku_count": 44,
+      "like_sum": 73,
+      "emotion_density": 0.8636,
+      "sample_text": "阴阳怪气的一家人；手里是魔丸吗？；小时候的“大姐头”来了！；宗庆后旧时来了[笑哭]；珠子太大了[笑哭]"
+    },
+    "interaction": {
+      "buttons": [
+        "笑不活了",
+        "太好笑了",
+        "绷不住了"
+      ],
+      "effect": "float"
+    },
+    "refined_by": "doubao_danmaku_only"
+  },
+  {
+    "id": "danmaku_0078",
+    "drama_title": "幸得相遇离婚时",
+    "drama_id": "幸得相遇离婚时",
+    "episode_id": "第5集",
+    "start_time": 75,
+    "end_time": 90,
+    "type": "suspense",
+    "confidence": 0.82,
+    "title": "观众热议孩子身世走向",
+    "reason": "该时间窗口弹幕数量达169，累计点赞85，大量观众发布弹幕猜测孩子是男主的，对后续剧情发展充满好奇，符合悬念类高光特征",
+    "evidence": {
+      "source": "danmaku",
+      "danmaku_count": 169,
+      "like_sum": 85,
+      "emotion_density": 0.5089,
+      "sample_text": "孙子5个月了[笑哭]；大胆猜测一下，孩子是男主的；好喜欢这样的男主；早就暗恋了；可以"
+    },
+    "interaction": {
+      "buttons": [
+        "坐等真相",
+        "太好奇了",
+        "快揭晓答案"
+      ],
+      "effect": "float"
+    },
+    "refined_by": "doubao_danmaku_only"
+  },
+  {
+    "id": "danmaku_0079",
+    "drama_title": "北往",
+    "drama_id": "北往",
+    "episode_id": "第5集",
+    "start_time": 105,
+    "end_time": 120,
+    "type": "funny",
+    "confidence": 0.93,
+    "title": "笑点密集笑到停不下来",
+    "reason": "该时间窗口内弹幕数量达356条，累计点赞274，绝大多数弹幕都发送捂脸、笑哭类表情，用户普遍反馈此处内容十分搞笑，符合搞笑类高光特征",
+    "evidence": {
+      "source": "danmaku",
+      "danmaku_count": 356,
+      "like_sum": 274,
+      "emotion_density": 1.0927,
+      "sample_text": "[捂脸][捂脸][捂脸]；[笑哭][笑哭][笑哭]；[捂脸][捂脸][捂脸][捂脸]；[捂脸][捂脸][捂脸][笑哭][笑哭][笑哭]；[捂脸][捂脸][捂脸]"
+    },
+    "interaction": {
+      "buttons": [
+        "笑不活了",
+        "笑到捂脸",
+        "绷不住了"
+      ],
+      "effect": "float"
+    },
+    "refined_by": "doubao_danmaku_only"
+  },
+  {
+    "id": "danmaku_0080",
+    "drama_title": "十八岁太奶奶驾到，重整家族荣耀第三部",
+    "drama_id": "十八岁太奶奶驾到_重整家族荣耀第三部",
+    "episode_id": "第2集",
+    "start_time": 90,
+    "end_time": 105,
+    "type": "funny",
+    "confidence": 0.87,
+    "title": "角色出场效果爆笑十足",
+    "reason": "该时间窗口弹幕量达4433，累计点赞超1.2万，多条弹幕提及好笑、吐槽角色人设油腻，整体搞笑情绪浓度高，符合搞笑类高光特征",
+    "evidence": {
+      "source": "danmaku",
+      "danmaku_count": 4433,
+      "like_sum": 12891,
+      "emotion_density": 0.7812,
+      "sample_text": "啊啊啊！好会说！！！；哈哈哈哈哈，笑死我了，是这种人设吗[笑哭][笑哭][笑哭]；这三少出场怎么有点渣男的味道？；的确帅；好油腻"
+    },
+    "interaction": {
+      "buttons": [
+        "笑不活了",
+        "太好笑了",
+        "绷不住了"
+      ],
+      "effect": "float"
+    },
+    "refined_by": "doubao_danmaku_only"
+  }
+]

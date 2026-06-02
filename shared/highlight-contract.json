@@ -1,0 +1,151 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://shortvideo-platform/shared/highlight-contract.json",
+  "title": "ShortVideo Highlight Contract",
+  "description": "短剧高光点统一数据契约 — backend、mobile、模型模块共同遵守。",
+  "type": "object",
+  "required": [
+    "id",
+    "episode_id",
+    "start_ms",
+    "end_ms",
+    "type",
+    "confidence",
+    "title",
+    "reason",
+    "interaction"
+  ],
+  "properties": {
+    "id": {
+      "type": "string",
+      "description": "全局唯一标识，格式: {drama_id}_{episode_id}_{segment_id}"
+    },
+    "drama_id": {
+      "type": "string",
+      "description": "剧集 ID"
+    },
+    "episode_id": {
+      "type": ["integer", "string"],
+      "description": "集数 ID，后端存储为 int，传输中兼容 string"
+    },
+    "segment_id": {
+      "type": "string",
+      "description": "字幕片段 ID"
+    },
+    "start_ms": {
+      "type": "integer",
+      "description": "高光开始时间（毫秒）",
+      "minimum": 0
+    },
+    "end_ms": {
+      "type": "integer",
+      "description": "高光结束时间（毫秒）",
+      "minimum": 0
+    },
+    "start_time": {
+      "type": "number",
+      "description": "高光开始时间（秒，浮点）— 脚本输出用，API 下发时以 start_ms 为准"
+    },
+    "end_time": {
+      "type": "number",
+      "description": "高光结束时间（秒，浮点）"
+    },
+    "type": {
+      "type": "string",
+      "description": "高光类型",
+      "enum": [
+        "conflict",
+        "reverse",
+        "famous_scene",
+        "sweet",
+        "cool",
+        "suspense",
+        "funny"
+      ]
+    },
+    "confidence": {
+      "type": "number",
+      "description": "置信度 [0, 1]",
+      "minimum": 0,
+      "maximum": 1
+    },
+    "title": {
+      "type": "string",
+      "description": "高光短标题"
+    },
+    "reason": {
+      "type": "string",
+      "description": "识别理由"
+    },
+    "interaction": {
+      "type": "object",
+      "description": "互动配置",
+      "required": ["buttons", "effect", "trigger", "hint", "duration_sec"],
+      "properties": {
+        "buttons": {
+          "type": "array",
+          "items": { "type": "string" },
+          "maxItems": 3,
+          "description": "互动按钮文案列表（最多3个）"
+        },
+        "effect": {
+          "type": "string",
+          "enum": ["burst", "sparkle", "heart", "none"],
+          "description": "特效类型"
+        },
+        "trigger": {
+          "type": "string",
+          "enum": ["TAP", "SLAP", "SWIPE", "SHAKE"],
+          "description": "触发方式"
+        },
+        "hint": {
+          "type": "string",
+          "description": "互动提示文案"
+        },
+        "duration_sec": {
+          "type": "integer",
+          "minimum": 1,
+          "maximum": 10,
+          "description": "互动持续秒数"
+        }
+      }
+    },
+    "character": {
+      "description": "角色信息（可选，模型未输出时为 null）",
+      "oneOf": [
+        { "type": "null" },
+        {
+          "type": "object",
+          "required": ["type", "name", "face_position"],
+          "properties": {
+            "type": {
+              "type": "string",
+              "enum": ["protagonist", "villain", "supporting"],
+              "description": "角色类型：主角/反派/配角"
+            },
+            "name": {
+              "type": "string",
+              "description": "角色名称"
+            },
+            "face_position": {
+              "type": "object",
+              "required": ["x", "y", "width", "height"],
+              "properties": {
+                "x": { "type": "number", "minimum": 0, "maximum": 1 },
+                "y": { "type": "number", "minimum": 0, "maximum": 1 },
+                "width": { "type": "number", "minimum": 0, "maximum": 1 },
+                "height": { "type": "number", "minimum": 0, "maximum": 1 }
+              },
+              "description": "脸部位置（相对坐标，0-1）"
+            }
+          }
+        }
+      ]
+    },
+    "source": {
+      "type": "string",
+      "enum": ["offline", "realtime", "danmaku"],
+      "description": "数据来源"
+    }
+  }
+}

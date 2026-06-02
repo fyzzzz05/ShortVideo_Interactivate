@@ -1,0 +1,29 @@
+{
+  "expo": {
+    "name": "短剧互动",
+    "slug": "short-vedio-interaction",
+    "version": "0.1.0",
+    "orientation": "portrait",
+    "icon": "./assets/icon.png",
+    "userInterfaceStyle": "dark",
+    "splash": {
+      "image": "./assets/splash.png",
+      "resizeMode": "contain",
+      "backgroundColor": "#000000"
+    },
+    "ios": {
+      "supportsTablet": true,
+      "bundleIdentifier": "com.shortvedio.interaction"
+    },
+    "android": {
+      "adaptiveIcon": {
+        "foregroundImage": "./assets/adaptive-icon.png",
+        "backgroundColor": "#000000"
+      },
+      "package": "com.shortvedio.interaction"
+    },
+    "web": {
+      "favicon": "./assets/favicon.png"
+    }
+  }
+}
