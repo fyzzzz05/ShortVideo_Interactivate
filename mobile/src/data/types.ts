@@ -15,6 +15,7 @@ export interface CharacterInfo {
   type: 'protagonist' | 'villain' | 'supporting';
   name: string;
   facePosition: FacePosition;
+  faceIndex?: number;
 }
 
 export interface InteractionConfig {
@@ -32,7 +33,7 @@ export interface Highlight {
   startMs: number;         // 毫秒 — 对齐后端
   endMs: number;
   scene: string;           // 场景类型名称
-  type: string;            // 后端 event_type
+  type: string;            // 后端 event_type，支持 slap_effect
   confidence: number;
   title: string;
   reason: string;

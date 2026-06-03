@@ -26,23 +26,36 @@ export interface DetectedFace {
   confidence: number;
 }
 
-/** 肤色判定 (RGB 空间) — 覆盖东亚/南亚/高加索人种 */
+/** 肤色判定 (YCbCr 空间) — 对光照变化鲁棒，覆盖东亚/南亚/高加索人种 */
 function isSkinPixel(r: number, g: number, b: number): boolean {
-  // 排除过暗/过亮
-  if (r < 60 || g < 30 || b < 15) return false;
-  if (r > 250 && g > 250 && b > 250) return false;
-  // RGB 色差约束：肤色中红色分量占优
-  const mx = Math.max(r, g, b);
-  const mn = Math.min(r, g, b);
-  if (mx - mn < 12) return false;
-  // 红 > 绿 > 蓝 是肤色的典型特征
-  if (r <= g || g <= b) return false;
-  // 色调范围约束 (归一化 rg)
-  const sum = r + g + b;
-  const rg = r / sum;
-  const gg = g / sum;
-  if (rg < 0.33 || rg > 0.55) return false;
-  if (gg < 0.28 || gg > 0.38) return false;
+  // 排除纯黑（过暗无信息）和纯白（过曝）
+  if (r < 20 && g < 20 && b < 20) return false;
+  if (r > 248 && g > 248 && b > 248) return false;
+
+  // RGB → YCbCr (ITU-R BT.601)
+  const Y  = 0.299 * r + 0.587 * g + 0.114 * b;
+  const Cb = 128 - 0.168736 * r - 0.331264 * g + 0.5 * b;
+  const Cr = 128 + 0.5 * r - 0.418688 * g - 0.081312 * b;
+
+  // 亮度过滤：太暗或太亮不可靠
+  if (Y < 40 || Y > 235) return false;
+
+  // 经典肤色阈值 (Chai & Ngan, 1999; 经大量测试微调)
+  if (Cb < 75 || Cb > 132) return false;
+  if (Cr < 128 || Cr > 178) return false;
+
+  // 椭圆约束：Cb-Cr 空间中肤色呈椭圆分布 (Hsu et al.)
+  const x = Cb - 109.38;
+  const y = Cr - 152.02;
+  const a = 23.5, b1 = 14.5, b2 = 24.5;
+  const ecx = 1.8, ecy = 1.2;
+  const e = ((x - ecx) ** 2) / (a ** 2) + ((y - ecy) ** 2) / (b1 ** 2);
+  if (e > 1.4) {
+    // 放宽椭圆给深肤色
+    const e2 = ((x + ecx) ** 2) / (a ** 2) + ((y - ecy) ** 2) / (b2 ** 2);
+    if (e2 > 1.6) return false;
+  }
+
   return true;
 }
 
@@ -124,27 +137,37 @@ export function detectFaceFromVideo(video: HTMLVideoElement): DetectedFace | nul
     return null;
   }
 
-  // 找到最大的肤色连通域
+  // 找到最大的肤色连通域（加中心偏置 + 合理面积约束）
   const visited = new Uint8Array(total);
   let best: ReturnType<typeof floodFill> | null = null;
+  let bestScore = 0;
 
-  // 优先扫描画面中部偏上区域（人脸大概率在这里）
-  const yStart = Math.floor(sh * 0.05);
-  const yEnd = Math.floor(sh * 0.65);
-  const xStart = Math.floor(sw * 0.1);
-  const xEnd = Math.floor(sw * 0.9);
+  // 优先扫描画面中部偏上区域（短剧竖屏：人脸在画面上半部居中）
+  const yStart = Math.floor(sh * 0.02);
+  const yEnd   = Math.floor(sh * 0.68);
+  const xStart = Math.floor(sw * 0.05);
+  const xEnd   = Math.floor(sw * 0.95);
+  const cxMid = (xStart + xEnd) / 2;
+  const cyMid = (yStart + yEnd) / 2;
+  const minArea = Math.max(30, sw * sh * 0.0003); // 至少 0.03% 的像素
 
   for (let y = yStart; y < yEnd; y++) {
     for (let x = xStart; x < xEnd; x++) {
       const i = y * sw + x;
       if (skinMask[i] && !visited[i]) {
         const region = floodFill(visited, sw, sh, x, y, skinMask);
-        // 脸应该有合适的宽高比 (0.5~2.0) 和足够的面积
         const rw = region.right - region.left;
         const rh = region.bottom - region.top;
         const aspect = rw / Math.max(rh, 1);
-        if (region.area > 15 && aspect > 0.4 && aspect < 2.5) {
-          if (!best || region.area > best.area) {
+        // 脸型约束：宽高比 0.5~2.0，面积足够
+        if (region.area > minArea && aspect > 0.45 && aspect < 2.2) {
+          // 评分 = 面积 × 中心偏置 (离画面中央越近越高)
+          const dx = (region.cx - cxMid) / sw;
+          const dy = (region.cy - cyMid) / sh;
+          const centerBias = 1 + Math.max(0, 1 - (dx * dx + dy * dy) * 4);
+          const score = region.area * centerBias;
+          if (score > bestScore) {
+            bestScore = score;
             best = region;
           }
         }

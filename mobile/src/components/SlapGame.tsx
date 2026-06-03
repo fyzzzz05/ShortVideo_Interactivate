@@ -45,14 +45,24 @@ const SlapGame: React.FC<Props> = ({
   const sceneType = highlight.scene as SceneType;
   const sceneConfig = SCENE_MAP[sceneType] || SCENE_MAP.REVENGE;
   const accentColor = sceneConfig.color;
+  const isSlapEffect = highlight.type === 'slap_effect' || highlight.interaction.trigger === 'SLAP';
 
   // 计算脸部屏幕坐标（用于粒子爆发定位）
   const facePos = useMemo(() => {
     const fp = highlight.character?.facePosition;
-    if (!fp) return { x: SCREEN_W / 2, y: SCREEN_H * 0.35 };
+    if (!fp) {
+      return {
+        x: SCREEN_W / 2,
+        y: SCREEN_H * 0.35,
+        w: SCREEN_W * 0.25,
+        h: SCREEN_H * 0.3,
+      };
+    }
     return {
       x: fp.x * SCREEN_W,
       y: fp.y * SCREEN_H,
+      w: fp.width * SCREEN_W,
+      h: fp.height * SCREEN_H,
     };
   }, [highlight.character?.facePosition]);
 
@@ -96,18 +106,40 @@ const SlapGame: React.FC<Props> = ({
       useNativeDriver: true,
     }).start();
 
-    // 粒子爆发 — 在脸部位置生成，颜色随连击加深
+    // 粒子爆发 — slap 模式优先落在左右脸颊，颜色随连击加深
     const burstColor = BRUISE_COLORS[Math.min(newCombo, 5)];
-    onParticleBurst(facePos.x, facePos.y, burstColor);
+    const side = newCombo % 2 === 0 ? -1 : 1;
+    const cheekX = facePos.x + side * facePos.w * 0.28;
+    const cheekY = facePos.y + facePos.h * 0.05;
+    onParticleBurst(isSlapEffect ? cheekX : facePos.x, isSlapEffect ? cheekY : facePos.y, burstColor);
 
     // 5 连击自动完成
     if (newCombo >= 5) {
       setTimeout(() => onComplete(), 200);
     }
-  }, [onComplete, onComboUpdate, onParticleBurst, accentColor]);
+  }, [BRUISE_COLORS, facePos, isSlapEffect, onComplete, onComboUpdate, onParticleBurst]);
+
+  const primaryButton = highlight.interaction.buttons[0] || sceneConfig.description;
+  const secondaryButton = highlight.interaction.buttons[1];
 
   return (
     <View style={styles.container}>
+      {isSlapEffect && (
+        <TouchableOpacity
+          style={[
+            styles.faceTapZone,
+            {
+              left: facePos.x - facePos.w * 0.55,
+              top: facePos.y - facePos.h * 0.45,
+              width: facePos.w * 1.1,
+              height: facePos.h * 0.95,
+            },
+          ]}
+          onPress={handlePress}
+          activeOpacity={1}
+        />
+      )}
+
       {/* 倒计时环 */}
       <View style={styles.countdownRing}>
         <Text style={[styles.countdownText, { color: accentColor }]}>
@@ -116,7 +148,7 @@ const SlapGame: React.FC<Props> = ({
       </View>
 
       {/* 提示文字 */}
-      <Text style={styles.hint}>{sceneConfig.hint}</Text>
+      <Text style={styles.hint}>{highlight.interaction.hint || sceneConfig.hint}</Text>
 
       {/* 中央按钮 */}
       <Animated.View style={{ transform: [{ scale: btnScale }] }}>
@@ -149,8 +181,13 @@ const SlapGame: React.FC<Props> = ({
           />
 
           <Text style={styles.buttonIcon}>{sceneConfig.icon}</Text>
+          {isSlapEffect && <Text style={styles.buttonLabel}>{primaryButton}</Text>}
         </TouchableOpacity>
       </Animated.View>
+
+      {isSlapEffect && secondaryButton && (
+        <Text style={styles.secondaryAction}>{secondaryButton}</Text>
+      )}
 
       {/* 说明 */}
       <Text style={styles.description}>
@@ -169,10 +206,18 @@ export default SlapGame;
 const styles = StyleSheet.create({
   container: {
     position: 'absolute',
+    top: 0,
+    left: 0,
+    right: 0,
     bottom: '25%',
     alignSelf: 'center',
     alignItems: 'center',
+    justifyContent: 'flex-end',
     zIndex: 30,
+  },
+  faceTapZone: {
+    position: 'absolute',
+    borderRadius: 999,
   },
   countdownRing: {
     width: 44,
@@ -213,7 +258,22 @@ const styles = StyleSheet.create({
     borderWidth: 2,
   },
   buttonIcon: {
-    fontSize: 36,
+    fontSize: 32,
+  },
+  buttonLabel: {
+    marginTop: 2,
+    fontSize: 12,
+    color: COLORS.textPrimary,
+    fontWeight: '800',
+    textShadowColor: 'rgba(0,0,0,0.65)',
+    textShadowOffset: { width: 0, height: 1 },
+    textShadowRadius: 3,
+  },
+  secondaryAction: {
+    fontSize: FONT.caption,
+    color: COLORS.textSecondary,
+    fontWeight: '700',
+    marginTop: 8,
   },
   description: {
     fontSize: FONT.caption,

@@ -7,6 +7,13 @@ import React from 'react';
 import FaceSwelling from './FaceSwelling';
 import type { FacePosition } from '../data/types';
 
+const FALLBACK_FACE: FacePosition = {
+  x: 0.5,
+  y: 0.35,
+  width: 0.25,
+  height: 0.3,
+};
+
 interface Props {
   facePosition?: FacePosition;
   combo: number;
@@ -15,8 +22,7 @@ interface Props {
 }
 
 const FaceSwellingCanvas: React.FC<Props> = ({ facePosition, combo, accentColor, videoPlaying: _vp }) => {
-  if (!facePosition) return null;
-  return <FaceSwelling facePosition={facePosition} combo={combo} accentColor={accentColor} />;
+  return <FaceSwelling facePosition={facePosition ?? FALLBACK_FACE} combo={combo} accentColor={accentColor} />;
 };
 
 export default FaceSwellingCanvas;

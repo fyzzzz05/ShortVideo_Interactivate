@@ -118,6 +118,7 @@ const PlayerScreen: React.FC = () => {
   const accent = activeHl
     ? (SCENE_MAP[activeHl.scene as SceneType] ?? SCENE_MAP.REVENGE).color
     : COLORS.primary;
+  const isSlapInteraction = activeHl?.type === 'slap_effect' || activeHl?.interaction.trigger === 'SLAP';
 
   return (
     <View style={styles.screen}>
@@ -131,8 +132,8 @@ const PlayerScreen: React.FC = () => {
         {activeHl?.character?.facePosition && (
           <FaceHighlight facePosition={activeHl.character.facePosition} color={accent} visible combo={combo} />
         )}
-        {activeHl?.character?.facePosition && combo > 0 && (
-          <FaceSwellingCanvas facePosition={activeHl.character.facePosition} combo={combo} accentColor={accent} videoPlaying={playing} />
+        {activeHl && combo > 0 && (isSlapInteraction || activeHl.character?.facePosition) && (
+          <FaceSwellingCanvas facePosition={activeHl.character?.facePosition} combo={combo} accentColor={accent} videoPlaying={playing} />
         )}
         {activeHl && combo > 0 && <ComboDisplay combo={combo} color={accent} />}
         <GodMoment ref={gmRef} />

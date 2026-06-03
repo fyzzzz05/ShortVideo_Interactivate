@@ -11,6 +11,13 @@ const DEFAULT_FACE = {
   x: 0.5, y: 0.35, width: 0.25, height: 0.3,
 };
 
+const DEFAULT_VILLAIN = {
+  type: 'villain' as const,
+  name: '反派',
+  facePosition: DEFAULT_FACE,
+  faceIndex: 0,
+};
+
 function makeHighlight(
   id: string,
   episodeId: number,
@@ -34,15 +41,16 @@ function makeHighlight(
     triggered: false,
     interaction: {
       buttons: overrides.interaction?.buttons || ['点击互动'],
-      effect: 'burst',
-      trigger: 'TAP',
-      hint,
-      durationSec: 3,
+      effect: overrides.interaction?.effect || 'burst',
+      trigger: overrides.interaction?.trigger || 'TAP',
+      hint: overrides.interaction?.hint || hint,
+      durationSec: overrides.interaction?.durationSec || 3,
     },
     character: {
-      type: overrides.character?.type || 'villain',
-      name: overrides.character?.name || '反派',
-      facePosition: overrides.character?.facePosition || DEFAULT_FACE,
+      type: overrides.character?.type || DEFAULT_VILLAIN.type,
+      name: overrides.character?.name || DEFAULT_VILLAIN.name,
+      facePosition: overrides.character?.facePosition || DEFAULT_VILLAIN.facePosition,
+      faceIndex: overrides.character?.faceIndex ?? DEFAULT_VILLAIN.faceIndex,
     },
     ...overrides,
   };
@@ -53,14 +61,43 @@ import episode5Raw from './episode5-highlights.json';
 const ep5Legacy = (episode5Raw as any).highlights || [];
 
 export const EPISODE_HIGHLIGHTS: Record<number, Highlight[]> = {
-  5: ep5Legacy.map((h: any) => makeHighlight(
+  5: ep5Legacy.map((h: any, index: number) => makeHighlight(
     h.id, 5, h.time, h.scene || 'REVENGE',
     '惩治反派', h.hint || '点击屏幕帮助主角惩治反派',
-    { character: { type: 'villain', name: h.character?.name || '反派', facePosition: h.character?.facePosition || DEFAULT_FACE } },
+    index === 0
+      ? {
+          scene: 'REVENGE',
+          type: 'slap_effect',
+          title: '扇他一巴掌',
+          interaction: {
+            buttons: ['扇脸', '暴击'],
+            effect: 'burst',
+            trigger: 'SLAP',
+            hint: '连续点击反派脸部打出连击',
+            durationSec: 4,
+          },
+          character: {
+            type: 'villain',
+            name: h.character?.name || '反派',
+            facePosition: h.character?.facePosition || DEFAULT_FACE,
+            faceIndex: 0,
+          },
+        }
+      : { character: { type: 'villain', name: h.character?.name || '反派', facePosition: h.character?.facePosition || DEFAULT_FACE, faceIndex: 0 } },
   )),
 
   6: [
-    makeHighlight('hl_6_1', 6, 18, 'REVENGE', '女主霸气反击', '连续点击帮助主角反击'),
+    makeHighlight('hl_6_1', 6, 18, 'REVENGE', '女主霸气反击', '连续点击反派脸部打出连击', {
+      type: 'slap_effect',
+      interaction: {
+        buttons: ['耳光', '暴击'],
+        effect: 'burst',
+        trigger: 'SLAP',
+        hint: '点击脸部扇他',
+        durationSec: 4,
+      },
+      character: { ...DEFAULT_VILLAIN },
+    }),
     makeHighlight('hl_6_2', 6, 72, 'CONFLICT', '正面硬刚', '长按屏幕蓄力爆发'),
   ],
 

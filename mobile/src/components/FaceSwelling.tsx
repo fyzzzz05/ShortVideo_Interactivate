@@ -79,6 +79,7 @@ interface Bump {
   level: number;
   entry: Animated.Value;   // 0→1 入场弹簧
   throb: Animated.Value;   // 0→1 循环呼吸
+  side: -1 | 1;
 }
 
 // ── 组件 ──
@@ -87,18 +88,21 @@ const FaceSwelling: React.FC<Props> = ({ facePosition, combo }) => {
   const [bumps, setBumps] = useState<Bump[]>([]);
   const prevCombo = useRef(0);
   const idGen = useRef(0);
+  const shake = useRef(new Animated.Value(0)).current;
 
-  const spawn = useCallback((lvl: number): Bump => {
-    const angle = Math.random() * Math.PI * 2;
-    const dist = 0.06 + Math.random() * 0.34;
+  const spawn = useCallback((lvl: number, slapIndex: number): Bump => {
+    const side: -1 | 1 = slapIndex % 2 === 0 ? 1 : -1;
+    const cheekJitterX = (Math.random() - 0.5) * 0.12;
+    const cheekJitterY = (Math.random() - 0.5) * 0.18;
     return {
       id: `b${idGen.current++}`,
-      ox: Math.cos(angle) * dist,
-      oy: Math.sin(angle) * dist * 0.65,
-      sr: 0.20 + Math.random() * 0.14 + lvl * 0.035,
+      ox: side * (0.22 + Math.random() * 0.1) + cheekJitterX,
+      oy: 0.03 + cheekJitterY,
+      sr: 0.22 + Math.random() * 0.1 + lvl * 0.035,
       level: Math.min(lvl, 4),
       entry: new Animated.Value(0),
       throb: new Animated.Value(0),
+      side,
     };
   }, []);
 
@@ -113,13 +117,20 @@ const FaceSwelling: React.FC<Props> = ({ facePosition, combo }) => {
     const prev = prevCombo.current;
     if (combo > prev) {
       const fresh: Bump[] = [];
-      for (let i = 0; i < combo - prev; i++) fresh.push(spawn(combo - 1));
+      for (let i = 0; i < combo - prev; i++) fresh.push(spawn(combo - 1, prev + i));
       setBumps(old => {
         return [...old.map(b => ({ ...b, level: Math.min(b.level + 1, 4) })), ...fresh];
       });
+      shake.setValue(0);
+      Animated.sequence([
+        Animated.timing(shake, { toValue: combo % 2 === 0 ? -1 : 1, duration: 45, useNativeDriver: true }),
+        Animated.timing(shake, { toValue: combo % 2 === 0 ? 0.65 : -0.65, duration: 55, useNativeDriver: true }),
+        Animated.timing(shake, { toValue: combo % 2 === 0 ? -0.35 : 0.35, duration: 70, useNativeDriver: true }),
+        Animated.timing(shake, { toValue: 0, duration: 130, useNativeDriver: true }),
+      ]).start();
     }
     prevCombo.current = combo;
-  }, [combo, spawn]);
+  }, [combo, shake, spawn]);
 
   // ── 入场 spring ──
   useEffect(() => {
@@ -158,7 +169,20 @@ const FaceSwelling: React.FC<Props> = ({ facePosition, combo }) => {
   const rednessLevel = Math.min(combo, 5);
 
   return (
-    <View style={S.root} pointerEvents="none">
+    <Animated.View
+      style={[
+        S.root,
+        {
+          transform: [{
+            translateX: shake.interpolate({
+              inputRange: [-1, 1],
+              outputRange: [-6, 6],
+            }),
+          }],
+        },
+      ]}
+      pointerEvents="none"
+    >
       {/* ═══ 全脸红润底色 ═══ */}
       {rednessLevel >= 3 && (
         <View
@@ -169,12 +193,35 @@ const FaceSwelling: React.FC<Props> = ({ facePosition, combo }) => {
               top: fcy - fh / 2,
               width: fw,
               height: fh,
-              borderRadius: fw * 0.18,
+              borderRadius: fw * 0.42,
               backgroundColor: FACE_REDNESS[rednessLevel],
             },
           ]}
         />
       )}
+
+      {/* ═══ 脸颊红紫色蒙层 ═══ */}
+      {combo > 0 && [-1, 1].map(side => {
+        const cheekW = fw * (0.48 + Math.min(combo, 5) * 0.035);
+        const cheekH = fh * 0.44;
+        const opacity = Math.min(0.16 + combo * 0.055, 0.45);
+        return (
+          <View
+            key={`cheek-${side}`}
+            style={[
+              S.cheekRedness,
+              {
+                left: fcx + side * fw * 0.22 - cheekW / 2,
+                top: fcy - cheekH * 0.35,
+                width: cheekW,
+                height: cheekH,
+                borderRadius: cheekW / 2,
+                backgroundColor: `rgba(204,34,68,${opacity})`,
+              },
+            ]}
+          />
+        );
+      })}
 
       {/* ═══ 每一个肿胀包 ═══ */}
       {bumps.map(b => {
@@ -298,7 +345,7 @@ const FaceSwelling: React.FC<Props> = ({ facePosition, combo }) => {
           </Animated.View>
         );
       })}
-    </View>
+    </Animated.View>
   );
 };
 
@@ -312,6 +359,9 @@ const S = StyleSheet.create({
     zIndex: 15,
   },
   faceRedness: {
+    position: 'absolute',
+  },
+  cheekRedness: {
     position: 'absolute',
   },
   bumpWrap: {

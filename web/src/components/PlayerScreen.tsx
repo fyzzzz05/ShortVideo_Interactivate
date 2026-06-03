@@ -6,7 +6,7 @@
  */
 
 import React, { useState, useRef, useCallback, useEffect } from 'react';
-import { EPISODES, HIGHLIGHTS, DANMAKU } from '../data/episodes';
+import { EPISODES, HIGHLIGHTS, getDanmakuForEpisode } from '../data/episodes';
 import type { HighlightEvent, ParticlePreset, FacePosition } from '../types';
 import { detectFaceFromVideo, resolveFacePosition } from '../engine/FaceDetector';
 
@@ -267,13 +267,26 @@ function drawBump(ctx: CanvasRenderingContext2D, b: SwellBump) {
 // ═══════════════════════════════════════════════════════════
 //  DanmakuLayer (内联)
 // ═══════════════════════════════════════════════════════════
-const DanmakuLayer: React.FC<{ currentTime: number; paused: boolean }> = ({ currentTime, paused }) => {
+const DanmakuLayer: React.FC<{ currentTime: number; paused: boolean; episodeId: number }> = ({ currentTime, paused, episodeId }) => {
   const [active, setActive] = useState<Array<{ id: string; text: string; track: number; speed: number } | null>>([null, null, null, null]);
   const shown = useRef(new Set<string>());
   const timers = useRef(new Map<string, ReturnType<typeof setTimeout>>());
+  const epRef = useRef(episodeId);
+
+  // 剧集切换时重置
+  useEffect(() => {
+    if (epRef.current !== episodeId) {
+      epRef.current = episodeId;
+      shown.current.clear();
+      timers.current.forEach(v => clearTimeout(v));
+      timers.current.clear();
+      setActive([null, null, null, null]);
+    }
+  }, [episodeId]);
 
   useEffect(() => {
-    const overdue = DANMAKU.filter(d => d.startTime <= currentTime && !shown.current.has(d.id));
+    const danmaku = getDanmakuForEpisode(episodeId);
+    const overdue = danmaku.filter(d => d.startTime <= currentTime && !shown.current.has(d.id));
     for (const dm of overdue) {
       shown.current.add(dm.id);
       const dur = (375 + 200) / dm.speed * 1000;
@@ -392,6 +405,7 @@ const HighlightPop: React.FC<{
 //  PlayerScreen — 主组件
 // ═══════════════════════════════════════════════════════════
 const PlayerScreen: React.FC = () => {
+  const containerRef = useRef<HTMLDivElement>(null);
   const videoRef = useRef<HTMLVideoElement>(null);
   const canvasRef = useRef<HTMLCanvasElement>(null);
   const rafRef = useRef(0);
@@ -423,11 +437,19 @@ const PlayerScreen: React.FC = () => {
   const prog = duration > 0 ? (time / duration) * 100 : 0;
 
   // ═══ 视频渲染区域 (object-fit: cover) ═══
+  // ═══ 视频渲染区域 (object-fit: cover) — 基于容器实际尺寸 ═══
+  const getContainerSize = useCallback(() => {
+    const el = containerRef.current;
+    if (!el) return { w: window.innerWidth, h: window.innerHeight };
+    const r = el.getBoundingClientRect();
+    return { w: r.width || window.innerWidth, h: r.height || window.innerHeight };
+  }, []);
+
   const getVideoRect = useCallback(() => {
     const vid = videoRef.current;
     if (!vid?.videoWidth) return null;
     const vw = vid.videoWidth, vh = vid.videoHeight;
-    const sw = window.innerWidth, sh = window.innerHeight;
+    const { w: sw, h: sh } = getContainerSize();
     if (sw <= 0 || sh <= 0) return null;
     const vA = vw / vh, sA = sw / sh;
     if (vA > sA) {
@@ -436,7 +458,7 @@ const PlayerScreen: React.FC = () => {
     }
     const scale = sw / vw;
     return { ox: 0, oy: (sh - vh * scale) / 2, rw: sw, rh: vh * scale, scale };
-  }, []);
+  }, [getContainerSize]);
 
   // ═══ 脸部屏幕坐标 ═══
   const getFaceScreen = useCallback(() => {
@@ -519,9 +541,9 @@ const PlayerScreen: React.FC = () => {
       const ctx = cvs.getContext('2d');
       if (!ctx) { rafRef.current = requestAnimationFrame(loop); return; }
 
-      // 同步 Canvas 尺寸
+      // 同步 Canvas 尺寸（用容器实际宽高，不用 window）
       const dpr = window.devicePixelRatio || 1;
-      const tw = window.innerWidth, th = window.innerHeight;
+      const { w: tw, h: th } = getContainerSize();
       if (cvs.width !== tw * dpr || cvs.height !== th * dpr) {
         cvs.width = tw * dpr;
         cvs.height = th * dpr;
@@ -732,6 +754,7 @@ const PlayerScreen: React.FC = () => {
 
   return (
     <div
+      ref={containerRef}
       className="relative w-[375px] h-screen max-h-[812px] bg-black overflow-hidden mx-auto"
       onTouchStart={onTS}
       onTouchMove={onTM}
@@ -884,7 +907,7 @@ const PlayerScreen: React.FC = () => {
       </div>
 
       {/* ═══ 弹幕 ═══ */}
-      <DanmakuLayer currentTime={time} paused={paused} />
+      <DanmakuLayer currentTime={time} paused={paused} episodeId={ep.id} />
 
       {/* ═══ 统一 Canvas（粒子 + 脸部肿胀）═══ */}
       <canvas ref={canvasRef} className="absolute inset-0 z-30 pointer-events-none" />
