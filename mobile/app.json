@@ -22,8 +22,6 @@
       },
       "package": "com.shortvedio.interaction"
     },
-    "web": {
-      "favicon": "./assets/favicon.png"
-    }
+    "web": {}
   }
 }
