@@ -1,13 +1,17 @@
 /**
- * PlayerScreen — 移动端短剧播放器 (全内联)。
+ * PlayerScreen — 移动端短剧播放器。
  *
- * Canvas 统一渲染：粒子 + 脸部打肿肿胀包
- * 全部用 ref 驱动，无闭包陷阱
+ * 规则：
+ *  - 高光弹窗出现时视频继续播放，用户不点就自动消失
+ *  - 用户点击互动按钮时才暂停视频
+ *  - 弹幕由用户自行输入，不再预置
+ *  - Canvas 统一渲染：粒子 + 脸部打肿肿胀包
+ *  - 全部用 ref 驱动，无闭包陷阱
  */
 
 import React, { useState, useRef, useCallback, useEffect } from 'react';
-import { EPISODES, HIGHLIGHTS, getDanmakuForEpisode } from '../data/episodes';
-import type { HighlightEvent, ParticlePreset, FacePosition } from '../types';
+import { EPISODES, HIGHLIGHTS } from '../data/episodes';
+import type { HighlightEvent, ParticlePreset } from '../types';
 import { detectFaceFromVideo, resolveFacePosition } from '../engine/FaceDetector';
 
 // ═══ Icons ═══
@@ -52,6 +56,8 @@ interface SwellBump {
   born: number;
   phase: 'enter' | 'idle';
 }
+
+interface LiveDanmaku { id: number; text: string; track: number; createdAt: number; }
 
 const SKIN_COLORS = [
   'rgba(255,180,160,0.42)','rgba(255,148,128,0.52)',
@@ -218,155 +224,71 @@ function drawBump(ctx: CanvasRenderingContext2D, b: SwellBump) {
   const { x, y, radius: r, level } = b;
   if (r < 2) return;
 
-  // ① 皮肤隆起
+  // 皮肤隆起
   const sg = ctx.createRadialGradient(x - r * 0.15, y - r * 0.1, r * 0.1, x, y, r);
   sg.addColorStop(0, SKIN_COLORS[Math.min(level, 4)]);
   sg.addColorStop(0.6, SKIN_COLORS[Math.min(level, 4)].replace(/[\d.]+\)$/, '0.18)'));
   sg.addColorStop(1, 'transparent');
-  ctx.beginPath();
-  ctx.arc(x, y, r, 0, Math.PI * 2);
-  ctx.fillStyle = sg;
-  ctx.fill();
+  ctx.beginPath(); ctx.arc(x, y, r, 0, Math.PI * 2); ctx.fillStyle = sg; ctx.fill();
 
-  // ② 瘀血核心
+  // 瘀血核心
   if (level >= 1) {
     const br = r * 0.46;
     const bg = ctx.createRadialGradient(x, y, br * 0.05, x, y, br);
     bg.addColorStop(0, BRUISE_COLORS[Math.min(level, 4)]);
     bg.addColorStop(1, 'transparent');
-    ctx.beginPath();
-    ctx.arc(x, y, br, 0, Math.PI * 2);
-    ctx.fillStyle = bg;
-    ctx.fill();
+    ctx.beginPath(); ctx.arc(x, y, br, 0, Math.PI * 2); ctx.fillStyle = bg; ctx.fill();
   }
 
-  // ③ 黄绿瘀伤环
+  // 黄绿瘀伤环
   if (level >= 3) {
-    ctx.beginPath();
-    ctx.arc(x, y, r * 0.64, 0, Math.PI * 2);
-    ctx.strokeStyle = `rgba(175,155,75,${0.20 + level * 0.06})`;
-    ctx.lineWidth = 2.5;
-    ctx.stroke();
+    ctx.beginPath(); ctx.arc(x, y, r * 0.64, 0, Math.PI * 2);
+    ctx.strokeStyle = `rgba(175,155,75,${0.20 + level * 0.06})`; ctx.lineWidth = 2.5; ctx.stroke();
   }
 
-  // ④ 镜面高光
+  // 镜面高光 + 次高光
   const gr = r * 0.16;
-  ctx.beginPath();
-  ctx.arc(x - r * 0.16, y - r * 0.14, gr, 0, Math.PI * 2);
-  ctx.fillStyle = 'rgba(255,255,255,0.58)';
-  ctx.fill();
-
-  // ⑤ 次高光
+  ctx.beginPath(); ctx.arc(x - r * 0.16, y - r * 0.14, gr, 0, Math.PI * 2);
+  ctx.fillStyle = 'rgba(255,255,255,0.58)'; ctx.fill();
   const sr = gr * 0.45;
-  ctx.beginPath();
-  ctx.arc(x + r * 0.28, y + r * 0.26, sr, 0, Math.PI * 2);
-  ctx.fillStyle = 'rgba(255,255,255,0.11)';
-  ctx.fill();
+  ctx.beginPath(); ctx.arc(x + r * 0.28, y + r * 0.26, sr, 0, Math.PI * 2);
+  ctx.fillStyle = 'rgba(255,255,255,0.11)'; ctx.fill();
 }
 
 // ═══════════════════════════════════════════════════════════
-//  DanmakuLayer (内联)
+//  HighlightPop — 高光互动浮层
+//  ⭐ 视频继续播放，用户点按钮才暂停
+//  ⭐ 超时不理 → 静默消失
 // ═══════════════════════════════════════════════════════════
-const DanmakuLayer: React.FC<{ currentTime: number; paused: boolean; episodeId: number }> = ({ currentTime, paused, episodeId }) => {
-  const [active, setActive] = useState<Array<{ id: string; text: string; track: number; speed: number } | null>>([null, null, null, null]);
-  const shown = useRef(new Set<string>());
-  const timers = useRef(new Map<string, ReturnType<typeof setTimeout>>());
-  const epRef = useRef(episodeId);
-
-  // 剧集切换时重置
-  useEffect(() => {
-    if (epRef.current !== episodeId) {
-      epRef.current = episodeId;
-      shown.current.clear();
-      timers.current.forEach(v => clearTimeout(v));
-      timers.current.clear();
-      setActive([null, null, null, null]);
-    }
-  }, [episodeId]);
-
-  useEffect(() => {
-    const danmaku = getDanmakuForEpisode(episodeId);
-    const overdue = danmaku.filter(d => d.startTime <= currentTime && !shown.current.has(d.id));
-    for (const dm of overdue) {
-      shown.current.add(dm.id);
-      const dur = (375 + 200) / dm.speed * 1000;
-      timers.current.set(dm.id, setTimeout(() => {
-        setActive(p => p.map(x => x?.id === dm.id ? null : x));
-        timers.current.delete(dm.id);
-      }, dur));
-      setActive(p => {
-        const idx = p.findIndex(x => !x);
-        const n = [...p];
-        if (idx >= 0 && idx < 4) n[idx] = dm;
-        else { n.push(dm); n.shift(); }
-        return n;
-      });
-    }
-  }, [currentTime]);
-
-  useEffect(() => {
-    const t = timers.current;
-    return () => { t.forEach(v => clearTimeout(v)); };
-  }, []);
-
-  return (
-    <div className="absolute z-20 pointer-events-none overflow-hidden" style={{ top: '10%', bottom: '30%', left: 0, right: 0 }}>
-      {active.filter(Boolean).map((dm, i) => (
-        dm && <div key={dm.id} className="absolute whitespace-nowrap font-semibold" style={{
-          top: `${dm.track * 22}%`,
-          right: '-200px',
-          fontSize: '14px',
-          color: '#fff',
-          textShadow: '-1px -1px 0 #000, 1px -1px 0 #000, -1px 1px 0 #000, 1px 1px 0 #000',
-          animation: `dmScroll ${(375 + 200) / dm.speed}s linear forwards`,
-          animationPlayState: paused ? 'paused' : 'running',
-        }}>{dm.text}</div>
-      ))}
-      <style>{`@keyframes dmScroll{from{transform:translateX(0)}to{transform:translateX(-${375 + 400}px)}}`}</style>
-    </div>
-  );
-};
-
-// ═══════════════════════════════════════════════════════════
-//  HighlightPop (内联)
-// ═══════════════════════════════════════════════════════════
-const HL_TIMEOUT = 5000;
+const HL_TIMEOUT = 6000;
 const HighlightPop: React.FC<{
   highlight: HighlightEvent;
-  onAction: () => void;
-  onDismiss: () => void;
+  onAction: () => void;   // 用户点击 → 暂停视频 + 触发特效
+  onDismiss: () => void;  // 超时 → 静默消失，视频继续
 }> = ({ highlight, onAction, onDismiss }) => {
   const [visible, setVisible] = useState(false);
-  const timer = useRef<ReturnType<typeof setTimeout> | null>(null);
-  const dead = useRef(false);
-
-  const resetT = useCallback(() => {
-    if (timer.current) clearTimeout(timer.current);
-    timer.current = setTimeout(() => {
-      if (!dead.current) {
-        dead.current = true;
-        setVisible(false);
-        setTimeout(onDismiss, 300);
-      }
-    }, HL_TIMEOUT);
-  }, [onDismiss]);
+  const timer = useRef<ReturnType<typeof setTimeout>>();
 
   useEffect(() => {
-    dead.current = false;
     requestAnimationFrame(() => setVisible(true));
-    resetT();
-    return () => { if (timer.current) clearTimeout(timer.current); };
-  }, [resetT]);
+    timer.current = setTimeout(() => {
+      setVisible(false);
+      setTimeout(onDismiss, 300);
+    }, HL_TIMEOUT);
+    return () => clearTimeout(timer.current);
+  }, [onDismiss]);
 
   const doAction = useCallback(() => {
-    if (dead.current) return;
+    clearTimeout(timer.current);
+    setVisible(false);
     onAction();
-    resetT();
-  }, [onAction, resetT]);
+  }, [onAction]);
 
   return (
     <div
-      className={`absolute bottom-[30%] left-1/2 z-40 transition-all duration-250 ${visible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-[40px]'}`}
+      className={`absolute bottom-[30%] left-1/2 z-40 transition-all duration-250 ${
+        visible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-[40px]'
+      }`}
       style={{ transform: visible ? 'translate(-50%, 0)' : 'translate(-50%, 40px)' }}
     >
       <div
@@ -422,6 +344,10 @@ const PlayerScreen: React.FC = () => {
   const [progX, setProgX] = useState(false);
   const [showIcon, setShowIcon] = useState(false);
   const [iconType, setIconType] = useState<'play' | 'pause'>('play');
+  // 用户弹幕
+  const [danmakuList, setDanmakuList] = useState<LiveDanmaku[]>([]);
+  const dmIdRef = useRef(0);
+  const [showDmInput, setShowDmInput] = useState(false);
 
   // ⭐ 全用 ref，不用 state 追踪 combo — 避免闭包陷阱
   const comboRef = useRef(0);
@@ -430,14 +356,13 @@ const PlayerScreen: React.FC = () => {
   const bumpIdRef = useRef(0);
   const shakeRef = useRef({ decay: 0, offset: 0 });
   const faceDataRef = useRef<{ x: number; y: number; w: number; h: number } | null>(null);
-  const detectTimerRef = useRef(0); // 脸部检测间隔计数器
+  const detectTimerRef = useRef(0);
   const [, forceTick] = useState(0);
 
   const ep = EPISODES[epIdx] ?? EPISODES[0];
   const prog = duration > 0 ? (time / duration) * 100 : 0;
 
-  // ═══ 视频渲染区域 (object-fit: cover) ═══
-  // ═══ 视频渲染区域 (object-fit: cover) — 基于容器实际尺寸 ═══
+  // ═══ 容器尺寸 ═══
   const getContainerSize = useCallback(() => {
     const el = containerRef.current;
     if (!el) return { w: window.innerWidth, h: window.innerHeight };
@@ -445,6 +370,7 @@ const PlayerScreen: React.FC = () => {
     return { w: r.width || window.innerWidth, h: r.height || window.innerHeight };
   }, []);
 
+  // ═══ 视频渲染区域 (object-fit: cover) ═══
   const getVideoRect = useCallback(() => {
     const vid = videoRef.current;
     if (!vid?.videoWidth) return null;
@@ -489,29 +415,21 @@ const PlayerScreen: React.FC = () => {
       phase: 'enter',
       born: performance.now(),
     });
-    console.log(`[Bump] spawned at (${f.cx.toFixed(0)},${f.cy.toFixed(0)}), level=${Math.min(level,4)}, total=${bumpsRef.current.length}`);
   }, [getFaceScreen]);
 
-  // ═══ 触发打脸 ═══
-  const triggerSlap = useCallback(() => {
+  // ═══ 触发特效（打脸 / 冲突统一入口）═══
+  const triggerEffect = useCallback((type: string) => {
     const nc = comboRef.current + 1;
     comboRef.current = nc;
-
-    // 抖动
     shakeRef.current.decay = Math.min(8 + nc * 2, 18);
-
-    // 粒子
     const f = getFaceScreen();
     if (f) {
-      particlesRef.current.push(...genParticles('slap_effect', f.cx, f.cy));
+      const preset: ParticlePreset = (type === 'slap_effect' || type === 'conflict') ? 'slap_effect' : type as ParticlePreset;
+      particlesRef.current.push(...genParticles(preset, f.cx, f.cy));
     }
-
-    // 肿胀包
     spawnBump(nc - 1);
     bumpsRef.current.forEach(b => { b.level = Math.min(b.level + 1, 4); });
-
     forceTick(t => t + 1);
-    console.log(`[Slap] combo=${nc}, bumps=${bumpsRef.current.length}, particles=${particlesRef.current.length}`);
   }, [getFaceScreen, spawnBump]);
 
   // ═══ 重置 ═══
@@ -521,7 +439,6 @@ const PlayerScreen: React.FC = () => {
     bumpIdRef.current = 0;
     shakeRef.current = { decay: 0, offset: 0 };
     particlesRef.current = [];
-    // 注意：不重置 faceDataRef，保留上次检测到的脸部位置
     forceTick(t => t + 1);
   }, []);
 
@@ -541,7 +458,6 @@ const PlayerScreen: React.FC = () => {
       const ctx = cvs.getContext('2d');
       if (!ctx) { rafRef.current = requestAnimationFrame(loop); return; }
 
-      // 同步 Canvas 尺寸（用容器实际宽高，不用 window）
       const dpr = window.devicePixelRatio || 1;
       const { w: tw, h: th } = getContainerSize();
       if (cvs.width !== tw * dpr || cvs.height !== th * dpr) {
@@ -553,11 +469,11 @@ const PlayerScreen: React.FC = () => {
       }
       const cw = cvs.width / dpr;
 
-      // ── 0. 脸部检测（每 6 帧 ≈ 100ms，播放时运⾏）───
+      // 脸部检测（每 6 帧，播放时运行）
       detectTimerRef.current++;
-      const vid2 = videoRef.current;
-      if (vid2 && !vid2.paused && detectTimerRef.current % 6 === 0 && vid2.videoWidth > 0) {
-        const detected = detectFaceFromVideo(vid2);
+      const v = videoRef.current;
+      if (v && !v.paused && detectTimerRef.current % 6 === 0 && v.videoWidth > 0) {
+        const detected = detectFaceFromVideo(v);
         if (detected && detected.confidence > 0.2) {
           faceDataRef.current = { x: detected.x, y: detected.y, w: detected.w, h: detected.h };
         }
@@ -565,19 +481,16 @@ const PlayerScreen: React.FC = () => {
 
       ctx.clearRect(0, 0, cw, cvs.height / dpr);
 
-      // ── 1. 抖动 ──
+      // 抖动
       const sk = shakeRef.current;
       if (sk.decay > 0.01) {
         sk.decay *= Math.exp(-dt / 250);
         sk.offset = sk.decay * Math.sin(now * 0.001 * 60 * Math.PI * 2);
-      } else {
-        sk.decay = 0;
-        sk.offset = 0;
-      }
+      } else { sk.decay = 0; sk.offset = 0; }
       ctx.save();
       if (Math.abs(sk.offset) > 0.1) ctx.translate(sk.offset, 0);
 
-      // ── 2. 全脸红底 ──
+      // 全脸红底
       const cl = Math.min(comboRef.current, 5);
       if (cl >= 3) {
         const fc = getFaceScreen();
@@ -589,12 +502,11 @@ const PlayerScreen: React.FC = () => {
           g.addColorStop(1, 'transparent');
           ctx.beginPath();
           ctx.ellipse(fc.cx, fc.cy, fc.fw * 0.55, fc.fh * 0.55, 0, 0, Math.PI * 2);
-          ctx.fillStyle = g;
-          ctx.fill();
+          ctx.fillStyle = g; ctx.fill();
         }
       }
 
-      // ── 3. 肿胀包更新 + 绘制 ──
+      // 肿胀包
       bumpsRef.current = bumpsRef.current.filter(b => {
         const age = now - b.born;
         if (b.phase === 'enter') {
@@ -611,7 +523,7 @@ const PlayerScreen: React.FC = () => {
 
       ctx.restore();
 
-      // ── 3.5. 脸部检测调试框（当没有肿胀包/粒子时显⽰）───
+      // 脸部检测调试框
       if (bumpsRef.current.length === 0 && particlesRef.current.length === 0) {
         const fc = getFaceScreen();
         if (fc && faceDataRef.current) {
@@ -627,7 +539,7 @@ const PlayerScreen: React.FC = () => {
         }
       }
 
-      // ── 4. 粒子更新 + 绘制 ──
+      // 粒子
       particlesRef.current = updateParticles(particlesRef.current, dt);
       drawParticles(ctx, particlesRef.current);
 
@@ -638,13 +550,6 @@ const PlayerScreen: React.FC = () => {
     return () => { run = false; cancelAnimationFrame(rafRef.current); };
   }, [getFaceScreen]);
 
-  // resize
-  useEffect(() => {
-    const h = () => { };
-    window.addEventListener('resize', h);
-    return () => window.removeEventListener('resize', h);
-  }, []);
-
   // ═══ 视频事件 ═══
   const onTimeUpdate = useCallback(() => {
     const v = videoRef.current;
@@ -652,22 +557,16 @@ const PlayerScreen: React.FC = () => {
     const t = v.currentTime;
     setTime(t);
     if (!duration) setDuration(v.duration || 0);
-    // 高光点检测
+    // 高光点检测 — ⭐ 不暂停视频，只弹出浮层
     for (const h of HIGHLIGHTS) {
       if ((h as any)._fired) continue;
       if (Math.abs(h.time - t) < 0.35) {
         (h as any)._fired = true;
         setHl(h);
-        // ⭐ 先⽤肤色检测采样当前帧（视频还没暂停，能读到像素）
         const detected = v.videoWidth > 0 ? detectFaceFromVideo(v) : null;
         const resolved = resolveFacePosition(detected, h.facePosition);
-        if (resolved) {
-          faceDataRef.current = resolved;
-          console.log(`[Face] 检测: ${detected ? '肤色' : '兜底'}, pos=(${(resolved.x*100).toFixed(0)}%,${(resolved.y*100).toFixed(0)}%), conf=${detected?.confidence?.toFixed(2) ?? '-'}`);
-        }
+        if (resolved) faceDataRef.current = resolved;
         resetSlap();
-        videoRef.current?.pause();
-        setPaused(true);
         break;
       }
     }
@@ -682,15 +581,8 @@ const PlayerScreen: React.FC = () => {
   const togglePlay = useCallback(() => {
     const v = videoRef.current;
     if (!v) return;
-    if (v.paused) {
-      v.play().catch(() => { });
-      setPaused(false);
-      setIconType('pause');
-    } else {
-      v.pause();
-      setPaused(true);
-      setIconType('play');
-    }
+    if (v.paused) { v.play().catch(()=>{}); setPaused(false); setIconType('pause'); }
+    else { v.pause(); setPaused(true); setIconType('play'); }
     setShowIcon(true);
     setTimeout(() => setShowIcon(false), 1500);
   }, []);
@@ -699,14 +591,12 @@ const PlayerScreen: React.FC = () => {
   const swipe = useRef({ sy: 0, dy: 0 });
   const onTS = useCallback((e: React.TouchEvent) => {
     swipe.current = { sy: e.touches[0].clientY, dy: 0 };
-    setSwiping(true);
-    setSwipeY(0);
+    setSwiping(true); setSwipeY(0);
   }, []);
   const onTM = useCallback((e: React.TouchEvent) => {
     if (!swiping) return;
     const dy = e.touches[0].clientY - swipe.current.sy;
-    swipe.current.dy = dy;
-    setSwipeY(dy);
+    swipe.current.dy = dy; setSwipeY(dy);
   }, [swiping]);
   const onTE = useCallback(() => {
     setSwiping(false);
@@ -715,29 +605,43 @@ const PlayerScreen: React.FC = () => {
       const dir = dy > 0 ? -1 : 1;
       const next = Math.max(0, Math.min(EPISODES.length - 1, epIdx + dir));
       if (next !== epIdx) {
-        setSwipeY(0);
-        setEpIdx(next);
+        setSwipeY(0); setEpIdx(next);
         HIGHLIGHTS.forEach((h: any) => { h._fired = false; });
+        setDanmakuList([]);
         resetSlap();
         videoRef.current?.load();
-        setTimeout(() => videoRef.current?.play().catch(() => { }), 200);
+        setTimeout(() => videoRef.current?.play().catch(()=>{}), 200);
         setPaused(false);
-      } else {
-        setSwipeY(0);
-      }
-    } else {
-      setSwipeY(0);
-    }
+      } else { setSwipeY(0); }
+    } else { setSwipeY(0); }
   }, [epIdx, swiping, resetSlap]);
 
-  // ═══ 高光互动 ═══
+  // ═══ 高光互动 — ⭐ 用户点按钮才暂停 ═══
   const onHLAct = useCallback(() => {
-    if (hl?.type === 'slap_effect' || hl?.type === 'conflict') triggerSlap();
-  }, [hl, triggerSlap]);
+    if (!hl) return;
+    // 暂停视频
+    videoRef.current?.pause();
+    setPaused(true);
+    // 触发特效
+    triggerEffect(hl.type);
+    // 过一会儿弹窗消失，继续播放
+    setTimeout(() => {
+      setHl(null);
+      videoRef.current?.play().catch(()=>{});
+      setPaused(false);
+    }, 3000);
+  }, [hl, triggerEffect]);
+
   const onHLDis = useCallback(() => {
-    setHl(null);
-    videoRef.current?.play().catch(() => { });
-    setPaused(false);
+    setHl(null);  // 用户不理 → 弹窗静默消失，视频继续播放
+  }, []);
+
+  // ═══ 用户弹幕 ═══
+  const sendDanmaku = useCallback((text: string) => {
+    const dm: LiveDanmaku = { id: dmIdRef.current++, text, track: Math.floor(Math.random() * 4), createdAt: Date.now() };
+    setDanmakuList(prev => [...prev.slice(-40), dm]);
+    // 每条弹幕显示 6 秒后自动移除
+    setTimeout(() => { setDanmakuList(prev => prev.filter(d => d.id !== dm.id)); }, 6000);
   }, []);
 
   // ═══ 进度条点击 ═══
@@ -746,10 +650,7 @@ const PlayerScreen: React.FC = () => {
     const rect = (e.currentTarget as HTMLElement).getBoundingClientRect();
     const ratio = (e.clientX - rect.left) / rect.width;
     const v = videoRef.current;
-    if (v && duration) {
-      v.currentTime = ratio * duration;
-      setTime(ratio * duration);
-    }
+    if (v && duration) { v.currentTime = ratio * duration; setTime(ratio * duration); }
   }, [duration]);
 
   return (
@@ -834,7 +735,13 @@ const PlayerScreen: React.FC = () => {
           <div className={likeB ? 'animate-heart-bounce' : ''}><IconHeart filled={liked} /></div>
           <span className="text-white text-[12px] font-song">{fmtNum(ep.stats.likes + (liked ? 1 : 0))}</span>
         </div>
-        <div className="flex flex-col items-center gap-0.5"><IconComment /><span className="text-white text-[12px] font-song">{fmtNum(ep.stats.comments)}</span></div>
+        <div
+          className="flex flex-col items-center gap-0.5 cursor-pointer"
+          onClick={() => setShowDmInput(p => !p)}
+        >
+          <IconComment />
+          <span className="text-white text-[12px] font-song">{fmtNum(ep.stats.comments)}</span>
+        </div>
         <div className="flex flex-col items-center gap-0.5"><IconStar /><span className="text-white text-[12px] font-song">{fmtNum(ep.stats.saves)}</span></div>
         <div className="flex flex-col items-center gap-0.5"><IconShare /><span className="text-white text-[12px] font-song">分享</span></div>
       </div>
@@ -862,7 +769,6 @@ const PlayerScreen: React.FC = () => {
         style={{ height: progX ? 32 : 16 }}
         onClick={(e) => { e.stopPropagation(); onProgTap(e); }}
       >
-        {/* 高光标记点 */}
         <div className="absolute left-0 right-0" style={{ top: 0, height: progX ? 12 : 8 }}>
           {HIGHLIGHTS.map(h => {
             const pos = duration > 0 ? (h.time / duration) * 100 : 0;
@@ -888,7 +794,6 @@ const PlayerScreen: React.FC = () => {
             );
           })}
         </div>
-        {/* 轨道 */}
         <div
           className="absolute left-0 rounded-full transition-all duration-200 bg-white/20"
           style={{ top: progX ? 12 : 8, width: '100%', height: progX ? 8 : 2 }}
@@ -906,8 +811,45 @@ const PlayerScreen: React.FC = () => {
         </div>
       </div>
 
-      {/* ═══ 弹幕 ═══ */}
-      <DanmakuLayer currentTime={time} paused={paused} episodeId={ep.id} />
+      {/* ═══ 用户弹幕显示 ═══ */}
+      <div className="absolute z-20 pointer-events-none overflow-hidden" style={{ top: '10%', bottom: '30%', left: 0, right: 0 }}>
+        {danmakuList.map(dm => (
+          <div key={dm.id} className="absolute whitespace-nowrap font-semibold" style={{
+            top: `${dm.track * 22}%`,
+            right: '-200px',
+            fontSize: '14px',
+            color: '#fff',
+            textShadow: '-1px -1px 0 #000, 1px -1px 0 #000, -1px 1px 0 #000, 1px 1px 0 #000',
+            animation: 'dmScroll 7s linear forwards',
+            animationPlayState: paused ? 'paused' : 'running',
+          }}>{dm.text}</div>
+        ))}
+        <style>{'@keyframes dmScroll{from{transform:translateX(0)}to{transform:translateX(-600px)}}'}</style>
+      </div>
+      {/* ═══ 用户弹幕输入 ═══ */}
+      {showDmInput && (
+        <div className="absolute bottom-[100px] left-3 right-3 z-35 flex items-center gap-2">
+          <input
+            type="text"
+            onKeyDown={e => {
+              if (e.key === 'Enter') { const t = (e.target as HTMLInputElement).value; if ((t).trim()) { sendDanmaku(t); (e.target as HTMLInputElement).value = ''; } }
+            }}
+            placeholder="发条弹幕..."
+            maxLength={50}
+            className="flex-1 px-3 py-2 rounded-full text-white text-[13px] bg-white/10 border border-white/20 placeholder-white/40 outline-none"
+            style={{ backdropFilter: 'blur(12px)', WebkitBackdropFilter: 'blur(12px)' }}
+          />
+          <button
+            onClick={(e) => {
+              const inp = (e.currentTarget.previousElementSibling) as HTMLInputElement;
+              if (inp && inp.value.trim()) { sendDanmaku(inp.value); inp.value = ''; }
+            }}
+            className="px-4 py-2 rounded-full text-white text-[13px] font-medium bg-white/15 border border-white/20 active:bg-white/25 transition-all"
+          >
+            发送
+          </button>
+        </div>
+      )}
 
       {/* ═══ 统一 Canvas（粒子 + 脸部肿胀）═══ */}
       <canvas ref={canvasRef} className="absolute inset-0 z-30 pointer-events-none" />
