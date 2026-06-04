@@ -17,7 +17,8 @@ export type GameComponent =
   | 'SlapGame'
   | 'HeartTap'
   | 'RageHold'
-  | 'TapDecide';
+  | 'TapDecide'
+  | 'PunchGame';
 
 export interface SceneConfig {
   component: GameComponent;
@@ -29,11 +30,11 @@ export interface SceneConfig {
 
 export const SCENE_MAP: Record<SceneType, SceneConfig> = {
   REVENGE: {
-    component: 'SlapGame',
+    component: 'PunchGame',
     color: COLORS.primary,
-    hint: '连续点击帮助主角反击',
-    icon: '👋',
-    description: '扇巴掌反击',
+    hint: '点击脸部打击反派',
+    icon: '👊',
+    description: '打击反派（HP 系统）',
   },
   SWEET: {
     component: 'HeartTap',

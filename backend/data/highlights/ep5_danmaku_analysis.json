@@ -1,0 +1,950 @@
+{
+  "drama_title": "十八岁太奶奶驾到，重整家族荣耀第三部",
+  "episode_id": "第5集",
+  "total_danmaku": 905,
+  "window_seconds": 15,
+  "num_windows": 10,
+  "windows": [
+    {
+      "window": 1,
+      "start_time": 15,
+      "end_time": 30,
+      "danmaku_count": 181,
+      "like_sum": 211,
+      "emotion_hits": {
+        "suspense": 175,
+        "funny": 8,
+        "sweet": 9,
+        "cool": 5,
+        "shock": 6
+      },
+      "total_emotion_hits": 203,
+      "emotion_density": 1.1215,
+      "primary_emotion": "suspense",
+      "danmaku_score": 0.8411,
+      "top_samples": [
+        {
+          "text": "盲猜一下，司机跟张丽丽一伙的",
+          "likes": 41,
+          "time_sec": 16.2
+        },
+        {
+          "text": "他俩一伙的",
+          "likes": 41,
+          "time_sec": 26.1
+        },
+        {
+          "text": "他俩串供？",
+          "likes": 36,
+          "time_sec": 21.7
+        },
+        {
+          "text": "朵朵呢",
+          "likes": 22,
+          "time_sec": 23.3
+        },
+        {
+          "text": "一伙的",
+          "likes": 20,
+          "time_sec": 23.4
+        },
+        {
+          "text": "不会是司机的孩子吧[捂脸]",
+          "likes": 16,
+          "time_sec": 15.2
+        },
+        {
+          "text": "这孩子是他的",
+          "likes": 7,
+          "time_sec": 23.5
+        },
+        {
+          "text": "这司机一看就不是好人[偷笑]",
+          "likes": 7,
+          "time_sec": 20.1
+        }
+      ]
+    },
+    {
+      "window": 7,
+      "start_time": 105,
+      "end_time": 120,
+      "danmaku_count": 133,
+      "like_sum": 292,
+      "emotion_hits": {
+        "funny": 46,
+        "shock": 56,
+        "cool": 20,
+        "sweet": 16,
+        "conflict": 4,
+        "suspense": 1
+      },
+      "total_emotion_hits": 143,
+      "emotion_density": 1.0752,
+      "primary_emotion": "shock",
+      "danmaku_score": 0.6326,
+      "top_samples": [
+        {
+          "text": "超级加辈[笑哭]",
+          "likes": 99,
+          "time_sec": 112.4
+        },
+        {
+          "text": "我的天呐，17郎这个纯真的眼神",
+          "likes": 64,
+          "time_sec": 114.8
+        },
+        {
+          "text": "爷孙坍塌[捂脸]",
+          "likes": 27,
+          "time_sec": 112.7
+        },
+        {
+          "text": "搞笑",
+          "likes": 24,
+          "time_sec": 112.5
+        },
+        {
+          "text": "哈哈哈哈哈",
+          "likes": 21,
+          "time_sec": 111.7
+        },
+        {
+          "text": "哈哈[笑哭]",
+          "likes": 11,
+          "time_sec": 115.5
+        },
+        {
+          "text": "确实是他老婆[笑哭][笑哭][笑哭][笑哭]",
+          "likes": 11,
+          "time_sec": 111.2
+        },
+        {
+          "text": "就是他老婆，她老婆专治不服[笑哭]",
+          "likes": 7,
+          "time_sec": 107.9
+        }
+      ]
+    },
+    {
+      "window": 2,
+      "start_time": 30,
+      "end_time": 45,
+      "danmaku_count": 87,
+      "like_sum": 1026,
+      "emotion_hits": {
+        "suspense": 88,
+        "funny": 4,
+        "sweet": 2,
+        "shock": 3,
+        "cool": 1,
+        "conflict": 1
+      },
+      "total_emotion_hits": 99,
+      "emotion_density": 1.1379,
+      "primary_emotion": "suspense",
+      "danmaku_score": 0.5873,
+      "top_samples": [
+        {
+          "text": "难道不怕验DNA吗[笑哭]",
+          "likes": 622,
+          "time_sec": 30.3
+        },
+        {
+          "text": "司机的孩子",
+          "likes": 100,
+          "time_sec": 31.1
+        },
+        {
+          "text": "不会是司机的孩子吧？",
+          "likes": 76,
+          "time_sec": 35.8
+        },
+        {
+          "text": "亲子鉴定",
+          "likes": 52,
+          "time_sec": 38.5
+        },
+        {
+          "text": "对呀，是司机的",
+          "likes": 52,
+          "time_sec": 35.6
+        },
+        {
+          "text": "俩人一伙的",
+          "likes": 30,
+          "time_sec": 31.9
+        },
+        {
+          "text": "蒙太奇吧？",
+          "likes": 22,
+          "time_sec": 33.3
+        },
+        {
+          "text": "真话不全说也是没说谎",
+          "likes": 17,
+          "time_sec": 36.5
+        }
+      ]
+    },
+    {
+      "window": 8,
+      "start_time": 120,
+      "end_time": 135,
+      "danmaku_count": 109,
+      "like_sum": 213,
+      "emotion_hits": {
+        "funny": 62,
+        "shock": 45,
+        "cool": 15,
+        "sweet": 7,
+        "suspense": 1
+      },
+      "total_emotion_hits": 130,
+      "emotion_density": 1.1927,
+      "primary_emotion": "funny",
+      "danmaku_score": 0.5386,
+      "top_samples": [
+        {
+          "text": "《奥特曼你有老婆咯》",
+          "likes": 84,
+          "time_sec": 120.2
+        },
+        {
+          "text": "超级加辈",
+          "likes": 73,
+          "time_sec": 123.9
+        },
+        {
+          "text": "棒棒哒[笑哭]",
+          "likes": 10,
+          "time_sec": 129.2
+        },
+        {
+          "text": "搞笑啊！",
+          "likes": 8,
+          "time_sec": 125.9
+        },
+        {
+          "text": "[捂脸][捂脸]",
+          "likes": 6,
+          "time_sec": 124.2
+        },
+        {
+          "text": "我的天太萌了[送花]",
+          "likes": 5,
+          "time_sec": 121.2
+        },
+        {
+          "text": "陈添祥可可爱爱[爱慕]",
+          "likes": 5,
+          "time_sec": 123.0
+        },
+        {
+          "text": "哈哈哈哈哈笑死人",
+          "likes": 4,
+          "time_sec": 122.1
+        }
+      ]
+    },
+    {
+      "window": 0,
+      "start_time": 0,
+      "end_time": 15,
+      "danmaku_count": 87,
+      "like_sum": 811,
+      "emotion_hits": {
+        "suspense": 67,
+        "funny": 13,
+        "cool": 8,
+        "shock": 4,
+        "sweet": 1,
+        "conflict": 1
+      },
+      "total_emotion_hits": 94,
+      "emotion_density": 1.0805,
+      "primary_emotion": "suspense",
+      "danmaku_score": 0.5356,
+      "top_samples": [
+        {
+          "text": "他俩一伙的吧",
+          "likes": 265,
+          "time_sec": 13.7
+        },
+        {
+          "text": "眼神对接一看就是在说谎",
+          "likes": 127,
+          "time_sec": 0.4
+        },
+        {
+          "text": "司机不像好人啊。",
+          "likes": 87,
+          "time_sec": 7.4
+        },
+        {
+          "text": "这俩一伙的",
+          "likes": 83,
+          "time_sec": 14.9
+        },
+        {
+          "text": "司机的孩子",
+          "likes": 58,
+          "time_sec": 8.1
+        },
+        {
+          "text": "司机的孩子",
+          "likes": 56,
+          "time_sec": 13.6
+        },
+        {
+          "text": "小狗招手哈哈哈好可爱[爱慕][爱慕]",
+          "likes": 54,
+          "time_sec": 0.7
+        },
+        {
+          "text": "司机的孩子吧[笑哭]",
+          "likes": 27,
+          "time_sec": 4.5
+        }
+      ]
+    },
+    {
+      "window": 6,
+      "start_time": 90,
+      "end_time": 105,
+      "danmaku_count": 71,
+      "like_sum": 978,
+      "emotion_hits": {
+        "suspense": 11,
+        "shock": 21,
+        "funny": 21,
+        "sweet": 15,
+        "cool": 1,
+        "conflict": 2
+      },
+      "total_emotion_hits": 71,
+      "emotion_density": 1.0,
+      "primary_emotion": "shock",
+      "danmaku_score": 0.4875,
+      "top_samples": [
+        {
+          "text": "《奥特曼，你要有[捂脸]老婆了》",
+          "likes": 188,
+          "time_sec": 99.2
+        },
+        {
+          "text": "大哥可能心想钱没了",
+          "likes": 183,
+          "time_sec": 90.2
+        },
+        {
+          "text": "《奥特曼你有老婆咯》",
+          "likes": 150,
+          "time_sec": 100.3
+        },
+        {
+          "text": "[捂脸]笑死，吓死了",
+          "likes": 139,
+          "time_sec": 103.0
+        },
+        {
+          "text": "好敢说[恐惧]",
+          "likes": 56,
+          "time_sec": 104.1
+        },
+        {
+          "text": "奥特曼你要有老婆咯[捂脸]",
+          "likes": 47,
+          "time_sec": 100.9
+        },
+        {
+          "text": "夫人她专治不服",
+          "likes": 39,
+          "time_sec": 102.5
+        },
+        {
+          "text": "你要有老婆喽~",
+          "likes": 38,
+          "time_sec": 94.9
+        }
+      ]
+    },
+    {
+      "window": 5,
+      "start_time": 75,
+      "end_time": 90,
+      "danmaku_count": 100,
+      "like_sum": 488,
+      "emotion_hits": {
+        "shock": 14,
+        "funny": 24,
+        "conflict": 9,
+        "suspense": 22,
+        "cool": 7
+      },
+      "total_emotion_hits": 76,
+      "emotion_density": 0.76,
+      "primary_emotion": "funny",
+      "danmaku_score": 0.4659,
+      "top_samples": [
+        {
+          "text": "限额的[笑哭]",
+          "likes": 248,
+          "time_sec": 76.8
+        },
+        {
+          "text": "大哥实惨",
+          "likes": 187,
+          "time_sec": 78.4
+        },
+        {
+          "text": "限額啊",
+          "likes": 16,
+          "time_sec": 82.7
+        },
+        {
+          "text": "命苦的大哥[笑哭]",
+          "likes": 9,
+          "time_sec": 82.2
+        },
+        {
+          "text": "还没搞清楚就这样好吗？",
+          "likes": 8,
+          "time_sec": 78.4
+        },
+        {
+          "text": "羊水DNA啊",
+          "likes": 5,
+          "time_sec": 81.0
+        },
+        {
+          "text": "大哥也穷啊[捂脸]资产被收回了",
+          "likes": 4,
+          "time_sec": 80.2
+        },
+        {
+          "text": "司机的孩子吧",
+          "likes": 4,
+          "time_sec": 80.9
+        }
+      ]
+    },
+    {
+      "window": 4,
+      "start_time": 60,
+      "end_time": 75,
+      "danmaku_count": 67,
+      "like_sum": 353,
+      "emotion_hits": {
+        "conflict": 10,
+        "suspense": 15,
+        "funny": 11,
+        "cool": 5,
+        "shock": 3,
+        "sweet": 1
+      },
+      "total_emotion_hits": 45,
+      "emotion_density": 0.6716,
+      "primary_emotion": "suspense",
+      "danmaku_score": 0.3055,
+      "top_samples": [
+        {
+          "text": "为什么刷老大的卡？又不是他的孩子老婆[偷笑][偷笑]",
+          "likes": 105,
+          "time_sec": 64.3
+        },
+        {
+          "text": "笑了笑了， 拿到钱的时候她笑了",
+          "likes": 100,
+          "time_sec": 66.0
+        },
+        {
+          "text": "大哥太可怜了",
+          "likes": 47,
+          "time_sec": 63.8
+        },
+        {
+          "text": "可怜的大哥：爷爷我的卡[快哭了]",
+          "likes": 31,
+          "time_sec": 63.6
+        },
+        {
+          "text": "这个孩子应该是司机的",
+          "likes": 15,
+          "time_sec": 69.9
+        },
+        {
+          "text": "好家伙",
+          "likes": 12,
+          "time_sec": 64.0
+        },
+        {
+          "text": "她前夫的",
+          "likes": 10,
+          "time_sec": 60.1
+        },
+        {
+          "text": "司机的女人司机肯定见过很多次",
+          "likes": 9,
+          "time_sec": 73.4
+        }
+      ]
+    },
+    {
+      "window": 3,
+      "start_time": 45,
+      "end_time": 60,
+      "danmaku_count": 69,
+      "like_sum": 62,
+      "emotion_hits": {
+        "cool": 9,
+        "shock": 10,
+        "suspense": 28,
+        "funny": 3,
+        "conflict": 2,
+        "sweet": 1
+      },
+      "total_emotion_hits": 53,
+      "emotion_density": 0.7681,
+      "primary_emotion": "suspense",
+      "danmaku_score": 0.269,
+      "top_samples": [
+        {
+          "text": "孩子是司机的",
+          "likes": 35,
+          "time_sec": 46.9
+        },
+        {
+          "text": "老四也好奶啊",
+          "likes": 15,
+          "time_sec": 45.4
+        },
+        {
+          "text": "想看老五闯祸挨太奶奶家法[捂脸]",
+          "likes": 4,
+          "time_sec": 47.1
+        },
+        {
+          "text": "对啊，有间谍。有问题？[没看够][没看够][没看够][爱慕]",
+          "likes": 3,
+          "time_sec": 45.9
+        },
+        {
+          "text": "一伙的吧[笑哭]",
+          "likes": 2,
+          "time_sec": 55.4
+        },
+        {
+          "text": "我看这个张丽丽跟司机挺般配。[捂脸][笑哭]",
+          "likes": 2,
+          "time_sec": 47.3
+        },
+        {
+          "text": "[没看够][没看够][赞][送花]",
+          "likes": 1,
+          "time_sec": 49.1
+        },
+        {
+          "text": "老大：ber，我是ATM吗？",
+          "likes": 0,
+          "time_sec": 59.6
+        }
+      ]
+    },
+    {
+      "window": 11,
+      "start_time": 165,
+      "end_time": 180,
+      "danmaku_count": 1,
+      "like_sum": 0,
+      "emotion_hits": {},
+      "total_emotion_hits": 0,
+      "emotion_density": 0.0,
+      "primary_emotion": "unknown",
+      "danmaku_score": 0.0022,
+      "top_samples": [
+        {
+          "text": "此人也是本色出演了",
+          "likes": 0,
+          "time_sec": 171.1
+        }
+      ]
+    }
+  ],
+  "top_highlights": [
+    {
+      "rank": 1,
+      "start_time": 15,
+      "end_time": 30,
+      "type": "suspense",
+      "danmaku_score": 0.8411,
+      "danmaku_count": 181,
+      "like_sum": 211,
+      "emotion_density": 1.1215,
+      "emotion_hits": {
+        "suspense": 175,
+        "funny": 8,
+        "sweet": 9,
+        "cool": 5,
+        "shock": 6
+      },
+      "sample_comments": [
+        {
+          "text": "盲猜一下，司机跟张丽丽一伙的",
+          "likes": 41
+        },
+        {
+          "text": "他俩一伙的",
+          "likes": 41
+        },
+        {
+          "text": "他俩串供？",
+          "likes": 36
+        },
+        {
+          "text": "朵朵呢",
+          "likes": 22
+        },
+        {
+          "text": "一伙的",
+          "likes": 20
+        }
+      ]
+    },
+    {
+      "rank": 2,
+      "start_time": 105,
+      "end_time": 120,
+      "type": "shock",
+      "danmaku_score": 0.6326,
+      "danmaku_count": 133,
+      "like_sum": 292,
+      "emotion_density": 1.0752,
+      "emotion_hits": {
+        "funny": 46,
+        "shock": 56,
+        "cool": 20,
+        "sweet": 16,
+        "conflict": 4,
+        "suspense": 1
+      },
+      "sample_comments": [
+        {
+          "text": "超级加辈[笑哭]",
+          "likes": 99
+        },
+        {
+          "text": "我的天呐，17郎这个纯真的眼神",
+          "likes": 64
+        },
+        {
+          "text": "爷孙坍塌[捂脸]",
+          "likes": 27
+        },
+        {
+          "text": "搞笑",
+          "likes": 24
+        },
+        {
+          "text": "哈哈哈哈哈",
+          "likes": 21
+        }
+      ]
+    },
+    {
+      "rank": 3,
+      "start_time": 30,
+      "end_time": 45,
+      "type": "suspense",
+      "danmaku_score": 0.5873,
+      "danmaku_count": 87,
+      "like_sum": 1026,
+      "emotion_density": 1.1379,
+      "emotion_hits": {
+        "suspense": 88,
+        "funny": 4,
+        "sweet": 2,
+        "shock": 3,
+        "cool": 1,
+        "conflict": 1
+      },
+      "sample_comments": [
+        {
+          "text": "难道不怕验DNA吗[笑哭]",
+          "likes": 622
+        },
+        {
+          "text": "司机的孩子",
+          "likes": 100
+        },
+        {
+          "text": "不会是司机的孩子吧？",
+          "likes": 76
+        },
+        {
+          "text": "亲子鉴定",
+          "likes": 52
+        },
+        {
+          "text": "对呀，是司机的",
+          "likes": 52
+        }
+      ]
+    },
+    {
+      "rank": 4,
+      "start_time": 120,
+      "end_time": 135,
+      "type": "funny",
+      "danmaku_score": 0.5386,
+      "danmaku_count": 109,
+      "like_sum": 213,
+      "emotion_density": 1.1927,
+      "emotion_hits": {
+        "funny": 62,
+        "shock": 45,
+        "cool": 15,
+        "sweet": 7,
+        "suspense": 1
+      },
+      "sample_comments": [
+        {
+          "text": "《奥特曼你有老婆咯》",
+          "likes": 84
+        },
+        {
+          "text": "超级加辈",
+          "likes": 73
+        },
+        {
+          "text": "棒棒哒[笑哭]",
+          "likes": 10
+        },
+        {
+          "text": "搞笑啊！",
+          "likes": 8
+        },
+        {
+          "text": "[捂脸][捂脸]",
+          "likes": 6
+        }
+      ]
+    },
+    {
+      "rank": 5,
+      "start_time": 0,
+      "end_time": 15,
+      "type": "suspense",
+      "danmaku_score": 0.5356,
+      "danmaku_count": 87,
+      "like_sum": 811,
+      "emotion_density": 1.0805,
+      "emotion_hits": {
+        "suspense": 67,
+        "funny": 13,
+        "cool": 8,
+        "shock": 4,
+        "sweet": 1,
+        "conflict": 1
+      },
+      "sample_comments": [
+        {
+          "text": "他俩一伙的吧",
+          "likes": 265
+        },
+        {
+          "text": "眼神对接一看就是在说谎",
+          "likes": 127
+        },
+        {
+          "text": "司机不像好人啊。",
+          "likes": 87
+        },
+        {
+          "text": "这俩一伙的",
+          "likes": 83
+        },
+        {
+          "text": "司机的孩子",
+          "likes": 58
+        }
+      ]
+    },
+    {
+      "rank": 6,
+      "start_time": 90,
+      "end_time": 105,
+      "type": "shock",
+      "danmaku_score": 0.4875,
+      "danmaku_count": 71,
+      "like_sum": 978,
+      "emotion_density": 1.0,
+      "emotion_hits": {
+        "suspense": 11,
+        "shock": 21,
+        "funny": 21,
+        "sweet": 15,
+        "cool": 1,
+        "conflict": 2
+      },
+      "sample_comments": [
+        {
+          "text": "《奥特曼，你要有[捂脸]老婆了》",
+          "likes": 188
+        },
+        {
+          "text": "大哥可能心想钱没了",
+          "likes": 183
+        },
+        {
+          "text": "《奥特曼你有老婆咯》",
+          "likes": 150
+        },
+        {
+          "text": "[捂脸]笑死，吓死了",
+          "likes": 139
+        },
+        {
+          "text": "好敢说[恐惧]",
+          "likes": 56
+        }
+      ]
+    },
+    {
+      "rank": 7,
+      "start_time": 75,
+      "end_time": 90,
+      "type": "funny",
+      "danmaku_score": 0.4659,
+      "danmaku_count": 100,
+      "like_sum": 488,
+      "emotion_density": 0.76,
+      "emotion_hits": {
+        "shock": 14,
+        "funny": 24,
+        "conflict": 9,
+        "suspense": 22,
+        "cool": 7
+      },
+      "sample_comments": [
+        {
+          "text": "限额的[笑哭]",
+          "likes": 248
+        },
+        {
+          "text": "大哥实惨",
+          "likes": 187
+        },
+        {
+          "text": "限額啊",
+          "likes": 16
+        },
+        {
+          "text": "命苦的大哥[笑哭]",
+          "likes": 9
+        },
+        {
+          "text": "还没搞清楚就这样好吗？",
+          "likes": 8
+        }
+      ]
+    },
+    {
+      "rank": 8,
+      "start_time": 60,
+      "end_time": 75,
+      "type": "suspense",
+      "danmaku_score": 0.3055,
+      "danmaku_count": 67,
+      "like_sum": 353,
+      "emotion_density": 0.6716,
+      "emotion_hits": {
+        "conflict": 10,
+        "suspense": 15,
+        "funny": 11,
+        "cool": 5,
+        "shock": 3,
+        "sweet": 1
+      },
+      "sample_comments": [
+        {
+          "text": "为什么刷老大的卡？又不是他的孩子老婆[偷笑][偷笑]",
+          "likes": 105
+        },
+        {
+          "text": "笑了笑了， 拿到钱的时候她笑了",
+          "likes": 100
+        },
+        {
+          "text": "大哥太可怜了",
+          "likes": 47
+        },
+        {
+          "text": "可怜的大哥：爷爷我的卡[快哭了]",
+          "likes": 31
+        },
+        {
+          "text": "这个孩子应该是司机的",
+          "likes": 15
+        }
+      ]
+    },
+    {
+      "rank": 9,
+      "start_time": 45,
+      "end_time": 60,
+      "type": "suspense",
+      "danmaku_score": 0.269,
+      "danmaku_count": 69,
+      "like_sum": 62,
+      "emotion_density": 0.7681,
+      "emotion_hits": {
+        "cool": 9,
+        "shock": 10,
+        "suspense": 28,
+        "funny": 3,
+        "conflict": 2,
+        "sweet": 1
+      },
+      "sample_comments": [
+        {
+          "text": "孩子是司机的",
+          "likes": 35
+        },
+        {
+          "text": "老四也好奶啊",
+          "likes": 15
+        },
+        {
+          "text": "想看老五闯祸挨太奶奶家法[捂脸]",
+          "likes": 4
+        },
+        {
+          "text": "对啊，有间谍。有问题？[没看够][没看够][没看够][爱慕]",
+          "likes": 3
+        },
+        {
+          "text": "一伙的吧[笑哭]",
+          "likes": 2
+        }
+      ]
+    },
+    {
+      "rank": 10,
+      "start_time": 165,
+      "end_time": 180,
+      "type": "unknown",
+      "danmaku_score": 0.0022,
+      "danmaku_count": 1,
+      "like_sum": 0,
+      "emotion_density": 0.0,
+      "emotion_hits": {},
+      "sample_comments": [
+        {
+          "text": "此人也是本色出演了",
+          "likes": 0
+        }
+      ]
+    }
+  ]
+}

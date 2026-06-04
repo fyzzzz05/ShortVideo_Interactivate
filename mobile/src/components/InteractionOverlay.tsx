@@ -10,6 +10,7 @@ import { StyleSheet, View } from 'react-native';
 import { Highlight } from '../data/types';
 import { SCENE_MAP, resolveScene } from '../config/sceneMap';
 import SlapGame from './SlapGame';
+import PunchGame from './PunchGame';
 import HeartTap from './HeartTap';
 import RageHold from './RageHold';
 import ParticleEngine, { ParticleEngineHandle } from './ParticleEngine';
@@ -49,6 +50,8 @@ const InteractionOverlay: React.FC<Props> = ({
 
   const renderGame = () => {
     switch (config.component) {
+      case 'PunchGame':
+        return <PunchGame {...gameProps} />;
       case 'SlapGame':
         return <SlapGame {...gameProps} />;
       case 'HeartTap':
@@ -56,7 +59,7 @@ const InteractionOverlay: React.FC<Props> = ({
       case 'RageHold':
         return <RageHold {...gameProps} />;
       default:
-        return <SlapGame {...gameProps} />;
+        return <PunchGame {...gameProps} />;
     }
   };
 
