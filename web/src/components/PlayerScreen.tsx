@@ -1,20 +1,232 @@
-/**
- * PlayerScreen — 移动端短剧播放器。
- *
- * 规则：
- *  - 高光弹窗出现时视频继续播放，用户不点就自动消失
- *  - 用户点击互动按钮时才暂停视频
- *  - 弹幕由用户自行输入，不再预置
- *  - Canvas 统一渲染：粒子 + 脸部打肿肿胀包
- *  - 全部用 ref 驱动，无闭包陷阱
- */
+import React, { useCallback, useEffect, useMemo, useRef, useState } from 'react';
+import { EPISODES } from '../data/episodes';
+import punchBboxRaw from '../data/punch_bbox.json';
 
-import React, { useState, useRef, useCallback, useEffect } from 'react';
-import { EPISODES, HIGHLIGHTS } from '../data/episodes';
-import type { HighlightEvent, ParticlePreset } from '../types';
-import { detectFaceFromVideo, resolveFacePosition } from '../engine/FaceDetector';
+type BboxEntry = {
+  time: number;
+  bbox: { x: number; y: number; w: number; h: number };
+};
 
-// ═══ Icons ═══
+type LiveDanmaku = { id: number; text: string; track: number; createdAt: number };
+
+type PunchHighlight = {
+  episodeId: number;
+  startTime: number;
+  endTime: number;
+  title: string;
+  maxHp: number;
+  bboxData: BboxEntry[];
+};
+
+type ActiveBbox = BboxEntry & {
+  px: number;
+  py: number;
+  pw: number;
+  ph: number;
+};
+
+type Effect = {
+  dead: boolean;
+  update: (dt: number) => void;
+  draw: (ctx: CanvasRenderingContext2D) => void;
+};
+
+const PUNCH_HIGHLIGHTS: PunchHighlight[] = [
+  {
+    episodeId: 5,
+    startTime: 15,
+    endTime: 30,
+    title: '点击打脸',
+    maxHp: 300,
+    bboxData: punchBboxRaw as BboxEntry[],
+  },
+];
+
+const MATCH_TOLERANCE = 0.08;
+const HIT_EXPAND_PX = 8;
+const COMBO_WINDOW_MS = 2000;
+const KO_RESUME_MS = 1200;
+const COMIC_WORDS = ['BANG!!', 'POW!!', 'SMASH!!', 'BOOM!!', 'PUNCH!!'];
+const PARTICLE_EMOJIS = ['⭐', '💥', '⚡', '🔥', '💢', '💫', '✨', '🌟'];
+
+function fmtNum(n: number): string {
+  if (n >= 10000) return (n / 10000).toFixed(1) + 'w';
+  if (n >= 1000) return (n / 1000).toFixed(1) + 'k';
+  return String(n);
+}
+
+function rand(min: number, max: number) {
+  return min + Math.random() * (max - min);
+}
+
+function randInt(min: number, max: number) {
+  return Math.floor(rand(min, max + 1));
+}
+
+function easeOutCubic(t: number) {
+  return 1 - Math.pow(1 - t, 3);
+}
+
+class ScreenFlash implements Effect {
+  dead = false;
+  private elapsed = 0;
+  constructor(private w: number, private h: number, private duration = 0.2, private color = '#fff') {}
+  update(dt: number) {
+    this.elapsed += dt;
+    if (this.elapsed >= this.duration) this.dead = true;
+  }
+  draw(ctx: CanvasRenderingContext2D) {
+    const alpha = Math.max(0, 1 - this.elapsed / this.duration) * 0.48;
+    ctx.save();
+    ctx.globalAlpha = alpha;
+    ctx.fillStyle = this.color;
+    ctx.fillRect(0, 0, this.w, this.h);
+    ctx.restore();
+  }
+}
+
+class FistFly implements Effect {
+  dead = false;
+  private elapsed = 0;
+  private sx = -60;
+  private sy = -60;
+  constructor(private tx: number, private ty: number, private duration = 0.4) {}
+  update(dt: number) {
+    this.elapsed += dt;
+    if (this.elapsed >= this.duration) this.dead = true;
+  }
+  draw(ctx: CanvasRenderingContext2D) {
+    const t = Math.min(this.elapsed / this.duration, 1);
+    const e = easeOutCubic(t);
+    const x = this.sx + (this.tx - this.sx) * e;
+    const y = this.sy + (this.ty - this.sy) * e;
+    const alpha = t > 0.82 ? Math.max(0, 1 - (t - 0.82) / 0.18) : 1;
+    ctx.save();
+    ctx.globalAlpha = alpha;
+    ctx.translate(x, y);
+    ctx.rotate((-35 * (1 - e) * Math.PI) / 180);
+    ctx.scale(1 + 0.45 * (1 - e), 1 + 0.45 * (1 - e));
+    ctx.font = '42px "Apple Color Emoji","Segoe UI Emoji",sans-serif';
+    ctx.textAlign = 'center';
+    ctx.textBaseline = 'middle';
+    ctx.fillText('👊', 0, 0);
+    ctx.restore();
+  }
+}
+
+class Shockwave implements Effect {
+  dead = false;
+  private elapsed = 0;
+  constructor(private x: number, private y: number, private duration = 0.5, private maxR = 125) {}
+  update(dt: number) {
+    this.elapsed += dt;
+    if (this.elapsed >= this.duration) this.dead = true;
+  }
+  draw(ctx: CanvasRenderingContext2D) {
+    const t = Math.min(this.elapsed / this.duration, 1);
+    const r = this.maxR * t;
+    ctx.save();
+    for (let i = 0; i < 3; i++) {
+      const ri = r - i * 8;
+      if (ri <= 0) continue;
+      ctx.globalAlpha = (1 - t) * (0.8 - i * 0.18);
+      ctx.strokeStyle = i === 0 ? '#ffd60a' : i === 1 ? '#ff3b30' : '#fff';
+      ctx.lineWidth = 3 - i * 0.6;
+      ctx.beginPath();
+      ctx.arc(this.x, this.y, ri, 0, Math.PI * 2);
+      ctx.stroke();
+    }
+    ctx.restore();
+  }
+}
+
+class ParticleBurst implements Effect {
+  dead = false;
+  private particles: Array<{
+    x: number; y: number; vx: number; vy: number; life: number; age: number; emoji: string; rot: number; scale: number;
+  }> = [];
+  constructor(x: number, y: number, count = randInt(8, 12)) {
+    for (let i = 0; i < count; i++) {
+      const angle = (Math.PI * 2 * i) / count + rand(-0.25, 0.25);
+      const speed = rand(90, 280);
+      this.particles.push({
+        x, y,
+        vx: Math.cos(angle) * speed,
+        vy: Math.sin(angle) * speed,
+        life: rand(0.5, 0.85),
+        age: 0,
+        emoji: PARTICLE_EMOJIS[randInt(0, PARTICLE_EMOJIS.length - 1)],
+        rot: rand(-360, 360),
+        scale: rand(0.55, 1.25),
+      });
+    }
+  }
+  update(dt: number) {
+    let alive = false;
+    for (const p of this.particles) {
+      p.age += dt;
+      if (p.age < p.life) {
+        alive = true;
+        p.x += p.vx * dt;
+        p.y += p.vy * dt;
+        p.vy += 155 * dt;
+        p.vx *= 0.97;
+        p.vy *= 0.97;
+      }
+    }
+    this.dead = !alive;
+  }
+  draw(ctx: CanvasRenderingContext2D) {
+    for (const p of this.particles) {
+      if (p.age >= p.life) continue;
+      const t = p.age / p.life;
+      ctx.save();
+      ctx.globalAlpha = 1 - t;
+      ctx.translate(p.x, p.y);
+      ctx.rotate((p.rot * t * Math.PI) / 180);
+      ctx.scale(p.scale, p.scale);
+      ctx.font = '22px "Apple Color Emoji","Segoe UI Emoji",sans-serif';
+      ctx.textAlign = 'center';
+      ctx.textBaseline = 'middle';
+      ctx.fillText(p.emoji, 0, 0);
+      ctx.restore();
+    }
+  }
+}
+
+class ComicText implements Effect {
+  dead = false;
+  private elapsed = 0;
+  private text = COMIC_WORDS[randInt(0, COMIC_WORDS.length - 1)];
+  constructor(private x: number, private y: number, private duration = 0.7) {}
+  update(dt: number) {
+    this.elapsed += dt;
+    if (this.elapsed >= this.duration) this.dead = true;
+  }
+  draw(ctx: CanvasRenderingContext2D) {
+    const t = Math.min(this.elapsed / this.duration, 1);
+    const alpha = t < 0.12 ? t / 0.12 : 1 - t;
+    const scale = t < 0.12 ? 0.35 + 0.65 * (t / 0.12) : 1 + 0.15 * t;
+    ctx.save();
+    ctx.globalAlpha = alpha;
+    ctx.translate(this.x, this.y - 50 * t);
+    ctx.scale(scale, scale);
+    ctx.font = '900 30px "Arial Black","PingFang SC",sans-serif';
+    ctx.textAlign = 'center';
+    ctx.textBaseline = 'middle';
+    ctx.strokeStyle = '#000';
+    ctx.lineWidth = 5;
+    ctx.strokeText(this.text, 0, 0);
+    const g = ctx.createLinearGradient(0, -18, 0, 18);
+    g.addColorStop(0, '#fff176');
+    g.addColorStop(0.5, '#ff6333');
+    g.addColorStop(1, '#ff1744');
+    ctx.fillStyle = g;
+    ctx.fillText(this.text, 0, 0);
+    ctx.restore();
+  }
+}
+
 const IconArrowLeft = () => (
   <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="white" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><polyline points="15 18 9 12 15 6" /></svg>
 );
@@ -31,306 +243,23 @@ const IconStar = () => (
   <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="white" strokeWidth="1.8"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2" /></svg>
 );
 
-function fmtNum(n: number): string {
-  if (n >= 10000) return (n / 10000).toFixed(1) + 'w';
-  if (n >= 1000) return (n / 1000).toFixed(1) + 'k';
-  return String(n);
-}
-
-// ═══════════════════════════════════════════════════════════
-//  Canvas 渲染引擎：粒子 + 肿胀包
-// ═══════════════════════════════════════════════════════════
-
-interface Particle {
-  x: number; y: number; vx: number; vy: number;
-  life: number; maxLife: number; size: number; color: string;
-  type: 'fragment' | 'heart' | 'star' | 'lightning';
-  rotation: number; rotSpeed: number;
-}
-
-interface SwellBump {
-  id: number;
-  x: number; y: number;
-  maxR: number; radius: number;
-  level: number;
-  born: number;
-  phase: 'enter' | 'idle';
-}
-
-interface LiveDanmaku { id: number; text: string; track: number; createdAt: number; }
-
-const SKIN_COLORS = [
-  'rgba(255,180,160,0.42)','rgba(255,148,128,0.52)',
-  'rgba(238,110,90,0.58)','rgba(212,78,66,0.64)','rgba(186,55,55,0.70)',
-];
-const BRUISE_COLORS = [
-  'transparent','rgba(190,38,38,0.40)','rgba(145,26,50,0.55)',
-  'rgba(95,22,68,0.64)','rgba(55,14,85,0.74)',
-];
-
-function easeOutBack(t: number): number {
-  const c1 = 1.70158, c3 = c1 + 1;
-  return 1 + c3 * (t - 1) ** 3 + c1 * (t - 1) ** 2;
-}
-
-function genParticles(preset: ParticlePreset, cx: number, cy: number): Particle[] {
-  const count = 40 + Math.floor(Math.random() * 20);
-  const list: Particle[] = [];
-  for (let i = 0; i < count; i++) {
-    const base: Particle = {
-      x: cx, y: cy, vx: 0, vy: 0,
-      life: 800 + Math.random() * 600, maxLife: 0,
-      size: 0, color: '', type: 'fragment',
-      rotation: Math.random() * Math.PI * 2, rotSpeed: 0,
-    };
-    switch (preset) {
-      case 'slap_effect':
-      case 'conflict': {
-        const a = Math.random() * Math.PI * 2;
-        const s = 80 + Math.random() * 250;
-        base.type = 'fragment';
-        base.size = 3 + Math.random() * 8;
-        base.vx = Math.cos(a) * s;
-        base.vy = Math.sin(a) * s - 80;
-        base.color = ['#FF2D55','#FF3B30','#E74C3C','#C0392B','#FF6B3D','#8B0000'][Math.floor(Math.random() * 6)];
-        base.rotSpeed = (Math.random() - 0.5) * 10;
-        break;
-      }
-      case 'sweet': {
-        base.type = 'heart';
-        base.x = cx + (Math.random() - 0.5) * 200;
-        base.y = cy + Math.random() * 80;
-        base.vx = (Math.random() - 0.5) * 60;
-        base.vy = -(60 + Math.random() * 120);
-        base.size = 6 + Math.random() * 12;
-        base.color = ['#FF6B9D','#FF2D55','#FF85A1','#FFC0CB','#FF1493'][Math.floor(Math.random() * 5)];
-        break;
-      }
-      case 'funny': {
-        const a = Math.random() * Math.PI * 2;
-        const s = 80 + Math.random() * 200;
-        base.type = 'star';
-        base.size = 5 + Math.random() * 10;
-        base.vx = Math.cos(a) * s;
-        base.vy = Math.sin(a) * s;
-        base.color = ['#FFD60A','#FFCC00','#FF9500','#F0E040','#FFE55C'][Math.floor(Math.random() * 5)];
-        base.rotSpeed = (Math.random() - 0.5) * 15;
-        break;
-      }
-      case 'reverse': {
-        const a = Math.random() * Math.PI * 2;
-        const s = 150 + Math.random() * 300;
-        base.type = 'lightning';
-        base.size = 1.5 + Math.random() * 4;
-        base.vx = Math.cos(a) * s;
-        base.vy = Math.sin(a) * s;
-        base.color = ['#00D4FF','#FFFFFF','#4FC3F7','#E0F7FA','#80DEEA'][Math.floor(Math.random() * 5)];
-        break;
-      }
-    }
-    base.maxLife = base.life;
-    list.push(base);
-  }
-  return list;
-}
-
-function updateParticles(ps: Particle[], dt: number): Particle[] {
-  const sec = dt / 1000;
-  return ps
-    .map(p => {
-      const n = { ...p, life: p.life - dt };
-      if (p.type === 'fragment') n.vy += 350 * sec;
-      if (p.type === 'heart') n.vx += Math.sin(p.life * 0.005) * 30 * sec;
-      n.x += p.vx * sec;
-      n.y += p.vy * sec;
-      if (p.rotSpeed) n.rotation += p.rotSpeed * sec;
-      return n;
-    })
-    .filter(p => p.life > 0);
-}
-
-function drawParticles(ctx: CanvasRenderingContext2D, ps: Particle[]) {
-  for (const p of ps) {
-    const alpha = Math.min(p.life / p.maxLife, 1);
-    ctx.globalAlpha = alpha;
-    switch (p.type) {
-      case 'fragment': {
-        ctx.save();
-        ctx.translate(p.x, p.y);
-        ctx.rotate(p.rotation);
-        ctx.fillStyle = p.color;
-        ctx.beginPath();
-        ctx.moveTo(-p.size, -p.size * 0.6);
-        ctx.lineTo(p.size * 0.4, -p.size);
-        ctx.lineTo(p.size, p.size * 0.3);
-        ctx.lineTo(-p.size * 0.3, p.size * 0.8);
-        ctx.closePath();
-        ctx.fill();
-        ctx.restore();
-        break;
-      }
-      case 'heart': {
-        ctx.save();
-        ctx.translate(p.x, p.y);
-        ctx.fillStyle = p.color;
-        ctx.beginPath();
-        const s = p.size;
-        const tc = s * 0.3;
-        ctx.moveTo(0, tc);
-        ctx.bezierCurveTo(0, 0, -s * 0.5, 0, -s * 0.5, s * 0.3);
-        ctx.bezierCurveTo(-s * 0.5, s * 0.7, 0, s, 0, s * 0.85);
-        ctx.bezierCurveTo(0, s, s * 0.5, s * 0.7, s * 0.5, s * 0.3);
-        ctx.bezierCurveTo(s * 0.5, 0, 0, 0, 0, tc);
-        ctx.fill();
-        ctx.restore();
-        break;
-      }
-      case 'star': {
-        ctx.save();
-        ctx.translate(p.x, p.y);
-        ctx.rotate(p.rotation);
-        ctx.fillStyle = p.color;
-        ctx.beginPath();
-        for (let i = 0; i < 5; i++) {
-          const a = (i * 4 * Math.PI) / 5 - Math.PI / 2;
-          const r = i % 2 === 0 ? p.size : p.size * 0.4;
-          const fx = Math.cos(a) * r;
-          const fy = Math.sin(a) * r;
-          if (i === 0) ctx.moveTo(fx, fy);
-          else ctx.lineTo(fx, fy);
-        }
-        ctx.closePath();
-        ctx.fill();
-        ctx.restore();
-        break;
-      }
-      case 'lightning': {
-        ctx.strokeStyle = p.color;
-        ctx.lineWidth = p.size;
-        ctx.lineCap = 'round';
-        ctx.globalAlpha = alpha * 0.8;
-        ctx.beginPath();
-        ctx.moveTo(p.x, p.y);
-        ctx.lineTo(p.x + p.vx * 0.03, p.y + p.vy * 0.03);
-        ctx.stroke();
-        break;
-      }
-    }
-  }
-  ctx.globalAlpha = 1;
-}
-
-function drawBump(ctx: CanvasRenderingContext2D, b: SwellBump) {
-  const { x, y, radius: r, level } = b;
-  if (r < 2) return;
-
-  // 皮肤隆起
-  const sg = ctx.createRadialGradient(x - r * 0.15, y - r * 0.1, r * 0.1, x, y, r);
-  sg.addColorStop(0, SKIN_COLORS[Math.min(level, 4)]);
-  sg.addColorStop(0.6, SKIN_COLORS[Math.min(level, 4)].replace(/[\d.]+\)$/, '0.18)'));
-  sg.addColorStop(1, 'transparent');
-  ctx.beginPath(); ctx.arc(x, y, r, 0, Math.PI * 2); ctx.fillStyle = sg; ctx.fill();
-
-  // 瘀血核心
-  if (level >= 1) {
-    const br = r * 0.46;
-    const bg = ctx.createRadialGradient(x, y, br * 0.05, x, y, br);
-    bg.addColorStop(0, BRUISE_COLORS[Math.min(level, 4)]);
-    bg.addColorStop(1, 'transparent');
-    ctx.beginPath(); ctx.arc(x, y, br, 0, Math.PI * 2); ctx.fillStyle = bg; ctx.fill();
-  }
-
-  // 黄绿瘀伤环
-  if (level >= 3) {
-    ctx.beginPath(); ctx.arc(x, y, r * 0.64, 0, Math.PI * 2);
-    ctx.strokeStyle = `rgba(175,155,75,${0.20 + level * 0.06})`; ctx.lineWidth = 2.5; ctx.stroke();
-  }
-
-  // 镜面高光 + 次高光
-  const gr = r * 0.16;
-  ctx.beginPath(); ctx.arc(x - r * 0.16, y - r * 0.14, gr, 0, Math.PI * 2);
-  ctx.fillStyle = 'rgba(255,255,255,0.58)'; ctx.fill();
-  const sr = gr * 0.45;
-  ctx.beginPath(); ctx.arc(x + r * 0.28, y + r * 0.26, sr, 0, Math.PI * 2);
-  ctx.fillStyle = 'rgba(255,255,255,0.11)'; ctx.fill();
-}
-
-// ═══════════════════════════════════════════════════════════
-//  HighlightPop — 高光互动浮层
-//  ⭐ 视频继续播放，用户点按钮才暂停
-//  ⭐ 超时不理 → 静默消失
-// ═══════════════════════════════════════════════════════════
-const HL_TIMEOUT = 6000;
-const HighlightPop: React.FC<{
-  highlight: HighlightEvent;
-  onAction: () => void;   // 用户点击 → 暂停视频 + 触发特效
-  onDismiss: () => void;  // 超时 → 静默消失，视频继续
-}> = ({ highlight, onAction, onDismiss }) => {
-  const [visible, setVisible] = useState(false);
-  const timer = useRef<ReturnType<typeof setTimeout>>();
-
-  useEffect(() => {
-    requestAnimationFrame(() => setVisible(true));
-    timer.current = setTimeout(() => {
-      setVisible(false);
-      setTimeout(onDismiss, 300);
-    }, HL_TIMEOUT);
-    return () => clearTimeout(timer.current);
-  }, [onDismiss]);
-
-  const doAction = useCallback(() => {
-    clearTimeout(timer.current);
-    setVisible(false);
-    onAction();
-  }, [onAction]);
-
-  return (
-    <div
-      className={`absolute bottom-[30%] left-1/2 z-40 transition-all duration-250 ${
-        visible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-[40px]'
-      }`}
-      style={{ transform: visible ? 'translate(-50%, 0)' : 'translate(-50%, 40px)' }}
-    >
-      <div
-        className="flex flex-col items-center gap-3 px-6 py-5 rounded-3xl border border-white/20"
-        style={{
-          background: 'rgba(20,20,20,0.82)',
-          backdropFilter: 'blur(24px)',
-          WebkitBackdropFilter: 'blur(24px)',
-          minWidth: '240px',
-        }}
-      >
-        <div className="flex items-center gap-2">
-          <span className="text-3xl">{highlight.emoji}</span>
-          <span className="text-white text-[17px] font-semibold">{highlight.label}</span>
-        </div>
-        <div className="flex gap-3 w-full">
-          <button
-            onClick={doAction}
-            className="flex-1 py-2.5 px-4 rounded-full text-white text-[14px] font-medium bg-white/10 border border-white/20 active:bg-white/20 active:scale-95 transition-all"
-          >
-            {highlight.leftBtn}
-          </button>
-          <button
-            onClick={doAction}
-            className="flex-1 py-2.5 px-4 rounded-full text-white text-[14px] font-medium bg-white/10 border border-white/20 active:bg-white/20 active:scale-95 transition-all"
-          >
-            {highlight.rightBtn}
-          </button>
-        </div>
-      </div>
-    </div>
-  );
-};
-
-// ═══════════════════════════════════════════════════════════
-//  PlayerScreen — 主组件
-// ═══════════════════════════════════════════════════════════
 const PlayerScreen: React.FC = () => {
   const containerRef = useRef<HTMLDivElement>(null);
   const videoRef = useRef<HTMLVideoElement>(null);
   const canvasRef = useRef<HTMLCanvasElement>(null);
   const rafRef = useRef(0);
+  const effectsRef = useRef<Effect[]>([]);
+  const activeBboxesRef = useRef<ActiveBbox[]>([]);
+  const bboxCursorRef = useRef(0);
+  const shakeRef = useRef({ until: 0, intensity: 0 });
+  const firedRef = useRef<Record<number, boolean>>({});
+  const hpRef = useRef(300);
+  const comboRef = useRef(0);
+  const totalHitsRef = useRef(0);
+  const lastHitAtRef = useRef(0);
+  const comboTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
+  const koTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
+  const punchModeRef = useRef(false);
 
   const [epIdx, setEpIdx] = useState(0);
   const [paused, setPaused] = useState(true);
@@ -340,318 +269,314 @@ const PlayerScreen: React.FC = () => {
   const [likeB, setLikeB] = useState(false);
   const [swipeY, setSwipeY] = useState(0);
   const [swiping, setSwiping] = useState(false);
-  const [hl, setHl] = useState<HighlightEvent | null>(null);
   const [progX, setProgX] = useState(false);
   const [showIcon, setShowIcon] = useState(false);
   const [iconType, setIconType] = useState<'play' | 'pause'>('play');
-  // 用户弹幕
   const [danmakuList, setDanmakuList] = useState<LiveDanmaku[]>([]);
-  const dmIdRef = useRef(0);
   const [showDmInput, setShowDmInput] = useState(false);
+  const [punchMode, setPunchMode] = useState(false);
+  const [punchHp, setPunchHp] = useState(300);
+  const [punchCombo, setPunchCombo] = useState(0);
+  const [isKO, setIsKO] = useState(false);
 
-  // ⭐ 全用 ref，不用 state 追踪 combo — 避免闭包陷阱
-  const comboRef = useRef(0);
-  const particlesRef = useRef<Particle[]>([]);
-  const bumpsRef = useRef<SwellBump[]>([]);
-  const bumpIdRef = useRef(0);
-  const shakeRef = useRef({ decay: 0, offset: 0 });
-  const faceDataRef = useRef<{ x: number; y: number; w: number; h: number } | null>(null);
-  const detectTimerRef = useRef(0);
-  const [, forceTick] = useState(0);
-
+  const dmIdRef = useRef(0);
   const ep = EPISODES[epIdx] ?? EPISODES[0];
+  const punchHighlight = useMemo(() => PUNCH_HIGHLIGHTS.find(h => h.episodeId === ep.id) ?? null, [ep.id]);
   const prog = duration > 0 ? (time / duration) * 100 : 0;
 
-  // ═══ 容器尺寸 ═══
+  useEffect(() => { punchModeRef.current = punchMode; }, [punchMode]);
+
+  const resetPunch = useCallback((maxHp = punchHighlight?.maxHp ?? 300) => {
+    if (comboTimerRef.current) clearTimeout(comboTimerRef.current);
+    if (koTimerRef.current) clearTimeout(koTimerRef.current);
+    hpRef.current = maxHp;
+    comboRef.current = 0;
+    totalHitsRef.current = 0;
+    lastHitAtRef.current = 0;
+    activeBboxesRef.current = [];
+    effectsRef.current = [];
+    setPunchHp(maxHp);
+    setPunchCombo(0);
+    setIsKO(false);
+  }, [punchHighlight?.maxHp]);
+
   const getContainerSize = useCallback(() => {
-    const el = containerRef.current;
-    if (!el) return { w: window.innerWidth, h: window.innerHeight };
-    const r = el.getBoundingClientRect();
-    return { w: r.width || window.innerWidth, h: r.height || window.innerHeight };
+    const r = containerRef.current?.getBoundingClientRect();
+    return { w: r?.width || window.innerWidth, h: r?.height || window.innerHeight };
   }, []);
 
-  // ═══ 视频渲染区域 (object-fit: cover) ═══
   const getVideoRect = useCallback(() => {
     const vid = videoRef.current;
     if (!vid?.videoWidth) return null;
-    const vw = vid.videoWidth, vh = vid.videoHeight;
     const { w: sw, h: sh } = getContainerSize();
-    if (sw <= 0 || sh <= 0) return null;
-    const vA = vw / vh, sA = sw / sh;
+    const vA = vid.videoWidth / vid.videoHeight;
+    const sA = sw / sh;
     if (vA > sA) {
-      const scale = sh / vh;
-      return { ox: (sw - vw * scale) / 2, oy: 0, rw: vw * scale, rh: sh, scale };
+      const scale = sh / vid.videoHeight;
+      return { ox: (sw - vid.videoWidth * scale) / 2, oy: 0, rw: vid.videoWidth * scale, rh: sh };
     }
-    const scale = sw / vw;
-    return { ox: 0, oy: (sh - vh * scale) / 2, rw: sw, rh: vh * scale, scale };
+    const scale = sw / vid.videoWidth;
+    return { ox: 0, oy: (sh - vid.videoHeight * scale) / 2, rw: sw, rh: vid.videoHeight * scale };
   }, [getContainerSize]);
 
-  // ═══ 脸部屏幕坐标 ═══
-  const getFaceScreen = useCallback(() => {
+  const findActiveBboxes = useCallback((currentTime: number): ActiveBbox[] => {
+    if (!punchHighlight) return [];
     const rr = getVideoRect();
-    if (!rr) return null;
-    const fd = faceDataRef.current || { x: 0.5, y: 0.38, w: 0.28, h: 0.34 };
-    return {
-      cx: rr.ox + rr.rw * fd.x,
-      cy: rr.oy + rr.rh * fd.y,
-      fw: rr.rw * fd.w,
-      fh: rr.rh * fd.h,
-    };
-  }, [getVideoRect]);
-
-  // ═══ 创建肿胀包 ═══
-  const spawnBump = useCallback((level: number) => {
-    const f = getFaceScreen();
-    if (!f) return;
-    const angle = Math.random() * Math.PI * 2;
-    const dist = f.fw * (0.04 + Math.random() * 0.26);
-    bumpsRef.current.push({
-      id: bumpIdRef.current++,
-      x: f.cx + Math.cos(angle) * dist,
-      y: f.cy + Math.sin(angle) * dist * 0.55,
-      maxR: f.fw * (0.16 + Math.random() * 0.10 + level * 0.03),
-      radius: 0,
-      level: Math.min(level, 4),
-      phase: 'enter',
-      born: performance.now(),
-    });
-  }, [getFaceScreen]);
-
-  // ═══ 触发特效（打脸 / 冲突统一入口）═══
-  const triggerEffect = useCallback((type: string) => {
-    const nc = comboRef.current + 1;
-    comboRef.current = nc;
-    shakeRef.current.decay = Math.min(8 + nc * 2, 18);
-    const f = getFaceScreen();
-    if (f) {
-      const preset: ParticlePreset = (type === 'slap_effect' || type === 'conflict') ? 'slap_effect' : type as ParticlePreset;
-      particlesRef.current.push(...genParticles(preset, f.cx, f.cy));
+    if (!rr) return [];
+    const data = punchHighlight.bboxData;
+    if (data.length === 0) return [];
+    let cursor = bboxCursorRef.current;
+    if (cursor >= data.length || data[cursor]?.time > currentTime + MATCH_TOLERANCE) cursor = 0;
+    while (cursor < data.length && data[cursor].time < currentTime - MATCH_TOLERANCE) cursor++;
+    bboxCursorRef.current = cursor;
+    const result: ActiveBbox[] = [];
+    for (let i = cursor; i < data.length; i++) {
+      const entry = data[i];
+      if (entry.time > currentTime + MATCH_TOLERANCE) break;
+      result.push({
+        ...entry,
+        px: rr.ox + entry.bbox.x * rr.rw,
+        py: rr.oy + entry.bbox.y * rr.rh,
+        pw: entry.bbox.w * rr.rw,
+        ph: entry.bbox.h * rr.rh,
+      });
     }
-    spawnBump(nc - 1);
-    bumpsRef.current.forEach(b => { b.level = Math.min(b.level + 1, 4); });
-    forceTick(t => t + 1);
-  }, [getFaceScreen, spawnBump]);
+    return result;
+  }, [getVideoRect, punchHighlight]);
 
-  // ═══ 重置 ═══
-  const resetSlap = useCallback(() => {
-    comboRef.current = 0;
-    bumpsRef.current = [];
-    bumpIdRef.current = 0;
-    shakeRef.current = { decay: 0, offset: 0 };
-    particlesRef.current = [];
-    forceTick(t => t + 1);
+  const exitPunchAndResume = useCallback(() => {
+    setPunchMode(false);
+    punchModeRef.current = false;
+    activeBboxesRef.current = [];
+    effectsRef.current = [];
+    shakeRef.current = { until: 0, intensity: 0 };
+    bboxCursorRef.current = 0;
+    setIsKO(false);
+    setPunchCombo(0);
+    setTimeout(() => {
+      videoRef.current?.play().catch(() => {});
+      setPaused(false);
+    }, 30);
   }, []);
 
-  // ═══ Canvas rAF 渲染循环 ═══
+  const enterPunchMode = useCallback((highlight: PunchHighlight) => {
+    const v = videoRef.current;
+    if (!v) return;
+    resetPunch(highlight.maxHp);
+    v.pause();
+    v.currentTime = highlight.startTime;
+    bboxCursorRef.current = 0;
+    setTime(highlight.startTime);
+    setPaused(true);
+    setPunchMode(true);
+    punchModeRef.current = true;
+    setIconType('pause');
+    setShowIcon(false);
+  }, [resetPunch]);
+
+  const triggerPunch = useCallback((hitX: number, hitY: number) => {
+    if (!punchHighlight || isKO) return;
+    const now = performance.now();
+    comboRef.current = now - lastHitAtRef.current <= COMBO_WINDOW_MS ? comboRef.current + 1 : 1;
+    lastHitAtRef.current = now;
+    if (comboTimerRef.current) clearTimeout(comboTimerRef.current);
+    comboTimerRef.current = setTimeout(() => {
+      comboRef.current = 0;
+      setPunchCombo(0);
+    }, COMBO_WINDOW_MS);
+
+    const damage = 8 + randInt(0, 12) + Math.min(comboRef.current * 2, 20);
+    hpRef.current = Math.max(0, hpRef.current - damage);
+    totalHitsRef.current += 1;
+    setPunchHp(hpRef.current);
+    setPunchCombo(comboRef.current);
+
+    const { w, h } = getContainerSize();
+    effectsRef.current.push(
+      new ScreenFlash(w, h),
+      new FistFly(hitX, hitY),
+      new Shockwave(hitX, hitY),
+      new ParticleBurst(hitX, hitY),
+      new ComicText(hitX, hitY),
+    );
+
+    shakeRef.current = { until: performance.now() + 260, intensity: 7 };
+
+    if (hpRef.current <= 0) {
+      setIsKO(true);
+      effectsRef.current.push(new ScreenFlash(getContainerSize().w, getContainerSize().h, 0.6, '#ff0000'));
+      koTimerRef.current = setTimeout(exitPunchAndResume, KO_RESUME_MS);
+    }
+  }, [exitPunchAndResume, getContainerSize, isKO, punchHighlight]);
+
+  const handlePunchPoint = useCallback((clientX: number, clientY: number) => {
+    if (!punchModeRef.current || isKO) return false;
+    const rect = canvasRef.current?.getBoundingClientRect();
+    if (!rect) return false;
+    const x = clientX - rect.left;
+    const y = clientY - rect.top;
+    const hit = activeBboxesRef.current.find(b =>
+      x >= b.px - HIT_EXPAND_PX &&
+      x <= b.px + b.pw + HIT_EXPAND_PX &&
+      y >= b.py - HIT_EXPAND_PX &&
+      y <= b.py + b.ph + HIT_EXPAND_PX,
+    );
+    if (!hit) return false;
+    triggerPunch(hit.px + hit.pw / 2, hit.py + hit.ph / 2);
+    return true;
+  }, [isKO, triggerPunch]);
+
   useEffect(() => {
     let run = true;
     let last = performance.now();
-
     const loop = () => {
       if (!run) return;
       const now = performance.now();
-      const dt = Math.min(now - last, 50);
+      const dt = Math.min((now - last) / 1000, 0.05);
       last = now;
 
       const cvs = canvasRef.current;
-      if (!cvs) { rafRef.current = requestAnimationFrame(loop); return; }
-      const ctx = cvs.getContext('2d');
-      if (!ctx) { rafRef.current = requestAnimationFrame(loop); return; }
+      const ctx = cvs?.getContext('2d');
+      if (!cvs || !ctx) {
+        rafRef.current = requestAnimationFrame(loop);
+        return;
+      }
 
       const dpr = window.devicePixelRatio || 1;
-      const { w: tw, h: th } = getContainerSize();
-      if (cvs.width !== tw * dpr || cvs.height !== th * dpr) {
-        cvs.width = tw * dpr;
-        cvs.height = th * dpr;
-        cvs.style.width = tw + 'px';
-        cvs.style.height = th + 'px';
-        ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+      const { w, h } = getContainerSize();
+      if (cvs.width !== Math.round(w * dpr) || cvs.height !== Math.round(h * dpr)) {
+        cvs.width = Math.round(w * dpr);
+        cvs.height = Math.round(h * dpr);
+        cvs.style.width = `${w}px`;
+        cvs.style.height = `${h}px`;
       }
-      const cw = cvs.width / dpr;
+      ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+      ctx.clearRect(0, 0, w, h);
 
-      // 脸部检测（每 6 帧，播放时运行）
-      detectTimerRef.current++;
-      const v = videoRef.current;
-      if (v && !v.paused && detectTimerRef.current % 6 === 0 && v.videoWidth > 0) {
-        const detected = detectFaceFromVideo(v);
-        if (detected && detected.confidence > 0.2) {
-          faceDataRef.current = { x: detected.x, y: detected.y, w: detected.w, h: detected.h };
-        }
+      if (punchModeRef.current) {
+        activeBboxesRef.current = findActiveBboxes(videoRef.current?.currentTime ?? 0);
+      } else {
+        activeBboxesRef.current = [];
       }
 
-      ctx.clearRect(0, 0, cw, cvs.height / dpr);
-
-      // 抖动
-      const sk = shakeRef.current;
-      if (sk.decay > 0.01) {
-        sk.decay *= Math.exp(-dt / 250);
-        sk.offset = sk.decay * Math.sin(now * 0.001 * 60 * Math.PI * 2);
-      } else { sk.decay = 0; sk.offset = 0; }
-      ctx.save();
-      if (Math.abs(sk.offset) > 0.1) ctx.translate(sk.offset, 0);
-
-      // 全脸红底
-      const cl = Math.min(comboRef.current, 5);
-      if (cl >= 3) {
-        const fc = getFaceScreen();
-        if (fc) {
-          const g = ctx.createRadialGradient(fc.cx, fc.cy, fc.fw * 0.12, fc.cx, fc.cy, fc.fw * 0.75);
-          const a = [0, 0, 0, 0.14, 0.26, 0.35][cl];
-          g.addColorStop(0, `rgba(230,35,25,${a})`);
-          g.addColorStop(0.55, `rgba(220,30,22,${a * 0.5})`);
-          g.addColorStop(1, 'transparent');
-          ctx.beginPath();
-          ctx.ellipse(fc.cx, fc.cy, fc.fw * 0.55, fc.fh * 0.55, 0, 0, Math.PI * 2);
-          ctx.fillStyle = g; ctx.fill();
-        }
+      const shake = shakeRef.current;
+      if (shake.until > now) {
+        const t = 1 - (shake.until - now) / 260;
+        const amp = Math.max(0, (1 - t) * shake.intensity);
+        ctx.save();
+        ctx.translate(rand(-amp, amp), rand(-amp, amp));
       }
 
-      // 肿胀包
-      bumpsRef.current = bumpsRef.current.filter(b => {
-        const age = now - b.born;
-        if (b.phase === 'enter') {
-          const t = Math.min(age / 350, 1);
-          b.radius = b.maxR * easeOutBack(t);
-          if (t >= 1) b.phase = 'idle';
-        }
-        if (b.phase === 'idle') {
-          b.radius = b.maxR * (1 + Math.sin((age - 350) * 0.004 + b.id * 0.7) * 0.016);
-        }
-        drawBump(ctx, b);
-        return true;
-      });
-
-      ctx.restore();
-
-      // 脸部检测调试框
-      if (bumpsRef.current.length === 0 && particlesRef.current.length === 0) {
-        const fc = getFaceScreen();
-        if (fc && faceDataRef.current) {
-          ctx.save();
-          ctx.strokeStyle = 'rgba(0,255,100,0.45)';
-          ctx.lineWidth = 1.5;
-          ctx.setLineDash([6, 4]);
-          ctx.strokeRect(fc.cx - fc.fw / 2, fc.cy - fc.fh / 2, fc.fw, fc.fh);
-          ctx.fillStyle = 'rgba(0,255,100,0.7)';
-          ctx.font = '10px monospace';
-          ctx.fillText('FACE', fc.cx - fc.fw / 2, fc.cy - fc.fh / 2 - 4);
-          ctx.restore();
-        }
+      for (let i = effectsRef.current.length - 1; i >= 0; i--) {
+        const fx = effectsRef.current[i];
+        fx.update(dt);
+        fx.draw(ctx);
+        if (fx.dead) effectsRef.current.splice(i, 1);
       }
-
-      // 粒子
-      particlesRef.current = updateParticles(particlesRef.current, dt);
-      drawParticles(ctx, particlesRef.current);
+      if (shake.until > now) ctx.restore();
 
       rafRef.current = requestAnimationFrame(loop);
     };
-
     rafRef.current = requestAnimationFrame(loop);
-    return () => { run = false; cancelAnimationFrame(rafRef.current); };
-  }, [getFaceScreen]);
+    return () => {
+      run = false;
+      cancelAnimationFrame(rafRef.current);
+    };
+  }, [findActiveBboxes, getContainerSize]);
 
-  // ═══ 视频事件 ═══
   const onTimeUpdate = useCallback(() => {
     const v = videoRef.current;
     if (!v) return;
     const t = v.currentTime;
     setTime(t);
     if (!duration) setDuration(v.duration || 0);
-    // 高光点检测 — ⭐ 不暂停视频，只弹出浮层
-    for (const h of HIGHLIGHTS) {
-      if ((h as any)._fired) continue;
-      if (Math.abs(h.time - t) < 0.35) {
-        (h as any)._fired = true;
-        setHl(h);
-        const detected = v.videoWidth > 0 ? detectFaceFromVideo(v) : null;
-        const resolved = resolveFacePosition(detected, h.facePosition);
-        if (resolved) faceDataRef.current = resolved;
-        resetSlap();
-        break;
-      }
+    if (punchHighlight && !firedRef.current[ep.id] && t >= punchHighlight.startTime && t < punchHighlight.endTime) {
+      firedRef.current[ep.id] = true;
+      enterPunchMode(punchHighlight);
     }
-  }, [duration, resetSlap]);
+  }, [duration, enterPunchMode, ep.id, punchHighlight]);
 
   const onLoaded = useCallback(() => {
     const v = videoRef.current;
     if (v) setDuration(v.duration || 0);
   }, []);
 
-  // ═══ 播放控制 ═══
   const togglePlay = useCallback(() => {
+    if (punchModeRef.current) return;
     const v = videoRef.current;
     if (!v) return;
-    if (v.paused) { v.play().catch(()=>{}); setPaused(false); setIconType('pause'); }
-    else { v.pause(); setPaused(true); setIconType('play'); }
+    if (v.paused) {
+      v.play().catch(() => {});
+      setPaused(false);
+      setIconType('pause');
+    } else {
+      v.pause();
+      setPaused(true);
+      setIconType('play');
+    }
     setShowIcon(true);
     setTimeout(() => setShowIcon(false), 1500);
   }, []);
 
-  // ═══ 滑动手势 ═══
   const swipe = useRef({ sy: 0, dy: 0 });
   const onTS = useCallback((e: React.TouchEvent) => {
+    if (punchModeRef.current) return;
     swipe.current = { sy: e.touches[0].clientY, dy: 0 };
-    setSwiping(true); setSwipeY(0);
+    setSwiping(true);
+    setSwipeY(0);
   }, []);
   const onTM = useCallback((e: React.TouchEvent) => {
-    if (!swiping) return;
+    if (!swiping || punchModeRef.current) return;
     const dy = e.touches[0].clientY - swipe.current.sy;
-    swipe.current.dy = dy; setSwipeY(dy);
+    swipe.current.dy = dy;
+    setSwipeY(dy);
   }, [swiping]);
   const onTE = useCallback(() => {
+    if (punchModeRef.current) return;
     setSwiping(false);
     const dy = swipe.current.dy;
     if (Math.abs(dy) > 80) {
       const dir = dy > 0 ? -1 : 1;
       const next = Math.max(0, Math.min(EPISODES.length - 1, epIdx + dir));
       if (next !== epIdx) {
-        setSwipeY(0); setEpIdx(next);
-        HIGHLIGHTS.forEach((h: any) => { h._fired = false; });
+        const nextEpisodeId = EPISODES[next]?.id;
+        if (nextEpisodeId !== undefined) firedRef.current[nextEpisodeId] = false;
+        setSwipeY(0);
+        setEpIdx(next);
         setDanmakuList([]);
-        resetSlap();
+        setPunchMode(false);
+        resetPunch(PUNCH_HIGHLIGHTS.find(h => h.episodeId === EPISODES[next]?.id)?.maxHp ?? 300);
         videoRef.current?.load();
-        setTimeout(() => videoRef.current?.play().catch(()=>{}), 200);
+        setTimeout(() => videoRef.current?.play().catch(() => {}), 200);
         setPaused(false);
-      } else { setSwipeY(0); }
-    } else { setSwipeY(0); }
-  }, [epIdx, swiping, resetSlap]);
+      } else {
+        setSwipeY(0);
+      }
+    } else {
+      setSwipeY(0);
+    }
+  }, [epIdx, resetPunch]);
 
-  // ═══ 高光互动 — ⭐ 用户点按钮才暂停 ═══
-  const onHLAct = useCallback(() => {
-    if (!hl) return;
-    // 暂停视频
-    videoRef.current?.pause();
-    setPaused(true);
-    // 触发特效
-    triggerEffect(hl.type);
-    // 过一会儿弹窗消失，继续播放
-    setTimeout(() => {
-      setHl(null);
-      videoRef.current?.play().catch(()=>{});
-      setPaused(false);
-    }, 3000);
-  }, [hl, triggerEffect]);
-
-  const onHLDis = useCallback(() => {
-    setHl(null);  // 用户不理 → 弹窗静默消失，视频继续播放
-  }, []);
-
-  // ═══ 用户弹幕 ═══
   const sendDanmaku = useCallback((text: string) => {
     const dm: LiveDanmaku = { id: dmIdRef.current++, text, track: Math.floor(Math.random() * 4), createdAt: Date.now() };
     setDanmakuList(prev => [...prev.slice(-40), dm]);
-    // 每条弹幕显示 6 秒后自动移除
-    setTimeout(() => { setDanmakuList(prev => prev.filter(d => d.id !== dm.id)); }, 6000);
+    setTimeout(() => setDanmakuList(prev => prev.filter(d => d.id !== dm.id)), 6000);
   }, []);
 
-  // ═══ 进度条点击 ═══
   const onProgTap = useCallback((e: React.MouseEvent) => {
     e.stopPropagation();
+    if (punchModeRef.current) return;
     const rect = (e.currentTarget as HTMLElement).getBoundingClientRect();
     const ratio = (e.clientX - rect.left) / rect.width;
     const v = videoRef.current;
-    if (v && duration) { v.currentTime = ratio * duration; setTime(ratio * duration); }
+    if (v && duration) {
+      v.currentTime = ratio * duration;
+      setTime(ratio * duration);
+    }
   }, [duration]);
+
+  const hpPct = punchHighlight ? Math.max(0, (punchHp / punchHighlight.maxHp) * 100) : 100;
+  const aliveHearts = punchHighlight ? Math.ceil((punchHp / punchHighlight.maxHp) * 3) : 3;
 
   return (
     <div
@@ -661,11 +586,7 @@ const PlayerScreen: React.FC = () => {
       onTouchMove={onTM}
       onTouchEnd={onTE}
     >
-      {/* ═══ 视频 ═══ */}
-      <div
-        className="absolute inset-0 transition-transform duration-200"
-        style={{ transform: `translateY(${swiping ? swipeY : 0}px)` }}
-      >
+      <div className="absolute inset-0 transition-transform duration-200" style={{ transform: `translateY(${swiping ? swipeY : 0}px)` }}>
         <video
           ref={videoRef}
           key={ep.id}
@@ -677,33 +598,28 @@ const PlayerScreen: React.FC = () => {
           onLoadedMetadata={onLoaded}
           onEnded={() => {
             const next = Math.min(EPISODES.length - 1, epIdx + 1);
-            if (next !== epIdx) { setEpIdx(next); setPaused(false); }
+            if (next !== epIdx) {
+              const nextEpisodeId = EPISODES[next]?.id;
+              if (nextEpisodeId !== undefined) firedRef.current[nextEpisodeId] = false;
+              setEpIdx(next);
+              setPaused(false);
+            }
           }}
         />
       </div>
 
-      {/* ═══ 中央点击 (播放/暂停) ═══ */}
-      <div
-        className="absolute inset-0 z-5 flex items-center justify-center"
-        onClick={(e) => { e.stopPropagation(); togglePlay(); }}
-      >
+      <div className="absolute inset-0 z-5 flex items-center justify-center" onClick={(e) => { e.stopPropagation(); togglePlay(); }}>
         {showIcon && (
           <div className="animate-fade-out">
             {iconType === 'play' ? (
-              <svg width="52" height="52" viewBox="0 0 24 24" fill="white" opacity="0.85">
-                <polygon points="5 3 19 12 5 21 5 3" />
-              </svg>
+              <svg width="52" height="52" viewBox="0 0 24 24" fill="white" opacity="0.85"><polygon points="5 3 19 12 5 21 5 3" /></svg>
             ) : (
-              <svg width="52" height="52" viewBox="0 0 24 24" fill="white" opacity="0.85">
-                <rect x="6" y="4" width="4" height="16" rx="1" />
-                <rect x="14" y="4" width="4" height="16" rx="1" />
-              </svg>
+              <svg width="52" height="52" viewBox="0 0 24 24" fill="white" opacity="0.85"><rect x="6" y="4" width="4" height="16" rx="1" /><rect x="14" y="4" width="4" height="16" rx="1" /></svg>
             )}
           </div>
         )}
       </div>
 
-      {/* ═══ 顶部导航 ═══ */}
       <div className="absolute top-0 left-0 right-0 z-10 mask-top" style={{ height: 120 }}>
         <div className="safe-top flex items-center justify-between px-4 pt-3">
           <button className="w-9 h-9 flex items-center justify-center"><IconArrowLeft /></button>
@@ -712,11 +628,7 @@ const PlayerScreen: React.FC = () => {
         </div>
       </div>
 
-      {/* ═══ 右侧操作栏 ═══ */}
-      <div
-        className="absolute right-3 z-10 flex flex-col items-center gap-5"
-        style={{ bottom: 'calc(120px + env(safe-area-inset-bottom, 0px))' }}
-      >
+      <div className="absolute right-3 z-10 flex flex-col items-center gap-5" style={{ bottom: 'calc(120px + env(safe-area-inset-bottom, 0px))' }}>
         <div className="relative">
           <div className="w-[48px] h-[48px] rounded-full bg-gradient-to-br from-pink-400 to-purple-500 border-2 border-white/30 overflow-hidden">
             <img src={`https://api.dicebear.com/7.x/avataaars/svg?seed=${ep.author}`} alt="" className="w-full h-full" />
@@ -725,20 +637,11 @@ const PlayerScreen: React.FC = () => {
             <span className="text-white text-[8px] font-bold leading-none">+</span>
           </div>
         </div>
-        <div
-          className="flex flex-col items-center gap-0.5 cursor-pointer"
-          onClick={() => {
-            if (!liked) { setLikeB(true); setTimeout(() => setLikeB(false), 300); }
-            setLiked(p => !p);
-          }}
-        >
+        <div className="flex flex-col items-center gap-0.5 cursor-pointer" onClick={() => { if (!liked) { setLikeB(true); setTimeout(() => setLikeB(false), 300); } setLiked(p => !p); }}>
           <div className={likeB ? 'animate-heart-bounce' : ''}><IconHeart filled={liked} /></div>
           <span className="text-white text-[12px] font-song">{fmtNum(ep.stats.likes + (liked ? 1 : 0))}</span>
         </div>
-        <div
-          className="flex flex-col items-center gap-0.5 cursor-pointer"
-          onClick={() => setShowDmInput(p => !p)}
-        >
+        <div className="flex flex-col items-center gap-0.5 cursor-pointer" onClick={() => setShowDmInput(p => !p)}>
           <IconComment />
           <span className="text-white text-[12px] font-song">{fmtNum(ep.stats.comments)}</span>
         </div>
@@ -746,72 +649,41 @@ const PlayerScreen: React.FC = () => {
         <div className="flex flex-col items-center gap-0.5"><IconShare /><span className="text-white text-[12px] font-song">分享</span></div>
       </div>
 
-      {/* ═══ 底部信息 ═══ */}
-      <div
-        className="absolute bottom-0 left-0 right-0 z-10 mask-bottom pb-safe"
-        style={{ height: 200 }}
-        onClick={(e) => { e.stopPropagation(); setProgX(p => !p); }}
-      >
+      <div className="absolute bottom-0 left-0 right-0 z-10 mask-bottom pb-safe" style={{ height: 200 }} onClick={(e) => { e.stopPropagation(); setProgX(p => !p); }}>
         <div className="absolute bottom-10 left-4 right-4 flex flex-col gap-1.5">
           <span className="text-white text-[14px] font-medium">@{ep.author}</span>
           <p className="text-white/80 text-[13px] leading-[1.4] line-clamp-2">{ep.description}</p>
           <div className="flex flex-wrap gap-1.5 mt-0.5 overflow-x-auto">
-            {ep.tags.map(t => (
-              <span key={t} className="text-[11px] text-white/70 border border-white/25 rounded-full px-2 py-0.5 whitespace-nowrap">{t}</span>
-            ))}
+            {ep.tags.map(t => <span key={t} className="text-[11px] text-white/70 border border-white/25 rounded-full px-2 py-0.5 whitespace-nowrap">{t}</span>)}
           </div>
         </div>
       </div>
 
-      {/* ═══ 进度条 + 高光标记 ═══ */}
-      <div
-        className="absolute bottom-2 left-3 right-3 z-10 cursor-pointer"
-        style={{ height: progX ? 32 : 16 }}
-        onClick={(e) => { e.stopPropagation(); onProgTap(e); }}
-      >
+      <div className="absolute bottom-2 left-3 right-3 z-10 cursor-pointer" style={{ height: progX ? 32 : 16 }} onClick={(e) => { e.stopPropagation(); onProgTap(e); }}>
         <div className="absolute left-0 right-0" style={{ top: 0, height: progX ? 12 : 8 }}>
-          {HIGHLIGHTS.map(h => {
-            const pos = duration > 0 ? (h.time / duration) * 100 : 0;
-            if (pos <= 0 || pos >= 100) return null;
-            const isNear = duration > 0 && Math.abs(time - h.time) < 1.5;
-            const cols: Record<string, string> = {
-              conflict: '#FF2D55', sweet: '#FF6B9D', funny: '#FFD60A', reverse: '#4FC3F7', slap_effect: '#FF1744',
-            };
-            const col = cols[h.type] || '#FFD60A';
-            return (
-              <div
-                key={h.id}
-                className="absolute" title={`${h.emoji} ${h.label}`}
-                style={{
-                  left: `${pos}%`, top: '50%', transform: 'translate(-50%,-50%)',
-                  width: progX ? (isNear ? 10 : 7) : 5,
-                  height: progX ? (isNear ? 10 : 7) : 5,
-                  borderRadius: '50%', backgroundColor: col,
-                  boxShadow: isNear ? `0 0 ${progX ? 10 : 6}px ${col},0 0 ${progX ? 20 : 10}px ${col}` : `0 0 3px ${col}`,
-                  transition: 'all 0.3s ease', zIndex: isNear ? 5 : 1,
-                }}
-              />
-            );
-          })}
-        </div>
-        <div
-          className="absolute left-0 rounded-full transition-all duration-200 bg-white/20"
-          style={{ top: progX ? 12 : 8, width: '100%', height: progX ? 8 : 2 }}
-        >
-          <div
-            className="absolute left-0 top-0 rounded-full bg-white transition-[width] duration-100"
-            style={{ width: `${prog}%`, height: '100%' }}
-          />
-          {progX && (
+          {punchHighlight && duration > 0 && (
             <div
-              className="absolute top-1/2 -translate-y-1/2 w-4 h-4 rounded-full bg-white shadow-lg transition-all"
-              style={{ left: `calc(${prog}% - 8px)` }}
+              className="absolute"
+              title={punchHighlight.title}
+              style={{
+                left: `${(punchHighlight.startTime / duration) * 100}%`,
+                top: '50%',
+                transform: 'translate(-50%,-50%)',
+                width: progX ? 10 : 6,
+                height: progX ? 10 : 6,
+                borderRadius: '50%',
+                backgroundColor: '#ff1744',
+                boxShadow: '0 0 8px #ff1744,0 0 18px #ff1744',
+              }}
             />
           )}
         </div>
+        <div className="absolute left-0 rounded-full transition-all duration-200 bg-white/20" style={{ top: progX ? 12 : 8, width: '100%', height: progX ? 8 : 2 }}>
+          <div className="absolute left-0 top-0 rounded-full bg-white transition-[width] duration-100" style={{ width: `${prog}%`, height: '100%' }} />
+          {progX && <div className="absolute top-1/2 -translate-y-1/2 w-4 h-4 rounded-full bg-white shadow-lg transition-all" style={{ left: `calc(${prog}% - 8px)` }} />}
+        </div>
       </div>
 
-      {/* ═══ 用户弹幕显示 ═══ */}
       <div className="absolute z-20 pointer-events-none overflow-hidden" style={{ top: '10%', bottom: '30%', left: 0, right: 0 }}>
         {danmakuList.map(dm => (
           <div key={dm.id} className="absolute whitespace-nowrap font-semibold" style={{
@@ -826,13 +698,19 @@ const PlayerScreen: React.FC = () => {
         ))}
         <style>{'@keyframes dmScroll{from{transform:translateX(0)}to{transform:translateX(-600px)}}'}</style>
       </div>
-      {/* ═══ 用户弹幕输入 ═══ */}
+
       {showDmInput && (
         <div className="absolute bottom-[100px] left-3 right-3 z-35 flex items-center gap-2">
           <input
             type="text"
             onKeyDown={e => {
-              if (e.key === 'Enter') { const t = (e.target as HTMLInputElement).value; if ((t).trim()) { sendDanmaku(t); (e.target as HTMLInputElement).value = ''; } }
+              if (e.key === 'Enter') {
+                const t = (e.target as HTMLInputElement).value;
+                if (t.trim()) {
+                  sendDanmaku(t);
+                  (e.target as HTMLInputElement).value = '';
+                }
+              }
             }}
             placeholder="发条弹幕..."
             maxLength={50}
@@ -841,8 +719,11 @@ const PlayerScreen: React.FC = () => {
           />
           <button
             onClick={(e) => {
-              const inp = (e.currentTarget.previousElementSibling) as HTMLInputElement;
-              if (inp && inp.value.trim()) { sendDanmaku(inp.value); inp.value = ''; }
+              const inp = e.currentTarget.previousElementSibling as HTMLInputElement;
+              if (inp?.value.trim()) {
+                sendDanmaku(inp.value);
+                inp.value = '';
+              }
             }}
             className="px-4 py-2 rounded-full text-white text-[13px] font-medium bg-white/15 border border-white/20 active:bg-white/25 transition-all"
           >
@@ -851,11 +732,55 @@ const PlayerScreen: React.FC = () => {
         </div>
       )}
 
-      {/* ═══ 统一 Canvas（粒子 + 脸部肿胀）═══ */}
-      <canvas ref={canvasRef} className="absolute inset-0 z-30 pointer-events-none" />
+      {punchMode && (
+        <div className="absolute top-14 left-3 right-3 z-40 pointer-events-none">
+          <div className="flex items-center gap-2 mb-2">
+            <div className="flex gap-1 text-[18px]">
+              {[0, 1, 2].map(i => <span key={i} className={i < aliveHearts ? '' : 'opacity-25 grayscale'}>❤️</span>)}
+            </div>
+            <div className="flex-1 h-2 rounded-full bg-white/15 overflow-hidden">
+              <div
+                className="h-full rounded-full transition-[width] duration-300"
+                style={{
+                  width: `${hpPct}%`,
+                  background: hpPct < 25 ? 'linear-gradient(90deg,#ff0000,#cc0000)' : hpPct < 50 ? 'linear-gradient(90deg,#ff4757,#ff6348)' : 'linear-gradient(90deg,#ff4757,#ff6348,#ffa502,#2ed573)',
+                }}
+              />
+            </div>
+          </div>
+          <div className="flex justify-between items-start">
+            <div className="px-3 py-1.5 rounded-full bg-black/45 border border-white/15 text-white text-[12px] font-semibold backdrop-blur-md">
+              点击红框打脸
+            </div>
+            <div className={`px-3 py-1.5 rounded-full text-white text-[13px] font-black tracking-wide transition-all ${punchCombo >= 2 ? 'scale-100 opacity-100' : 'scale-75 opacity-0'}`} style={{ background: 'linear-gradient(135deg,#ff3300,#ff6b35)', boxShadow: '0 2px 10px rgba(255,40,0,.45)' }}>
+              🔥 {punchCombo} COMBO
+            </div>
+          </div>
+        </div>
+      )}
 
-      {/* ═══ 高光互动浮层 ═══ */}
-      {hl && <HighlightPop highlight={hl} onAction={onHLAct} onDismiss={onHLDis} />}
+      {isKO && (
+        <div className="absolute inset-0 z-50 pointer-events-none flex flex-col items-center justify-center">
+          <div className="text-[54px] font-black tracking-[6px] text-red-600" style={{ textShadow: '0 0 28px #f00,0 0 60px #ff6b00,0 3px 8px #000' }}>💀 K.O.</div>
+          <div className="mt-2 text-[16px] text-yellow-300 tracking-[3px] font-bold" style={{ textShadow: '0 2px 8px #000' }}>坏人被打倒了！</div>
+        </div>
+      )}
+
+      <canvas
+        ref={canvasRef}
+        className={`absolute inset-0 z-30 ${punchMode ? 'pointer-events-auto' : 'pointer-events-none'}`}
+        onClick={(e) => {
+          if (!punchMode) return;
+          e.stopPropagation();
+          handlePunchPoint(e.clientX, e.clientY);
+        }}
+        onTouchStart={(e) => {
+          if (!punchMode) return;
+          e.stopPropagation();
+          const t = e.touches[0];
+          if (handlePunchPoint(t.clientX, t.clientY)) e.preventDefault();
+        }}
+      />
     </div>
   );
 };
