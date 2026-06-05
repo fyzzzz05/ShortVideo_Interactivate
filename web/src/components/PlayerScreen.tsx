@@ -31,13 +31,22 @@ type Effect = {
   draw: (ctx: CanvasRenderingContext2D) => void;
 };
 
+type DomHitEffect = {
+  id: number;
+  x: number;
+  y: number;
+  combo: number;
+  word: string;
+  sparks: Array<{ id: number; dx: number; dy: number; size: number; color: string; delay: number }>;
+};
+
 const PUNCH_HIGHLIGHTS: PunchHighlight[] = [
   {
     episodeId: 5,
     startTime: 15,
     endTime: 30,
     title: '点击打脸',
-    maxHp: 300,
+    maxHp: 100,
     bboxData: punchBboxRaw as BboxEntry[],
   },
 ];
@@ -46,8 +55,9 @@ const MATCH_TOLERANCE = 0.08;
 const HIT_EXPAND_PX = 8;
 const COMBO_WINDOW_MS = 2000;
 const KO_RESUME_MS = 1200;
-const COMIC_WORDS = ['BANG!!', 'POW!!', 'SMASH!!', 'BOOM!!', 'PUNCH!!'];
+const COMIC_WORDS = ['BANG', 'POW', 'SMASH', 'BOOM'];
 const PARTICLE_EMOJIS = ['⭐', '💥', '⚡', '🔥', '💢', '💫', '✨', '🌟'];
+const EMOJI_SPRITES = new Map<string, HTMLCanvasElement>();
 
 function fmtNum(n: number): string {
   if (n >= 10000) return (n / 10000).toFixed(1) + 'w';
@@ -67,16 +77,35 @@ function easeOutCubic(t: number) {
   return 1 - Math.pow(1 - t, 3);
 }
 
+function getEmojiSprite(emoji: string): HTMLCanvasElement {
+  const cached = EMOJI_SPRITES.get(emoji);
+  if (cached) return cached;
+
+  const size = 40;
+  const cvs = document.createElement('canvas');
+  cvs.width = size;
+  cvs.height = size;
+  const ctx = cvs.getContext('2d');
+  if (ctx) {
+    ctx.font = '26px "Apple Color Emoji","Segoe UI Emoji",sans-serif';
+    ctx.textAlign = 'center';
+    ctx.textBaseline = 'middle';
+    ctx.fillText(emoji, size / 2, size / 2 + 1);
+  }
+  EMOJI_SPRITES.set(emoji, cvs);
+  return cvs;
+}
+
 class ScreenFlash implements Effect {
   dead = false;
   private elapsed = 0;
-  constructor(private w: number, private h: number, private duration = 0.2, private color = '#fff') {}
+  constructor(private w: number, private h: number, private duration = 0.18, private color = '#fff') {}
   update(dt: number) {
     this.elapsed += dt;
     if (this.elapsed >= this.duration) this.dead = true;
   }
   draw(ctx: CanvasRenderingContext2D) {
-    const alpha = Math.max(0, 1 - this.elapsed / this.duration) * 0.48;
+    const alpha = Math.max(0, 1 - this.elapsed / this.duration) * 0.45;
     ctx.save();
     ctx.globalAlpha = alpha;
     ctx.fillStyle = this.color;
@@ -85,39 +114,10 @@ class ScreenFlash implements Effect {
   }
 }
 
-class FistFly implements Effect {
-  dead = false;
-  private elapsed = 0;
-  private sx = -60;
-  private sy = -60;
-  constructor(private tx: number, private ty: number, private duration = 0.4) {}
-  update(dt: number) {
-    this.elapsed += dt;
-    if (this.elapsed >= this.duration) this.dead = true;
-  }
-  draw(ctx: CanvasRenderingContext2D) {
-    const t = Math.min(this.elapsed / this.duration, 1);
-    const e = easeOutCubic(t);
-    const x = this.sx + (this.tx - this.sx) * e;
-    const y = this.sy + (this.ty - this.sy) * e;
-    const alpha = t > 0.82 ? Math.max(0, 1 - (t - 0.82) / 0.18) : 1;
-    ctx.save();
-    ctx.globalAlpha = alpha;
-    ctx.translate(x, y);
-    ctx.rotate((-35 * (1 - e) * Math.PI) / 180);
-    ctx.scale(1 + 0.45 * (1 - e), 1 + 0.45 * (1 - e));
-    ctx.font = '42px "Apple Color Emoji","Segoe UI Emoji",sans-serif';
-    ctx.textAlign = 'center';
-    ctx.textBaseline = 'middle';
-    ctx.fillText('👊', 0, 0);
-    ctx.restore();
-  }
-}
-
 class Shockwave implements Effect {
   dead = false;
   private elapsed = 0;
-  constructor(private x: number, private y: number, private duration = 0.5, private maxR = 125) {}
+  constructor(private x: number, private y: number, private duration = 0.45, private maxR = 122) {}
   update(dt: number) {
     this.elapsed += dt;
     if (this.elapsed >= this.duration) this.dead = true;
@@ -127,11 +127,11 @@ class Shockwave implements Effect {
     const r = this.maxR * t;
     ctx.save();
     for (let i = 0; i < 3; i++) {
-      const ri = r - i * 8;
+      const ri = r - i * 7;
       if (ri <= 0) continue;
-      ctx.globalAlpha = (1 - t) * (0.8 - i * 0.18);
+      ctx.globalAlpha = (1 - t) * (0.72 - i * 0.17);
       ctx.strokeStyle = i === 0 ? '#ffd60a' : i === 1 ? '#ff3b30' : '#fff';
-      ctx.lineWidth = 3 - i * 0.6;
+      ctx.lineWidth = 2.8 - i * 0.55;
       ctx.beginPath();
       ctx.arc(this.x, this.y, ri, 0, Math.PI * 2);
       ctx.stroke();
@@ -140,24 +140,23 @@ class Shockwave implements Effect {
   }
 }
 
-class ParticleBurst implements Effect {
+class HitSparks implements Effect {
   dead = false;
   private particles: Array<{
-    x: number; y: number; vx: number; vy: number; life: number; age: number; emoji: string; rot: number; scale: number;
+    x: number; y: number; vx: number; vy: number; life: number; age: number; size: number; color: string;
   }> = [];
-  constructor(x: number, y: number, count = randInt(8, 12)) {
+  constructor(x: number, y: number, count = 7) {
     for (let i = 0; i < count; i++) {
       const angle = (Math.PI * 2 * i) / count + rand(-0.25, 0.25);
-      const speed = rand(90, 280);
+      const speed = rand(80, 180);
       this.particles.push({
         x, y,
         vx: Math.cos(angle) * speed,
         vy: Math.sin(angle) * speed,
-        life: rand(0.5, 0.85),
+        life: rand(0.18, 0.32),
         age: 0,
-        emoji: PARTICLE_EMOJIS[randInt(0, PARTICLE_EMOJIS.length - 1)],
-        rot: rand(-360, 360),
-        scale: rand(0.55, 1.25),
+        size: rand(2, 4),
+        color: i % 2 === 0 ? '#ffd60a' : '#ff3b30',
       });
     }
   }
@@ -169,7 +168,7 @@ class ParticleBurst implements Effect {
         alive = true;
         p.x += p.vx * dt;
         p.y += p.vy * dt;
-        p.vy += 155 * dt;
+        p.vy += 80 * dt;
         p.vx *= 0.97;
         p.vy *= 0.97;
       }
@@ -182,48 +181,68 @@ class ParticleBurst implements Effect {
       const t = p.age / p.life;
       ctx.save();
       ctx.globalAlpha = 1 - t;
-      ctx.translate(p.x, p.y);
-      ctx.rotate((p.rot * t * Math.PI) / 180);
-      ctx.scale(p.scale, p.scale);
-      ctx.font = '22px "Apple Color Emoji","Segoe UI Emoji",sans-serif';
-      ctx.textAlign = 'center';
-      ctx.textBaseline = 'middle';
-      ctx.fillText(p.emoji, 0, 0);
+      ctx.fillStyle = p.color;
+      ctx.beginPath();
+      ctx.arc(p.x, p.y, p.size * (1 - t * 0.4), 0, Math.PI * 2);
+      ctx.fill();
       ctx.restore();
     }
   }
 }
 
-class ComicText implements Effect {
+class EmojiBurst implements Effect {
   dead = false;
-  private elapsed = 0;
-  private text = COMIC_WORDS[randInt(0, COMIC_WORDS.length - 1)];
-  constructor(private x: number, private y: number, private duration = 0.7) {}
-  update(dt: number) {
-    this.elapsed += dt;
-    if (this.elapsed >= this.duration) this.dead = true;
+  private particles: Array<{
+    x: number; y: number; vx: number; vy: number; life: number; age: number; rot: number; scale: number; sprite: HTMLCanvasElement;
+  }> = [];
+
+  constructor(x: number, y: number, count = randInt(8, 12)) {
+    for (let i = 0; i < count; i++) {
+      const angle = (Math.PI * 2 * i) / count + rand(-0.28, 0.28);
+      const speed = rand(90, 250);
+      this.particles.push({
+        x,
+        y,
+        vx: Math.cos(angle) * speed,
+        vy: Math.sin(angle) * speed,
+        life: rand(0.42, 0.72),
+        age: 0,
+        rot: rand(-Math.PI, Math.PI),
+        scale: rand(0.55, 1.15),
+        sprite: getEmojiSprite(PARTICLE_EMOJIS[randInt(0, PARTICLE_EMOJIS.length - 1)]),
+      });
+    }
   }
+
+  update(dt: number) {
+    let alive = false;
+    for (const p of this.particles) {
+      p.age += dt;
+      if (p.age < p.life) {
+        alive = true;
+        p.x += p.vx * dt;
+        p.y += p.vy * dt;
+        p.vy += 135 * dt;
+        p.vx *= 0.965;
+        p.vy *= 0.965;
+        p.rot += dt * 5;
+      }
+    }
+    this.dead = !alive;
+  }
+
   draw(ctx: CanvasRenderingContext2D) {
-    const t = Math.min(this.elapsed / this.duration, 1);
-    const alpha = t < 0.12 ? t / 0.12 : 1 - t;
-    const scale = t < 0.12 ? 0.35 + 0.65 * (t / 0.12) : 1 + 0.15 * t;
-    ctx.save();
-    ctx.globalAlpha = alpha;
-    ctx.translate(this.x, this.y - 50 * t);
-    ctx.scale(scale, scale);
-    ctx.font = '900 30px "Arial Black","PingFang SC",sans-serif';
-    ctx.textAlign = 'center';
-    ctx.textBaseline = 'middle';
-    ctx.strokeStyle = '#000';
-    ctx.lineWidth = 5;
-    ctx.strokeText(this.text, 0, 0);
-    const g = ctx.createLinearGradient(0, -18, 0, 18);
-    g.addColorStop(0, '#fff176');
-    g.addColorStop(0.5, '#ff6333');
-    g.addColorStop(1, '#ff1744');
-    ctx.fillStyle = g;
-    ctx.fillText(this.text, 0, 0);
-    ctx.restore();
+    for (const p of this.particles) {
+      if (p.age >= p.life) continue;
+      const t = p.age / p.life;
+      const size = 34 * p.scale * (1 - t * 0.16);
+      ctx.save();
+      ctx.globalAlpha = 1 - t;
+      ctx.translate(p.x, p.y);
+      ctx.rotate(p.rot);
+      ctx.drawImage(p.sprite, -size / 2, -size / 2, size, size);
+      ctx.restore();
+    }
   }
 }
 
@@ -249,12 +268,14 @@ const PlayerScreen: React.FC = () => {
   const canvasRef = useRef<HTMLCanvasElement>(null);
   const rafRef = useRef(0);
   const effectsRef = useRef<Effect[]>([]);
+  const canvasDirtyRef = useRef(false);
   const activeBboxesRef = useRef<ActiveBbox[]>([]);
   const bboxCursorRef = useRef(0);
   const shakeRef = useRef({ until: 0, intensity: 0 });
   const firedRef = useRef<Record<number, boolean>>({});
-  const hpRef = useRef(300);
+  const hpRef = useRef(100);
   const comboRef = useRef(0);
+  const visibleComboRef = useRef(0);
   const totalHitsRef = useRef(0);
   const lastHitAtRef = useRef(0);
   const comboTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
@@ -275,9 +296,11 @@ const PlayerScreen: React.FC = () => {
   const [danmakuList, setDanmakuList] = useState<LiveDanmaku[]>([]);
   const [showDmInput, setShowDmInput] = useState(false);
   const [punchMode, setPunchMode] = useState(false);
-  const [punchHp, setPunchHp] = useState(300);
+  const [punchHp, setPunchHp] = useState(100);
   const [punchCombo, setPunchCombo] = useState(0);
   const [isKO, setIsKO] = useState(false);
+  const [domEffects, setDomEffects] = useState<DomHitEffect[]>([]);
+  const [shakeFlip, setShakeFlip] = useState(false);
 
   const dmIdRef = useRef(0);
   const ep = EPISODES[epIdx] ?? EPISODES[0];
@@ -286,15 +309,18 @@ const PlayerScreen: React.FC = () => {
 
   useEffect(() => { punchModeRef.current = punchMode; }, [punchMode]);
 
-  const resetPunch = useCallback((maxHp = punchHighlight?.maxHp ?? 300) => {
+  const resetPunch = useCallback((maxHp = punchHighlight?.maxHp ?? 100) => {
     if (comboTimerRef.current) clearTimeout(comboTimerRef.current);
     if (koTimerRef.current) clearTimeout(koTimerRef.current);
     hpRef.current = maxHp;
     comboRef.current = 0;
+    visibleComboRef.current = 0;
     totalHitsRef.current = 0;
     lastHitAtRef.current = 0;
     activeBboxesRef.current = [];
     effectsRef.current = [];
+    canvasDirtyRef.current = false;
+    setDomEffects([]);
     setPunchHp(maxHp);
     setPunchCombo(0);
     setIsKO(false);
@@ -349,6 +375,8 @@ const PlayerScreen: React.FC = () => {
     punchModeRef.current = false;
     activeBboxesRef.current = [];
     effectsRef.current = [];
+    canvasDirtyRef.current = false;
+    setDomEffects([]);
     shakeRef.current = { until: 0, intensity: 0 };
     bboxCursorRef.current = 0;
     setIsKO(false);
@@ -382,29 +410,66 @@ const PlayerScreen: React.FC = () => {
     if (comboTimerRef.current) clearTimeout(comboTimerRef.current);
     comboTimerRef.current = setTimeout(() => {
       comboRef.current = 0;
-      setPunchCombo(0);
+      if (visibleComboRef.current !== 0) {
+        visibleComboRef.current = 0;
+        setPunchCombo(0);
+      }
     }, COMBO_WINDOW_MS);
 
     const damage = 8 + randInt(0, 12) + Math.min(comboRef.current * 2, 20);
     hpRef.current = Math.max(0, hpRef.current - damage);
     totalHitsRef.current += 1;
     setPunchHp(hpRef.current);
-    setPunchCombo(comboRef.current);
+    if (visibleComboRef.current !== comboRef.current) {
+      visibleComboRef.current = comboRef.current;
+      setPunchCombo(comboRef.current);
+    }
 
     const { w, h } = getContainerSize();
     effectsRef.current.push(
       new ScreenFlash(w, h),
-      new FistFly(hitX, hitY),
       new Shockwave(hitX, hitY),
-      new ParticleBurst(hitX, hitY),
-      new ComicText(hitX, hitY),
+      new HitSparks(hitX, hitY),
+      new EmojiBurst(hitX, hitY, comboRef.current >= 3 ? 12 : 9),
     );
+    if (effectsRef.current.length > 14) {
+      effectsRef.current.splice(0, effectsRef.current.length - 14);
+    }
 
-    shakeRef.current = { until: performance.now() + 260, intensity: 7 };
+    const effectId = totalHitsRef.current;
+    const sparkCount = comboRef.current >= 3 ? 10 : 7;
+    setDomEffects(prev => [
+      ...prev.slice(-2),
+      {
+        id: effectId,
+        x: hitX,
+        y: hitY,
+        combo: comboRef.current,
+        word: COMIC_WORDS[randInt(0, COMIC_WORDS.length - 1)],
+        sparks: Array.from({ length: sparkCount }, (_, i) => {
+          const angle = (Math.PI * 2 * i) / sparkCount + rand(-0.25, 0.25);
+          const dist = rand(38, comboRef.current >= 3 ? 82 : 62);
+          return {
+            id: i,
+            dx: Math.cos(angle) * dist,
+            dy: Math.sin(angle) * dist,
+            size: rand(5, 9),
+            color: i % 3 === 0 ? '#fff176' : i % 3 === 1 ? '#ff3b30' : '#ff9f0a',
+            delay: i * 8,
+          };
+        }),
+      },
+    ]);
+    window.setTimeout(() => {
+      setDomEffects(prev => prev.filter(effect => effect.id !== effectId));
+    }, 520);
+
+    shakeRef.current = { until: performance.now() + 180, intensity: comboRef.current >= 3 ? 6 : 4 };
+    setShakeFlip(prev => !prev);
 
     if (hpRef.current <= 0) {
       setIsKO(true);
-      effectsRef.current.push(new ScreenFlash(getContainerSize().w, getContainerSize().h, 0.6, '#ff0000'));
+      effectsRef.current.push(new ScreenFlash(w, h, 0.32, '#ff0000'));
       koTimerRef.current = setTimeout(exitPunchAndResume, KO_RESUME_MS);
     }
   }, [exitPunchAndResume, getContainerSize, isKO, punchHighlight]);
@@ -413,6 +478,7 @@ const PlayerScreen: React.FC = () => {
     if (!punchModeRef.current || isKO) return false;
     const rect = canvasRef.current?.getBoundingClientRect();
     if (!rect) return false;
+    activeBboxesRef.current = findActiveBboxes(videoRef.current?.currentTime ?? 0);
     const x = clientX - rect.left;
     const y = clientY - rect.top;
     const hit = activeBboxesRef.current.find(b =>
@@ -424,16 +490,15 @@ const PlayerScreen: React.FC = () => {
     if (!hit) return false;
     triggerPunch(hit.px + hit.pw / 2, hit.py + hit.ph / 2);
     return true;
-  }, [isKO, triggerPunch]);
+  }, [findActiveBboxes, isKO, triggerPunch]);
 
   useEffect(() => {
     let run = true;
     let last = performance.now();
+    let lastPaint = 0;
     const loop = () => {
       if (!run) return;
       const now = performance.now();
-      const dt = Math.min((now - last) / 1000, 0.05);
-      last = now;
 
       const cvs = canvasRef.current;
       const ctx = cvs?.getContext('2d');
@@ -442,7 +507,7 @@ const PlayerScreen: React.FC = () => {
         return;
       }
 
-      const dpr = window.devicePixelRatio || 1;
+      const dpr = 1;
       const { w, h } = getContainerSize();
       if (cvs.width !== Math.round(w * dpr) || cvs.height !== Math.round(h * dpr)) {
         cvs.width = Math.round(w * dpr);
@@ -450,17 +515,35 @@ const PlayerScreen: React.FC = () => {
         cvs.style.width = `${w}px`;
         cvs.style.height = `${h}px`;
       }
-      ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
-      ctx.clearRect(0, 0, w, h);
-
-      if (punchModeRef.current) {
-        activeBboxesRef.current = findActiveBboxes(videoRef.current?.currentTime ?? 0);
-      } else {
+      if (!punchModeRef.current) {
         activeBboxesRef.current = [];
       }
 
       const shake = shakeRef.current;
-      if (shake.until > now) {
+      const hasShake = shake.until > now;
+      const hasEffects = effectsRef.current.length > 0;
+      if (!hasEffects && !hasShake) {
+        if (canvasDirtyRef.current) {
+          ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+          ctx.clearRect(0, 0, w, h);
+          canvasDirtyRef.current = false;
+        }
+        rafRef.current = requestAnimationFrame(loop);
+        return;
+      }
+      if (now - lastPaint < 16) {
+        rafRef.current = requestAnimationFrame(loop);
+        return;
+      }
+      lastPaint = now;
+      const dt = Math.min((now - last) / 1000, 0.05);
+      last = now;
+
+      ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+      ctx.clearRect(0, 0, w, h);
+      canvasDirtyRef.current = true;
+
+      if (hasShake) {
         const t = 1 - (shake.until - now) / 260;
         const amp = Math.max(0, (1 - t) * shake.intensity);
         ctx.save();
@@ -473,7 +556,7 @@ const PlayerScreen: React.FC = () => {
         fx.draw(ctx);
         if (fx.dead) effectsRef.current.splice(i, 1);
       }
-      if (shake.until > now) ctx.restore();
+      if (hasShake) ctx.restore();
 
       rafRef.current = requestAnimationFrame(loop);
     };
@@ -545,7 +628,7 @@ const PlayerScreen: React.FC = () => {
         setEpIdx(next);
         setDanmakuList([]);
         setPunchMode(false);
-        resetPunch(PUNCH_HIGHLIGHTS.find(h => h.episodeId === EPISODES[next]?.id)?.maxHp ?? 300);
+        resetPunch(PUNCH_HIGHLIGHTS.find(h => h.episodeId === EPISODES[next]?.id)?.maxHp ?? 100);
         videoRef.current?.load();
         setTimeout(() => videoRef.current?.play().catch(() => {}), 200);
         setPaused(false);
@@ -576,12 +659,13 @@ const PlayerScreen: React.FC = () => {
   }, [duration]);
 
   const hpPct = punchHighlight ? Math.max(0, (punchHp / punchHighlight.maxHp) * 100) : 100;
-  const aliveHearts = punchHighlight ? Math.ceil((punchHp / punchHighlight.maxHp) * 3) : 3;
 
   return (
     <div
       ref={containerRef}
-      className="relative w-[375px] h-screen max-h-[812px] bg-black overflow-hidden mx-auto"
+      className={`relative w-[375px] h-screen max-h-[812px] bg-black overflow-hidden mx-auto ${
+        shakeFlip ? 'punch-screen-shake-a' : 'punch-screen-shake-b'
+      }`}
       onTouchStart={onTS}
       onTouchMove={onTM}
       onTouchEnd={onTE}
@@ -735,8 +819,8 @@ const PlayerScreen: React.FC = () => {
       {punchMode && (
         <div className="absolute top-14 left-3 right-3 z-40 pointer-events-none">
           <div className="flex items-center gap-2 mb-2">
-            <div className="flex gap-1 text-[18px]">
-              {[0, 1, 2].map(i => <span key={i} className={i < aliveHearts ? '' : 'opacity-25 grayscale'}>❤️</span>)}
+            <div className="min-w-[78px] px-2.5 py-1 rounded-md bg-black/55 border border-white/15 text-white text-[12px] font-black tracking-wide">
+              HP {punchHp}
             </div>
             <div className="flex-1 h-2 rounded-full bg-white/15 overflow-hidden">
               <div
@@ -750,7 +834,7 @@ const PlayerScreen: React.FC = () => {
           </div>
           <div className="flex justify-between items-start">
             <div className="px-3 py-1.5 rounded-full bg-black/45 border border-white/15 text-white text-[12px] font-semibold backdrop-blur-md">
-              点击红框打脸
+              点击脸部打击
             </div>
             <div className={`px-3 py-1.5 rounded-full text-white text-[13px] font-black tracking-wide transition-all ${punchCombo >= 2 ? 'scale-100 opacity-100' : 'scale-75 opacity-0'}`} style={{ background: 'linear-gradient(135deg,#ff3300,#ff6b35)', boxShadow: '0 2px 10px rgba(255,40,0,.45)' }}>
               🔥 {punchCombo} COMBO
@@ -765,6 +849,29 @@ const PlayerScreen: React.FC = () => {
           <div className="mt-2 text-[16px] text-yellow-300 tracking-[3px] font-bold" style={{ textShadow: '0 2px 8px #000' }}>坏人被打倒了！</div>
         </div>
       )}
+
+      <div className="absolute inset-0 z-35 pointer-events-none overflow-hidden">
+        {domEffects.map(effect => (
+          <div key={effect.id} className="absolute left-0 top-0" style={{ transform: `translate(${effect.x}px, ${effect.y}px)` }}>
+            <div className="punch-fist">👊</div>
+            <div className={`punch-word ${effect.combo >= 3 ? 'hot' : ''}`}>{effect.word}</div>
+            {effect.sparks.map(spark => (
+              <span
+                key={spark.id}
+                className="punch-spark"
+                style={{
+                  width: spark.size,
+                  height: spark.size,
+                  backgroundColor: spark.color,
+                  ['--dx' as string]: `${spark.dx}px`,
+                  ['--dy' as string]: `${spark.dy}px`,
+                  animationDelay: `${spark.delay}ms`,
+                }}
+              />
+            ))}
+          </div>
+        ))}
+      </div>
 
       <canvas
         ref={canvasRef}
@@ -781,6 +888,91 @@ const PlayerScreen: React.FC = () => {
           if (handlePunchPoint(t.clientX, t.clientY)) e.preventDefault();
         }}
       />
+      <style>{`
+        @keyframes punchScreenShakeA {
+          0% { transform: translate3d(0,0,0) rotate(0deg); }
+          12% { transform: translate3d(-5px, 3px,0) rotate(-.25deg); }
+          25% { transform: translate3d(5px, -4px,0) rotate(.25deg); }
+          38% { transform: translate3d(-4px, -2px,0) rotate(-.18deg); }
+          52% { transform: translate3d(4px, 3px,0) rotate(.18deg); }
+          70% { transform: translate3d(-2px, 1px,0) rotate(-.08deg); }
+          100% { transform: translate3d(0,0,0) rotate(0deg); }
+        }
+        @keyframes punchScreenShakeB {
+          0% { transform: translate3d(0,0,0) rotate(0deg); }
+          12% { transform: translate3d(-5px, 3px,0) rotate(-.25deg); }
+          25% { transform: translate3d(5px, -4px,0) rotate(.25deg); }
+          38% { transform: translate3d(-4px, -2px,0) rotate(-.18deg); }
+          52% { transform: translate3d(4px, 3px,0) rotate(.18deg); }
+          70% { transform: translate3d(-2px, 1px,0) rotate(-.08deg); }
+          100% { transform: translate3d(0,0,0) rotate(0deg); }
+        }
+        .punch-screen-shake-a {
+          animation: punchScreenShakeA 190ms cubic-bezier(.2,.85,.25,1) both;
+          will-change: transform;
+        }
+        .punch-screen-shake-b {
+          animation: punchScreenShakeB 190ms cubic-bezier(.2,.85,.25,1) both;
+          will-change: transform;
+        }
+        @keyframes punchFistFly {
+          0% { transform: translate(-170px, -160px) rotate(-34deg) scale(1.35); opacity: 0; }
+          16% { opacity: 1; }
+          62% { transform: translate(-12px, -10px) rotate(-8deg) scale(1.12); opacity: 1; }
+          100% { transform: translate(5px, 4px) rotate(4deg) scale(.72); opacity: 0; }
+        }
+        @keyframes punchWordPop {
+          0% { transform: translate(-50%, -50%) scale(.25) rotate(-9deg); opacity: 0; }
+          15% { opacity: 1; }
+          42% { transform: translate(-50%, -82%) scale(1.08) rotate(2deg); opacity: 1; }
+          100% { transform: translate(-50%, -150%) scale(.92) rotate(7deg); opacity: 0; }
+        }
+        @keyframes punchSparkBurst {
+          0% { transform: translate(-50%, -50%) scale(.55); opacity: 1; }
+          70% { opacity: .9; }
+          100% { transform: translate(calc(-50% + var(--dx)), calc(-50% + var(--dy))) scale(.2); opacity: 0; }
+        }
+        .punch-fist {
+          position: absolute;
+          left: -18px;
+          top: -18px;
+          font-size: 44px;
+          line-height: 1;
+          transform-origin: 50% 50%;
+          animation: punchFistFly 360ms cubic-bezier(.16,.9,.2,1) both;
+          filter: drop-shadow(0 8px 10px rgba(0,0,0,.5));
+          will-change: transform, opacity;
+        }
+        .punch-word {
+          position: absolute;
+          left: 0;
+          top: -26px;
+          transform: translate(-50%, -50%);
+          font-family: Arial Black, Impact, PingFang SC, sans-serif;
+          font-size: 30px;
+          font-weight: 900;
+          letter-spacing: .5px;
+          color: #ff3b30;
+          -webkit-text-stroke: 3px #111;
+          paint-order: stroke fill;
+          text-shadow: 0 2px 0 #ffd60a, 0 6px 14px rgba(0,0,0,.55);
+          animation: punchWordPop 520ms cubic-bezier(.16,.9,.2,1) both;
+          will-change: transform, opacity;
+        }
+        .punch-word.hot {
+          color: #ffd60a;
+          text-shadow: 0 2px 0 #ff3b30, 0 0 18px rgba(255,59,48,.75), 0 6px 14px rgba(0,0,0,.55);
+        }
+        .punch-spark {
+          position: absolute;
+          left: 0;
+          top: 0;
+          border-radius: 999px;
+          box-shadow: 0 0 10px currentColor;
+          animation: punchSparkBurst 420ms cubic-bezier(.12,.8,.2,1) both;
+          will-change: transform, opacity;
+        }
+      `}</style>
     </div>
   );
 };
