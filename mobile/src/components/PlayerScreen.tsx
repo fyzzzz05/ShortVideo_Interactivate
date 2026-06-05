@@ -6,7 +6,7 @@
  */
 
 import React, { useState, useRef, useCallback, useEffect } from 'react';
-import { StyleSheet, View, Dimensions } from 'react-native';
+import { StyleSheet, View, Text, TouchableOpacity, Dimensions } from 'react-native';
 import { Video, AVPlaybackStatus } from 'expo-av';
 import { StatusBar } from 'expo-status-bar';
 
@@ -24,7 +24,7 @@ import { COLORS, DURATION } from '../config/theme';
 import type { Highlight } from '../data/types';
 import { EPISODES } from '../data/episodes';
 import { EPISODE_HIGHLIGHTS } from '../data/highlights';
-import { SCENE_MAP, SceneType } from '../config/sceneMap';
+import { SCENE_MAP, SceneType, resolveScene } from '../config/sceneMap';
 
 const { width: W, height: H } = Dimensions.get('window');
 
@@ -36,13 +36,16 @@ const PlayerScreen: React.FC = () => {
   const [durMs, setDurMs] = useState(0);
 
   const [highlights, setHighlights] = useState<Highlight[]>([]);
+  const [pendingHl, setPendingHl] = useState<Highlight | null>(null);
   const [activeHl, setActiveHl] = useState<Highlight | null>(null);
   const [cd, setCd] = useState(DURATION.countdownSec);
   const [combo, setCombo] = useState(0);
+  const [skipArmed, setSkipArmed] = useState(false);
   const [showEps, setShowEps] = useState(false);
 
   const cdTimer = useRef<ReturnType<typeof setInterval> | null>(null);
   const cboTimer = useRef<ReturnType<typeof setTimeout> | null>(null);
+  const skipTimer = useRef<ReturnType<typeof setTimeout> | null>(null);
   const gmRef = useRef<GodMomentHandle>(null);
 
   const ep = EPISODES.find((e) => e.id === epId) ?? EPISODES[0];
@@ -51,9 +54,11 @@ const PlayerScreen: React.FC = () => {
 
   useEffect(() => {
     setHighlights(EPISODE_HIGHLIGHTS[epId] ?? []);
+    setPendingHl(null);
     setActiveHl(null);
     setCombo(0);
     setCd(DURATION.countdownSec);
+    setSkipArmed(false);
   }, [epId]);
 
   const onStatus = useCallback(
@@ -62,25 +67,27 @@ const PlayerScreen: React.FC = () => {
       setPlaying(s.isPlaying);
       setTimeMs(s.positionMillis);
       if (s.durationMillis) setDurMs(s.durationMillis);
-      if (s.isPlaying && !activeHl) {
+      if (s.isPlaying && !activeHl && !pendingHl) {
         const sec = s.positionMillis / 1000;
         const m = highlights.find((h) => !h.triggered && Math.abs(h.time - sec) < 0.5);
         if (m) triggerHl(m);
       }
       if (s.didJustFinish) goNext();
     },
-    [highlights, activeHl],
+    [highlights, activeHl, pendingHl],
   );
 
   const triggerHl = useCallback(async (h: Highlight) => {
     await videoRef.current?.pauseAsync();
-    setActiveHl(h);
+    setPendingHl(h);
+    setSkipArmed(false);
     setCombo(0);
     setCd(h.interaction?.durationSec ?? DURATION.countdownSec);
   }, []);
 
   useEffect(() => {
     if (!activeHl) return;
+    if (resolveScene(activeHl.scene || activeHl.type) === 'REVENGE') return;
     cdTimer.current = setInterval(() => {
       setCd((p) => {
         if (p <= 1) { clearInterval(cdTimer.current!); finishInteraction(); return 0; }
@@ -89,6 +96,12 @@ const PlayerScreen: React.FC = () => {
     }, 1000);
     return () => { if (cdTimer.current) clearInterval(cdTimer.current); };
   }, [activeHl]);
+
+  useEffect(() => {
+    return () => {
+      if (skipTimer.current) clearTimeout(skipTimer.current);
+    };
+  }, []);
 
   const finishInteraction = useCallback(() => {
     if (cdTimer.current) clearInterval(cdTimer.current);
@@ -99,6 +112,28 @@ const PlayerScreen: React.FC = () => {
     setCd(DURATION.countdownSec);
     videoRef.current?.playAsync();
   }, [activeHl]);
+
+  const startPendingInteraction = useCallback(() => {
+    if (!pendingHl) return;
+    if (skipTimer.current) clearTimeout(skipTimer.current);
+    setActiveHl(pendingHl);
+    setPendingHl(null);
+    setSkipArmed(false);
+    setCombo(0);
+    setCd(pendingHl.interaction?.durationSec ?? DURATION.countdownSec);
+  }, [pendingHl]);
+
+  const skipPendingInteraction = useCallback(() => {
+    if (!pendingHl) return;
+    if (skipTimer.current) clearTimeout(skipTimer.current);
+    setSkipArmed(true);
+    skipTimer.current = setTimeout(() => {
+      setHighlights((p) => p.map((h) => (h.id === pendingHl.id ? { ...h, triggered: true } : h)));
+      setPendingHl(null);
+      setSkipArmed(false);
+      videoRef.current?.playAsync();
+    }, 2000);
+  }, [pendingHl]);
 
   const onCombo = useCallback((n: number) => {
     setCombo(n);
@@ -146,6 +181,36 @@ const PlayerScreen: React.FC = () => {
           />
         )}
       </View>
+
+      {pendingHl && (
+        <View style={styles.promptOverlay} pointerEvents="auto">
+          <View style={styles.promptCard}>
+            <Text style={styles.promptEpisode}>{ep.title}</Text>
+            <Text style={styles.promptTitle}>{pendingHl.title}</Text>
+            <Text style={styles.promptHint}>
+              {skipArmed ? '已跳过，2 秒后继续播放' : '要进入击打互动吗？'}
+            </Text>
+            <View style={styles.promptActions}>
+              <TouchableOpacity
+                style={[styles.promptButton, styles.punchButton, skipArmed && styles.disabledButton]}
+                activeOpacity={0.85}
+                disabled={skipArmed}
+                onPress={startPendingInteraction}
+              >
+                <Text style={styles.primaryButtonText}>开始击打</Text>
+              </TouchableOpacity>
+              <TouchableOpacity
+                style={[styles.promptButton, styles.skipButton, skipArmed && styles.disabledButton]}
+                activeOpacity={0.85}
+                disabled={skipArmed}
+                onPress={skipPendingInteraction}
+              >
+                <Text style={styles.secondaryButtonText}>不打</Text>
+              </TouchableOpacity>
+            </View>
+          </View>
+        </View>
+      )}
 
       {/* ═══ 底部遮罩 ═══ */}
       <View style={styles.bottomMask} pointerEvents="none" />
@@ -207,5 +272,74 @@ const styles = StyleSheet.create({
     right: 0,
     paddingBottom: 24,
     zIndex: 20,
+  },
+  promptOverlay: {
+    ...StyleSheet.absoluteFillObject,
+    zIndex: 40,
+    backgroundColor: 'rgba(0,0,0,0.48)',
+    justifyContent: 'center',
+    paddingHorizontal: 28,
+  },
+  promptCard: {
+    borderRadius: 12,
+    borderWidth: 1,
+    borderColor: COLORS.border,
+    backgroundColor: 'rgba(0,0,0,0.78)',
+    paddingHorizontal: 20,
+    paddingVertical: 20,
+    alignItems: 'center',
+  },
+  promptEpisode: {
+    fontSize: 13,
+    color: COLORS.textSecondary,
+    fontWeight: '700',
+  },
+  promptTitle: {
+    marginTop: 8,
+    fontSize: 22,
+    color: COLORS.textPrimary,
+    fontWeight: '900',
+    textAlign: 'center',
+  },
+  promptHint: {
+    marginTop: 8,
+    fontSize: 13,
+    color: COLORS.textSecondary,
+    fontWeight: '600',
+    textAlign: 'center',
+  },
+  promptActions: {
+    flexDirection: 'row',
+    gap: 12,
+    marginTop: 20,
+    width: '100%',
+  },
+  promptButton: {
+    flex: 1,
+    height: 44,
+    borderRadius: 8,
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+  punchButton: {
+    backgroundColor: COLORS.primary,
+  },
+  skipButton: {
+    borderWidth: 1,
+    borderColor: COLORS.border,
+    backgroundColor: 'rgba(255,255,255,0.1)',
+  },
+  disabledButton: {
+    opacity: 0.5,
+  },
+  primaryButtonText: {
+    color: COLORS.textPrimary,
+    fontSize: 14,
+    fontWeight: '900',
+  },
+  secondaryButtonText: {
+    color: COLORS.textPrimary,
+    fontSize: 14,
+    fontWeight: '800',
   },
 });

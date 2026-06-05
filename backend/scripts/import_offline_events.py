@@ -31,7 +31,10 @@ def _convert_highlights_to_events(rows: list[dict], fallback_episode_id: int) ->
         # 兼容新旧两种格式：
         #   新格式 (DoubaoClient): start_ms / end_ms 直接为毫秒 int
         #   旧格式 (原 shibie):    start_time / end_time 为秒 float
-        if "start_ms" in row:
+        if "trigger_start_time" in row:
+            start_ms = int(float(row["trigger_start_time"]) * 1000)
+            end_ms = int(float(row.get("trigger_end_time", row["trigger_start_time"])) * 1000)
+        elif "start_ms" in row:
             start_ms = int(row["start_ms"])
             end_ms = int(row.get("end_ms", start_ms + 1000))
         else:
@@ -48,6 +51,18 @@ def _convert_highlights_to_events(rows: list[dict], fallback_episode_id: int) ->
             "effect": interaction.get("effect", "burst"),
             "source_format": "highlights_json",
         }
+
+        for key in (
+            "drama_id",
+            "drama_title",
+            "evidence",
+            "detection_window",
+            "trigger_score",
+            "trigger_evidence",
+            "refined_by",
+        ):
+            if key in row:
+                payload[key] = row[key]
 
         # 保留角色信息（如有）
         character = row.get("character")

@@ -3,7 +3,7 @@
  *
  * 替代 SlapGame 的「扇巴掌」交互，新增 HP 打击系统。
  * 用户直接点击视频中反派脸部区域进行打击，
- * HP 条从满血降到 0 触发 KO 结算。
+ * 不再用 HP 限制互动时长，用户可以一直打，手动继续播放。
  *
  * 集成 usePunchModule Hook + PunchHUD。
  * 与 SlapGame 共享 InteractionProps 接口，可无缝切换。
@@ -30,9 +30,9 @@ const { width: SCREEN_W, height: SCREEN_H } = Dimensions.get('window');
 interface Props extends InteractionProps {
   onParticleBurst: (x: number, y: number, color: string) => void;
   countdown: number;
-  /** HP 上限，默认 100 */
+  /** HP 上限，默认 100；当前仅用于兼容旧接口 */
   maxHp?: number;
-  /** KO 回调 */
+  /** KO 回调；当前无限击打模式下不会触发 */
   onKO?: () => void;
 }
 
@@ -46,6 +46,7 @@ const PunchGame: React.FC<Props> = ({
   onKO,
 }) => {
   const [showMiss, setShowMiss] = useState(false);
+  const [hitCount, setHitCount] = useState(0);
   const missOpacity = useRef(new Animated.Value(0)).current;
   const targetPulse = useRef(new Animated.Value(1)).current;
 
@@ -91,16 +92,12 @@ const PunchGame: React.FC<Props> = ({
   // ── 打击模块 ──
   const pm: PunchModuleAPI = usePunchModule({
     maxHp,
-    damage: (state) => {
-      // 动态伤害：连击越高伤害越大（但 cap 到 25）
-      const base = 10;
-      const bonus = Math.min(state.combo, 15);
-      return base + bonus;
-    },
+    damage: 0,
     hitExpandPx: 12,
     comboResetMs: 2500,
     minHitIntervalMs: 200,
     onHit: (d) => {
+      setHitCount((prev) => prev + 1);
       onComboUpdate(d.combo);
 
       // 粒子爆发在左右脸颊交替
@@ -112,17 +109,6 @@ const PunchGame: React.FC<Props> = ({
       const colors = [accentColor, '#FF3B30', '#C0392B', '#8B1A2B', '#5B0E2A'];
       const burstColor = colors[Math.min(d.combo, 5)];
       onParticleBurst(cheekX, cheekY, burstColor);
-
-      // 5 连击自动完成
-      if (d.combo >= 5) {
-        setTimeout(() => onComplete(), 300);
-      }
-    },
-    onKO: (d) => {
-      safeHaptic('error');
-      onKO?.();
-      // KO 后延迟完成互动
-      setTimeout(() => onComplete(), 1500);
     },
     onMiss: (x, y) => {
       // 未命中反馈
@@ -162,8 +148,6 @@ const PunchGame: React.FC<Props> = ({
 
   // ── 脸部点击处理 ──
   const handleFaceTap = useCallback(() => {
-    if (state.isKO) return;
-
     // 用脸部中心坐标调用 punchAt
     const centerX = facePos.x;
     const centerY = facePos.y;
@@ -173,7 +157,7 @@ const PunchGame: React.FC<Props> = ({
     if (result) {
       safeHaptic(result.combo >= 5 ? 'heavy' : result.combo >= 3 ? 'medium' : 'light');
     }
-  }, [pm, state.isKO, facePos, highlight.time]);
+  }, [pm, facePos, highlight.time]);
 
   // ── 背景点击（未命中） ──
   const handleBackgroundTap = useCallback(
@@ -232,15 +216,15 @@ const PunchGame: React.FC<Props> = ({
 
       {/* ── 提示 ── */}
       <View style={styles.hintContainer}>
-        <View style={styles.countdownRing}>
-          <Text style={[styles.countdownText, { color: accentColor }]}>
-            {countdown}
-          </Text>
-        </View>
+        <TouchableOpacity
+          style={styles.resumeButton}
+          onPress={onComplete}
+          activeOpacity={0.85}
+        >
+          <Text style={styles.resumeText}>继续播放</Text>
+        </TouchableOpacity>
         <Text style={styles.hint}>
-          {state.isKO
-            ? 'K.O!'
-            : highlight.interaction.hint || '点击脸部打击反派'}
+          {highlight.interaction.hint || '点击脸部打击反派'}
         </Text>
         {highlight.interaction.buttons[1] && (
           <Text style={styles.secondaryHint}>
@@ -257,15 +241,17 @@ const PunchGame: React.FC<Props> = ({
         isKO={state.isKO}
         visible={true}
         accentColor={accentColor}
+        hitCount={hitCount}
+        mode="hits"
       />
 
       {/* ── 伤害建议 ── */}
       <Text style={styles.damageHint}>
         {state.combo < 3
-          ? '快速点击脸部造成伤害'
+          ? '想打多久都可以'
           : state.combo < 5
-          ? `${state.combo} 连击！伤害提升`
-          : '🔥 暴击伤害！'}
+          ? `${state.combo} 连击！继续打`
+          : '🔥 暴击连打！'}
       </Text>
     </View>
   );
@@ -326,18 +312,20 @@ const styles = StyleSheet.create({
     alignSelf: 'center',
     alignItems: 'center',
   },
-  countdownRing: {
-    width: 44,
-    height: 44,
-    borderRadius: 22,
-    borderWidth: 2.5,
-    borderColor: COLORS.primary,
+  resumeButton: {
+    minWidth: 104,
+    height: 38,
+    borderRadius: 8,
+    borderWidth: 1,
+    borderColor: COLORS.border,
+    backgroundColor: 'rgba(255,255,255,0.12)',
     justifyContent: 'center',
     alignItems: 'center',
     marginBottom: 12,
   },
-  countdownText: {
-    fontSize: FONT.body,
+  resumeText: {
+    fontSize: FONT.caption,
+    color: COLORS.textPrimary,
     fontWeight: '800',
   },
   hint: {

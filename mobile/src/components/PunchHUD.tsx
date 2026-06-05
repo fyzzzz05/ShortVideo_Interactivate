@@ -35,6 +35,8 @@ interface Props {
   visible: boolean;
   /** 连击颜色（从场景配置来） */
   accentColor?: string;
+  hitCount?: number;
+  mode?: 'hp' | 'hits';
 }
 
 const PunchHUD: React.FC<Props> = ({
@@ -44,10 +46,12 @@ const PunchHUD: React.FC<Props> = ({
   isKO,
   visible,
   accentColor = COLORS.primary,
+  hitCount = 0,
+  mode = 'hp',
 }) => {
   const ratio = Math.max(0, hp / maxHp);
-  const barW = SCREEN_W * 0.7;
   const fillColor = isKO ? '#FF2D55' : hpColor(ratio);
+  const showHitMode = mode === 'hits';
 
   // 动画值
   const fillAnim = useRef(new Animated.Value(ratio)).current;
@@ -98,26 +102,30 @@ const PunchHUD: React.FC<Props> = ({
         style={[styles.koFlash, { opacity: koFlash }]}
       />
 
-      {/* ── HP 条 ── */}
+      {/* ── HP / 命中计数 ── */}
       <View style={styles.hpBarOuter}>
-        <Animated.View style={[styles.hpBarInner, { transform: [{ translateX: barShake }] }]}>
-          <Animated.View
-            style={[
-              styles.hpFill,
-              {
-                width: fillAnim.interpolate({
-                  inputRange: [0, 1],
-                  outputRange: ['0%', '100%'],
-                }),
-                backgroundColor: fillColor,
-              },
-            ]}
-          />
-        </Animated.View>
+        {!showHitMode && (
+          <Animated.View style={[styles.hpBarInner, { transform: [{ translateX: barShake }] }]}>
+            <Animated.View
+              style={[
+                styles.hpFill,
+                {
+                  width: fillAnim.interpolate({
+                    inputRange: [0, 1],
+                    outputRange: ['0%', '100%'],
+                  }),
+                  backgroundColor: fillColor,
+                },
+              ]}
+            />
+          </Animated.View>
+        )}
 
-        {/* HP 数值 */}
+        {/* 数值 */}
         <View style={styles.hpLabels}>
-          <Text style={styles.hpLabel}>{isKO ? 'KO!' : `${hp}/${maxHp}`}</Text>
+          <Text style={styles.hpLabel}>
+            {showHitMode ? `HIT ${hitCount}` : isKO ? 'KO!' : `${hp}/${maxHp}`}
+          </Text>
           {combo >= 3 && (
             <Text style={[styles.comboLabel, { color: accentColor }]}>
               {combo}x

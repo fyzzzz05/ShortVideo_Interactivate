@@ -6,6 +6,7 @@ from fastapi.responses import JSONResponse
 from app.api.v1.router import api_router
 from app.core.config import settings
 from app.db.base import Base
+import app.db.models  # noqa: F401
 from app.db.session import engine
 
 

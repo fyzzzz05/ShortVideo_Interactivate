@@ -54,7 +54,6 @@ const PUNCH_HIGHLIGHTS: PunchHighlight[] = [
 const MATCH_TOLERANCE = 0.08;
 const HIT_EXPAND_PX = 8;
 const COMBO_WINDOW_MS = 2000;
-const KO_RESUME_MS = 1200;
 const COMIC_WORDS = ['BANG', 'POW', 'SMASH', 'BOOM'];
 const PARTICLE_EMOJIS = ['⭐', '💥', '⚡', '🔥', '💢', '💫', '✨', '🌟'];
 const EMOJI_SPRITES = new Map<string, HTMLCanvasElement>();
@@ -279,7 +278,7 @@ const PlayerScreen: React.FC = () => {
   const totalHitsRef = useRef(0);
   const lastHitAtRef = useRef(0);
   const comboTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
-  const koTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
+  const promptTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
   const punchModeRef = useRef(false);
 
   const [epIdx, setEpIdx] = useState(0);
@@ -296,9 +295,10 @@ const PlayerScreen: React.FC = () => {
   const [danmakuList, setDanmakuList] = useState<LiveDanmaku[]>([]);
   const [showDmInput, setShowDmInput] = useState(false);
   const [punchMode, setPunchMode] = useState(false);
-  const [punchHp, setPunchHp] = useState(100);
   const [punchCombo, setPunchCombo] = useState(0);
-  const [isKO, setIsKO] = useState(false);
+  const [punchHits, setPunchHits] = useState(0);
+  const [pendingPunch, setPendingPunch] = useState<PunchHighlight | null>(null);
+  const [skipArmed, setSkipArmed] = useState(false);
   const [domEffects, setDomEffects] = useState<DomHitEffect[]>([]);
   const [shakeFlip, setShakeFlip] = useState(false);
 
@@ -309,10 +309,10 @@ const PlayerScreen: React.FC = () => {
 
   useEffect(() => { punchModeRef.current = punchMode; }, [punchMode]);
 
-  const resetPunch = useCallback((maxHp = punchHighlight?.maxHp ?? 100) => {
+  const resetPunch = useCallback(() => {
     if (comboTimerRef.current) clearTimeout(comboTimerRef.current);
-    if (koTimerRef.current) clearTimeout(koTimerRef.current);
-    hpRef.current = maxHp;
+    if (promptTimerRef.current) clearTimeout(promptTimerRef.current);
+    hpRef.current = punchHighlight?.maxHp ?? 100;
     comboRef.current = 0;
     visibleComboRef.current = 0;
     totalHitsRef.current = 0;
@@ -321,9 +321,10 @@ const PlayerScreen: React.FC = () => {
     effectsRef.current = [];
     canvasDirtyRef.current = false;
     setDomEffects([]);
-    setPunchHp(maxHp);
     setPunchCombo(0);
-    setIsKO(false);
+    setPunchHits(0);
+    setPendingPunch(null);
+    setSkipArmed(false);
   }, [punchHighlight?.maxHp]);
 
   const getContainerSize = useCallback(() => {
@@ -379,8 +380,9 @@ const PlayerScreen: React.FC = () => {
     setDomEffects([]);
     shakeRef.current = { until: 0, intensity: 0 };
     bboxCursorRef.current = 0;
-    setIsKO(false);
     setPunchCombo(0);
+    setPendingPunch(null);
+    setSkipArmed(false);
     setTimeout(() => {
       videoRef.current?.play().catch(() => {});
       setPaused(false);
@@ -390,7 +392,7 @@ const PlayerScreen: React.FC = () => {
   const enterPunchMode = useCallback((highlight: PunchHighlight) => {
     const v = videoRef.current;
     if (!v) return;
-    resetPunch(highlight.maxHp);
+    resetPunch();
     v.pause();
     v.currentTime = highlight.startTime;
     bboxCursorRef.current = 0;
@@ -402,8 +404,32 @@ const PlayerScreen: React.FC = () => {
     setShowIcon(false);
   }, [resetPunch]);
 
+  const showPunchPrompt = useCallback((highlight: PunchHighlight) => {
+    const v = videoRef.current;
+    if (!v) return;
+    v.pause();
+    v.currentTime = highlight.startTime;
+    setTime(highlight.startTime);
+    setPaused(true);
+    setPendingPunch(highlight);
+    setSkipArmed(false);
+    setIconType('pause');
+    setShowIcon(false);
+  }, []);
+
+  const skipPunchAndResume = useCallback(() => {
+    if (promptTimerRef.current) clearTimeout(promptTimerRef.current);
+    setSkipArmed(true);
+    promptTimerRef.current = setTimeout(() => {
+      setPendingPunch(null);
+      setSkipArmed(false);
+      videoRef.current?.play().catch(() => {});
+      setPaused(false);
+    }, 2000);
+  }, []);
+
   const triggerPunch = useCallback((hitX: number, hitY: number) => {
-    if (!punchHighlight || isKO) return;
+    if (!punchHighlight) return;
     const now = performance.now();
     comboRef.current = now - lastHitAtRef.current <= COMBO_WINDOW_MS ? comboRef.current + 1 : 1;
     lastHitAtRef.current = now;
@@ -416,10 +442,8 @@ const PlayerScreen: React.FC = () => {
       }
     }, COMBO_WINDOW_MS);
 
-    const damage = 8 + randInt(0, 12) + Math.min(comboRef.current * 2, 20);
-    hpRef.current = Math.max(0, hpRef.current - damage);
     totalHitsRef.current += 1;
-    setPunchHp(hpRef.current);
+    setPunchHits(totalHitsRef.current);
     if (visibleComboRef.current !== comboRef.current) {
       visibleComboRef.current = comboRef.current;
       setPunchCombo(comboRef.current);
@@ -466,16 +490,10 @@ const PlayerScreen: React.FC = () => {
 
     shakeRef.current = { until: performance.now() + 180, intensity: comboRef.current >= 3 ? 6 : 4 };
     setShakeFlip(prev => !prev);
-
-    if (hpRef.current <= 0) {
-      setIsKO(true);
-      effectsRef.current.push(new ScreenFlash(w, h, 0.32, '#ff0000'));
-      koTimerRef.current = setTimeout(exitPunchAndResume, KO_RESUME_MS);
-    }
-  }, [exitPunchAndResume, getContainerSize, isKO, punchHighlight]);
+  }, [getContainerSize, punchHighlight]);
 
   const handlePunchPoint = useCallback((clientX: number, clientY: number) => {
-    if (!punchModeRef.current || isKO) return false;
+    if (!punchModeRef.current) return false;
     const rect = canvasRef.current?.getBoundingClientRect();
     if (!rect) return false;
     activeBboxesRef.current = findActiveBboxes(videoRef.current?.currentTime ?? 0);
@@ -490,7 +508,7 @@ const PlayerScreen: React.FC = () => {
     if (!hit) return false;
     triggerPunch(hit.px + hit.pw / 2, hit.py + hit.ph / 2);
     return true;
-  }, [findActiveBboxes, isKO, triggerPunch]);
+  }, [findActiveBboxes, triggerPunch]);
 
   useEffect(() => {
     let run = true;
@@ -575,9 +593,9 @@ const PlayerScreen: React.FC = () => {
     if (!duration) setDuration(v.duration || 0);
     if (punchHighlight && !firedRef.current[ep.id] && t >= punchHighlight.startTime && t < punchHighlight.endTime) {
       firedRef.current[ep.id] = true;
-      enterPunchMode(punchHighlight);
+      showPunchPrompt(punchHighlight);
     }
-  }, [duration, enterPunchMode, ep.id, punchHighlight]);
+  }, [duration, ep.id, punchHighlight, showPunchPrompt]);
 
   const onLoaded = useCallback(() => {
     const v = videoRef.current;
@@ -628,7 +646,7 @@ const PlayerScreen: React.FC = () => {
         setEpIdx(next);
         setDanmakuList([]);
         setPunchMode(false);
-        resetPunch(PUNCH_HIGHLIGHTS.find(h => h.episodeId === EPISODES[next]?.id)?.maxHp ?? 100);
+        resetPunch();
         videoRef.current?.load();
         setTimeout(() => videoRef.current?.play().catch(() => {}), 200);
         setPaused(false);
@@ -657,8 +675,6 @@ const PlayerScreen: React.FC = () => {
       setTime(ratio * duration);
     }
   }, [duration]);
-
-  const hpPct = punchHighlight ? Math.max(0, (punchHp / punchHighlight.maxHp) * 100) : 100;
 
   return (
     <div
@@ -816,37 +832,58 @@ const PlayerScreen: React.FC = () => {
         </div>
       )}
 
-      {punchMode && (
-        <div className="absolute top-14 left-3 right-3 z-40 pointer-events-none">
-          <div className="flex items-center gap-2 mb-2">
-            <div className="min-w-[78px] px-2.5 py-1 rounded-md bg-black/55 border border-white/15 text-white text-[12px] font-black tracking-wide">
-              HP {punchHp}
+      {pendingPunch && !punchMode && (
+        <div className="absolute inset-0 z-[45] flex items-center justify-center bg-black/45 px-7" onClick={(e) => e.stopPropagation()}>
+          <div className="w-full rounded-xl border border-white/15 bg-black/75 px-5 py-5 text-center shadow-[0_16px_48px_rgba(0,0,0,.45)] backdrop-blur-xl">
+            <div className="text-[13px] font-semibold text-white/65">{ep.title}</div>
+            <div className="mt-2 text-[22px] font-black tracking-wide text-white">{pendingPunch.title}</div>
+            <div className="mt-2 text-[13px] leading-5 text-white/70">
+              {skipArmed ? '已跳过，2 秒后继续播放' : '要进入击打互动吗？'}
             </div>
-            <div className="flex-1 h-2 rounded-full bg-white/15 overflow-hidden">
-              <div
-                className="h-full rounded-full transition-[width] duration-300"
-                style={{
-                  width: `${hpPct}%`,
-                  background: hpPct < 25 ? 'linear-gradient(90deg,#ff0000,#cc0000)' : hpPct < 50 ? 'linear-gradient(90deg,#ff4757,#ff6348)' : 'linear-gradient(90deg,#ff4757,#ff6348,#ffa502,#2ed573)',
-                }}
-              />
-            </div>
-          </div>
-          <div className="flex justify-between items-start">
-            <div className="px-3 py-1.5 rounded-full bg-black/45 border border-white/15 text-white text-[12px] font-semibold backdrop-blur-md">
-              点击脸部打击
-            </div>
-            <div className={`px-3 py-1.5 rounded-full text-white text-[13px] font-black tracking-wide transition-all ${punchCombo >= 2 ? 'scale-100 opacity-100' : 'scale-75 opacity-0'}`} style={{ background: 'linear-gradient(135deg,#ff3300,#ff6b35)', boxShadow: '0 2px 10px rgba(255,40,0,.45)' }}>
-              🔥 {punchCombo} COMBO
+            <div className="mt-5 grid grid-cols-2 gap-3">
+              <button
+                className="h-11 rounded-lg bg-[#ff3b30] text-[14px] font-black text-white active:scale-95 disabled:opacity-50"
+                disabled={skipArmed}
+                onClick={() => enterPunchMode(pendingPunch)}
+              >
+                开始击打
+              </button>
+              <button
+                className="h-11 rounded-lg border border-white/20 bg-white/10 text-[14px] font-semibold text-white active:scale-95 disabled:opacity-50"
+                disabled={skipArmed}
+                onClick={skipPunchAndResume}
+              >
+                不打
+              </button>
             </div>
           </div>
         </div>
       )}
 
-      {isKO && (
-        <div className="absolute inset-0 z-50 pointer-events-none flex flex-col items-center justify-center">
-          <div className="text-[54px] font-black tracking-[6px] text-red-600" style={{ textShadow: '0 0 28px #f00,0 0 60px #ff6b00,0 3px 8px #000' }}>💀 K.O.</div>
-          <div className="mt-2 text-[16px] text-yellow-300 tracking-[3px] font-bold" style={{ textShadow: '0 2px 8px #000' }}>坏人被打倒了！</div>
+      {punchMode && (
+        <div className="absolute top-14 left-3 right-3 z-40 pointer-events-none">
+          <div className="flex items-center gap-2 mb-2">
+            <div className="min-w-[86px] px-2.5 py-1 rounded-md bg-black/55 border border-white/15 text-white text-[12px] font-black tracking-wide">
+              HIT {punchHits}
+            </div>
+            <button
+              className="pointer-events-auto ml-auto h-8 rounded-md border border-white/15 bg-white/10 px-3 text-[12px] font-semibold text-white active:scale-95"
+              onClick={(e) => {
+                e.stopPropagation();
+                exitPunchAndResume();
+              }}
+            >
+              继续播放
+            </button>
+          </div>
+          <div className="flex justify-between items-start">
+            <div className="px-3 py-1.5 rounded-full bg-black/45 border border-white/15 text-white text-[12px] font-semibold backdrop-blur-md">
+              点击脸部打击，想打多久都可以
+            </div>
+            <div className={`px-3 py-1.5 rounded-full text-white text-[13px] font-black tracking-wide transition-all ${punchCombo >= 2 ? 'scale-100 opacity-100' : 'scale-75 opacity-0'}`} style={{ background: 'linear-gradient(135deg,#ff3300,#ff6b35)', boxShadow: '0 2px 10px rgba(255,40,0,.45)' }}>
+              🔥 {punchCombo} COMBO
+            </div>
+          </div>
         </div>
       )}
 
