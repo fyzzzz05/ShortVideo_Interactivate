@@ -4,9 +4,11 @@ import {
   Easing,
   KeyboardAvoidingView,
   LayoutChangeEvent,
+  NativeSyntheticEvent,
   PanResponder,
   Platform,
   Pressable,
+  GestureResponderEvent,
   StyleSheet,
   Text,
   TextInput,
@@ -231,9 +233,8 @@ const PlayerScreen: React.FC = () => {
     ]).start();
   }, [shakeX]);
 
-  const seekToScreenX = useCallback((screenX: number) => {
+  const seekToLocalX = useCallback((localX: number) => {
     if (!durMs) return;
-    const localX = screenX - progressLeftRef.current;
     const ratio = Math.max(0, Math.min(1, localX / Math.max(progressWidthRef.current, 1)));
     const next = ratio * durMs;
     videoRef.current?.setPositionAsync(next);
@@ -309,16 +310,9 @@ const PlayerScreen: React.FC = () => {
     progressLeftRef.current = x;
   }, []);
 
-  const progressResponder = useMemo(() => PanResponder.create({
-    onStartShouldSetPanResponder: () => true,
-    onMoveShouldSetPanResponder: () => true,
-    onPanResponderGrant: (evt) => {
-      seekToScreenX(evt.nativeEvent.pageX || evt.nativeEvent.locationX + progressLeftRef.current);
-    },
-    onPanResponderMove: (evt) => {
-      seekToScreenX(evt.nativeEvent.pageX || evt.nativeEvent.locationX + progressLeftRef.current);
-    },
-  }), [seekToScreenX]);
+  const onProgressTouch = useCallback((evt: GestureResponderEvent) => {
+    seekToLocalX(evt.nativeEvent.locationX);
+  }, [seekToLocalX]);
 
   const punchResponder = useMemo(() => PanResponder.create({
     onStartShouldSetPanResponder: () => punchMode,
@@ -330,7 +324,12 @@ const PlayerScreen: React.FC = () => {
   }), [handlePunchAt, punchMode]);
 
   const panResponder = useMemo(() => PanResponder.create({
-    onMoveShouldSetPanResponder: (_, gesture) => !punchMode && !pendingPunch && Math.abs(gesture.dy) > 12,
+    onMoveShouldSetPanResponder: (_, gesture) => (
+      !punchMode &&
+      !pendingPunch &&
+      Math.abs(gesture.dy) > 28 &&
+      Math.abs(gesture.dy) > Math.abs(gesture.dx) * 1.25
+    ),
     onPanResponderGrant: (_, gesture) => {
       panStartY.current = gesture.y0;
     },
@@ -415,10 +414,14 @@ const PlayerScreen: React.FC = () => {
         </View>
       </View>
 
-      <Pressable
+      <View
         style={styles.progressWrap}
         onLayout={onProgressLayout}
-        {...progressResponder.panHandlers}
+        pointerEvents="auto"
+        onStartShouldSetResponder={() => true}
+        onMoveShouldSetResponder={() => true}
+        onResponderGrant={onProgressTouch}
+        onResponderMove={onProgressTouch}
       >
         {punchHighlight && durMs > 0 && (
           <View
@@ -431,7 +434,7 @@ const PlayerScreen: React.FC = () => {
         <View style={styles.progressTrack}>
           <View style={[styles.progressFill, { width: `${progress}%` }]} />
         </View>
-      </Pressable>
+      </View>
 
       {showDmInput && (
         <KeyboardAvoidingView
@@ -723,13 +726,13 @@ const styles = StyleSheet.create({
     position: 'absolute',
     left: 12,
     right: 12,
-    bottom: 14,
-    height: 20,
-    zIndex: 22,
+    bottom: 8,
+    height: 36,
+    zIndex: 80,
     justifyContent: 'center',
   },
   progressTrack: {
-    height: 3,
+    height: 5,
     borderRadius: 999,
     backgroundColor: 'rgba(255,255,255,0.22)',
     overflow: 'hidden',
@@ -740,7 +743,7 @@ const styles = StyleSheet.create({
   },
   hotPoint: {
     position: 'absolute',
-    top: 6,
+    top: 13,
     width: 9,
     height: 9,
     borderRadius: 5,
