@@ -119,12 +119,6 @@ const PlayerScreen: React.FC = () => {
     width: Math.max(72, face.width * screenW),
     height: Math.max(72, face.height * screenH),
   };
-  const faceHitRect = {
-    left: faceRect.left - faceRect.width * 0.28,
-    top: faceRect.top - faceRect.height * 0.25,
-    right: faceRect.left + faceRect.width * 1.28,
-    bottom: faceRect.top + faceRect.height * 1.25,
-  };
 
   useEffect(() => {
     setPendingPunch(null);
@@ -295,17 +289,8 @@ const PlayerScreen: React.FC = () => {
 
   const handlePunchAt = useCallback((x: number, y: number) => {
     if (!punchMode) return;
-    const hit =
-      x >= faceHitRect.left &&
-      x <= faceHitRect.right &&
-      y >= faceHitRect.top &&
-      y <= faceHitRect.bottom;
-    if (hit) {
-      triggerPunch(Math.max(faceRect.left, Math.min(x, faceRect.left + faceRect.width)), Math.max(faceRect.top, Math.min(y, faceRect.top + faceRect.height)));
-    } else {
-      safeHaptic('light');
-    }
-  }, [faceHitRect.bottom, faceHitRect.left, faceHitRect.right, faceHitRect.top, faceRect.height, faceRect.left, faceRect.top, faceRect.width, punchMode, triggerPunch]);
+    triggerPunch(x, y);
+  }, [punchMode, triggerPunch]);
 
   const onScreenLayout = useCallback((evt: LayoutChangeEvent) => {
     const { width, height } = evt.nativeEvent.layout;
@@ -339,8 +324,8 @@ const PlayerScreen: React.FC = () => {
     onStartShouldSetPanResponder: () => punchMode,
     onMoveShouldSetPanResponder: () => false,
     onPanResponderGrant: (evt) => {
-      const { locationX, locationY, pageX, pageY } = evt.nativeEvent;
-      handlePunchAt(pageX || locationX, pageY || locationY);
+      const { locationX, locationY } = evt.nativeEvent;
+      handlePunchAt(locationX, locationY);
     },
   }), [handlePunchAt, punchMode]);
 
@@ -497,7 +482,7 @@ const PlayerScreen: React.FC = () => {
             </TouchableOpacity>
           </View>
           <View style={styles.punchHintRow}>
-            <Text style={styles.punchHint}>点击脸部打击，想打多久都可以</Text>
+            <Text style={styles.punchHint}>点击任意位置打击，特效会在点击处爆发</Text>
             <Text style={[styles.comboPill, combo >= 2 ? styles.comboVisible : styles.comboHidden]}>🔥 {combo} COMBO</Text>
           </View>
         </View>
