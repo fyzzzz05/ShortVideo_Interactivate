@@ -188,6 +188,18 @@ python scripts/seed_demo_data.py
 
 - `docs/api_android.md`
 - `docs/api_model.md`
+- `docs/technical_report.md`
+- `docs/mobile_deployment_status.md`
+
+## 最终交付说明
+
+当前建议按“Web 端 + 服务端”作为单人项目主交付链路：
+
+- Web 端负责最终展示：竖屏短剧播放、弹幕、高光点、打脸互动、粒子和 Combo/K.O. 反馈。
+- 服务端负责接口和数据：剧集、弹幕、高光事件、互动上报、互动汇总、测验和同款搜索。
+- Expo 移动端作为 Android/iOS 原型保留，具备继续打包的项目基础，但正式 APK/AAB/IPA 部署还需要补齐 EAS、图标、签名和真实后端地址。
+
+项目展示录屏位于 `demo/`，飞书技术文档可直接参考 `docs/technical_report.md`。
 
 ## 高光识别脚本
 

@@ -1,0 +1,558 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>ShortVideo API 接口预览</title>
+  <style>
+    :root {
+      --bg: #f7f7f4;
+      --panel: #ffffff;
+      --ink: #171717;
+      --muted: #6d6a63;
+      --line: #dedbd2;
+      --get: #2e8b57;
+      --post: #3577c9;
+      --warn: #d99a24;
+      --red: #e5484d;
+      --violet: #7b61c8;
+      --code: #24231f;
+    }
+
+    * { box-sizing: border-box; }
+
+    body {
+      margin: 0;
+      background: var(--bg);
+      color: var(--ink);
+      font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", "Microsoft YaHei", sans-serif;
+      line-height: 1.5;
+    }
+
+    .shell {
+      width: min(1180px, calc(100% - 32px));
+      margin: 0 auto;
+      padding: 28px 0 44px;
+    }
+
+    header {
+      display: grid;
+      grid-template-columns: 1fr auto;
+      gap: 18px;
+      align-items: end;
+      padding: 10px 0 24px;
+      border-bottom: 1px solid var(--line);
+    }
+
+    h1 {
+      margin: 0;
+      font-size: 30px;
+      letter-spacing: 0;
+    }
+
+    .subtitle {
+      margin-top: 8px;
+      color: var(--muted);
+      font-size: 14px;
+    }
+
+    .meta {
+      text-align: right;
+      color: var(--muted);
+      font-size: 13px;
+      white-space: nowrap;
+    }
+
+    .grid {
+      display: grid;
+      gap: 16px;
+      margin-top: 18px;
+    }
+
+    .stats {
+      grid-template-columns: repeat(5, 1fr);
+    }
+
+    .two {
+      grid-template-columns: minmax(0, 0.9fr) minmax(0, 1.1fr);
+    }
+
+    .card {
+      background: var(--panel);
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      padding: 16px;
+      box-shadow: 0 1px 2px rgba(0, 0, 0, 0.04);
+    }
+
+    .metric {
+      min-height: 96px;
+    }
+
+    .metric .label {
+      color: var(--muted);
+      font-size: 13px;
+    }
+
+    .metric .value {
+      margin-top: 12px;
+      font-size: 28px;
+      font-weight: 800;
+    }
+
+    .metric .note {
+      margin-top: 4px;
+      color: var(--muted);
+      font-size: 12px;
+    }
+
+    h2 {
+      margin: 0 0 14px;
+      font-size: 18px;
+    }
+
+    h3 {
+      margin: 0 0 8px;
+      font-size: 15px;
+    }
+
+    .bar-row {
+      display: grid;
+      grid-template-columns: 112px minmax(0, 1fr) 54px;
+      gap: 10px;
+      align-items: center;
+      margin: 11px 0;
+      font-size: 13px;
+    }
+
+    .bar-label {
+      color: var(--muted);
+    }
+
+    .bar-track {
+      height: 12px;
+      background: #eeeae1;
+      border-radius: 999px;
+      overflow: hidden;
+    }
+
+    .bar {
+      height: 100%;
+      border-radius: 999px;
+      background: var(--post);
+    }
+
+    .bar.green { background: var(--get); }
+    .bar.violet { background: var(--violet); }
+    .bar.gold { background: var(--warn); }
+
+    .bar-value {
+      text-align: right;
+      font-variant-numeric: tabular-nums;
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 13px;
+    }
+
+    th, td {
+      padding: 10px 8px;
+      border-bottom: 1px solid var(--line);
+      vertical-align: top;
+      text-align: left;
+    }
+
+    th {
+      color: var(--muted);
+      font-weight: 700;
+      background: #fbfaf7;
+    }
+
+    .method {
+      display: inline-block;
+      min-width: 52px;
+      padding: 3px 8px;
+      border-radius: 999px;
+      color: white;
+      text-align: center;
+      font-weight: 800;
+      font-size: 11px;
+      letter-spacing: 0;
+    }
+
+    .get { background: var(--get); }
+    .post { background: var(--post); }
+
+    code {
+      color: var(--code);
+      background: #f0eee8;
+      border: 1px solid #e2dfd6;
+      border-radius: 5px;
+      padding: 2px 5px;
+      font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, "Liberation Mono", monospace;
+      font-size: 12px;
+      word-break: break-all;
+    }
+
+    pre {
+      margin: 0;
+      overflow-x: auto;
+      background: #24231f;
+      color: #f7f1df;
+      border-radius: 8px;
+      padding: 14px;
+      font-size: 12px;
+      line-height: 1.55;
+      font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, "Liberation Mono", monospace;
+    }
+
+    .tag {
+      display: inline-block;
+      padding: 2px 8px;
+      border-radius: 999px;
+      background: #f0eee8;
+      color: #44413b;
+      font-size: 12px;
+      white-space: nowrap;
+    }
+
+    .scroll {
+      overflow-x: auto;
+    }
+
+    .note {
+      color: var(--muted);
+      font-size: 13px;
+    }
+
+    .endpoint-list {
+      display: grid;
+      gap: 12px;
+    }
+
+    .endpoint {
+      display: grid;
+      grid-template-columns: auto minmax(0, 1fr);
+      gap: 12px;
+      align-items: start;
+      padding: 12px;
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      background: #fbfaf7;
+    }
+
+    .endpoint .path {
+      font-weight: 800;
+      word-break: break-all;
+    }
+
+    .endpoint .desc {
+      margin-top: 3px;
+      color: var(--muted);
+      font-size: 13px;
+    }
+
+    .footer {
+      margin-top: 18px;
+      color: var(--muted);
+      font-size: 12px;
+    }
+
+    @media (max-width: 920px) {
+      header, .two { grid-template-columns: 1fr; }
+      .stats { grid-template-columns: repeat(2, 1fr); }
+      .meta { text-align: left; }
+    }
+
+    @media (max-width: 560px) {
+      .stats { grid-template-columns: 1fr; }
+      .bar-row { grid-template-columns: 86px minmax(0, 1fr) 42px; }
+      .endpoint { grid-template-columns: 1fr; }
+    }
+  </style>
+</head>
+<body>
+  <main class="shell">
+    <header>
+      <div>
+        <h1>ShortVideo API 接口预览</h1>
+        <div class="subtitle">基于当前 FastAPI 路由生成的静态接口清单，用于联调前快速浏览。</div>
+      </div>
+      <div class="meta">
+        <div>Base URL：http://127.0.0.1:8000</div>
+        <div>API 前缀：/api/v1</div>
+        <div>Swagger：/docs</div>
+      </div>
+    </header>
+
+    <section class="grid stats">
+      <div class="card metric">
+        <div class="label">业务端点</div>
+        <div class="value">12</div>
+        <div class="note">不含 /health 和文档页</div>
+      </div>
+      <div class="card metric">
+        <div class="label">GET</div>
+        <div class="value">6</div>
+        <div class="note">读取剧集、弹幕、事件、统计、测验</div>
+      </div>
+      <div class="card metric">
+        <div class="label">POST</div>
+        <div class="value">6</div>
+        <div class="note">检测、互动上报、搜索、提交</div>
+      </div>
+      <div class="card metric">
+        <div class="label">数据域</div>
+        <div class="value">7</div>
+        <div class="note">danmaku / dramas / events / highlights / interactions / shop / quiz</div>
+      </div>
+      <div class="card metric">
+        <div class="label">健康检查</div>
+        <div class="value">1</div>
+        <div class="note">GET /health</div>
+      </div>
+    </section>
+
+    <section class="grid two">
+      <div class="card">
+        <h2>按模块分布</h2>
+        <div class="bar-row">
+          <div class="bar-label">events</div>
+          <div class="bar-track"><div class="bar violet" style="width:100%"></div></div>
+          <div class="bar-value">2</div>
+        </div>
+        <div class="bar-row">
+          <div class="bar-label">interactions</div>
+          <div class="bar-track"><div class="bar violet" style="width:100%"></div></div>
+          <div class="bar-value">3</div>
+        </div>
+        <div class="bar-row">
+          <div class="bar-label">quiz</div>
+          <div class="bar-track"><div class="bar violet" style="width:66.7%"></div></div>
+          <div class="bar-value">2</div>
+        </div>
+        <div class="bar-row">
+          <div class="bar-label">danmaku</div>
+          <div class="bar-track"><div class="bar violet" style="width:33.3%"></div></div>
+          <div class="bar-value">1</div>
+        </div>
+        <div class="bar-row">
+          <div class="bar-label">dramas</div>
+          <div class="bar-track"><div class="bar violet" style="width:33.3%"></div></div>
+          <div class="bar-value">1</div>
+        </div>
+        <div class="bar-row">
+          <div class="bar-label">highlights</div>
+          <div class="bar-track"><div class="bar violet" style="width:33.3%"></div></div>
+          <div class="bar-value">1</div>
+        </div>
+        <div class="bar-row">
+          <div class="bar-label">shop</div>
+          <div class="bar-track"><div class="bar violet" style="width:33.3%"></div></div>
+          <div class="bar-value">1</div>
+        </div>
+      </div>
+
+      <div class="card">
+        <h2>核心联调顺序</h2>
+        <div class="endpoint-list">
+          <div class="endpoint">
+            <span class="method get">GET</span>
+            <div>
+              <div class="path">/api/v1/dramas</div>
+              <div class="desc">获取短剧列表。当前为代码内固定返回。</div>
+            </div>
+          </div>
+          <div class="endpoint">
+            <span class="method get">GET</span>
+            <div>
+              <div class="path">/api/v1/episodes/{episode_id}/events?mode=offline</div>
+              <div class="desc">获取本集高光事件，前端按时间点触发互动。</div>
+            </div>
+          </div>
+          <div class="endpoint">
+            <span class="method get">GET</span>
+            <div>
+              <div class="path">/api/v1/episodes/{episode_id}/danmaku?start_ms=0&amp;end_ms=60000</div>
+              <div class="desc">按集数和时间范围获取弹幕。</div>
+            </div>
+          </div>
+          <div class="endpoint">
+            <span class="method post">POST</span>
+            <div>
+              <div class="path">/api/v1/interactions/click</div>
+              <div class="desc">互动点击上报，写入 interactions 表。</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="grid">
+      <div class="card scroll">
+        <h2>接口清单</h2>
+        <table>
+          <thead>
+            <tr>
+              <th>方法</th>
+              <th>路径</th>
+              <th>模块</th>
+              <th>说明</th>
+              <th>主要参数</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td><span class="method get">GET</span></td>
+              <td><code>/health</code></td>
+              <td><span class="tag">system</span></td>
+              <td>服务健康检查。</td>
+              <td>-</td>
+            </tr>
+            <tr>
+              <td><span class="method get">GET</span></td>
+              <td><code>/api/v1/dramas</code></td>
+              <td><span class="tag">dramas</span></td>
+              <td>获取短剧列表。</td>
+              <td>-</td>
+            </tr>
+            <tr>
+              <td><span class="method get">GET</span></td>
+              <td><code>/api/v1/episodes/{episode_id}/danmaku</code></td>
+              <td><span class="tag">danmaku</span></td>
+              <td>查询某集弹幕，支持时间范围和分页。</td>
+              <td><code>start_ms</code> <code>end_ms</code> <code>limit</code> <code>offset</code></td>
+            </tr>
+            <tr>
+              <td><span class="method get">GET</span></td>
+              <td><code>/api/v1/episodes/{episode_id}/events</code></td>
+              <td><span class="tag">events</span></td>
+              <td>查询某集高光事件。<code>mode=hybrid</code> 会尝试合并实时检测。</td>
+              <td><code>mode=offline|hybrid</code></td>
+            </tr>
+            <tr>
+              <td><span class="method post">POST</span></td>
+              <td><code>/api/v1/events/realtime-detect</code></td>
+              <td><span class="tag">events</span></td>
+              <td>实时高光检测联调入口。</td>
+              <td><code>episode_id</code> <code>start_ms</code> <code>end_ms</code> <code>scene_hint</code></td>
+            </tr>
+            <tr>
+              <td><span class="method post">POST</span></td>
+              <td><code>/api/v1/highlights/detect</code></td>
+              <td><span class="tag">highlights</span></td>
+              <td>调用豆包模型批量识别高光，可选择自动导入 events 表。</td>
+              <td><code>segments</code> <code>drama_id</code> <code>episode_id</code> <code>auto_import</code></td>
+            </tr>
+            <tr>
+              <td><span class="method post">POST</span></td>
+              <td><code>/api/v1/interactions/click</code></td>
+              <td><span class="tag">interactions</span></td>
+              <td>互动点击上报。</td>
+              <td><code>episode_id</code> <code>highlight_dedup_key</code> <code>user_id</code></td>
+            </tr>
+            <tr>
+              <td><span class="method post">POST</span></td>
+              <td><code>/api/v1/interactions/like</code></td>
+              <td><span class="tag">interactions</span></td>
+              <td>互动点赞上报。</td>
+              <td><code>episode_id</code> <code>highlight_dedup_key</code> <code>user_id</code></td>
+            </tr>
+            <tr>
+              <td><span class="method get">GET</span></td>
+              <td><code>/api/v1/interactions/summary</code></td>
+              <td><span class="tag">interactions</span></td>
+              <td>获取某集互动汇总。</td>
+              <td><code>episode_id</code></td>
+            </tr>
+            <tr>
+              <td><span class="method post">POST</span></td>
+              <td><code>/api/v1/shop/search-link</code></td>
+              <td><span class="tag">shop</span></td>
+              <td>根据标签生成同款搜索链接。</td>
+              <td><code>tags</code></td>
+            </tr>
+            <tr>
+              <td><span class="method get">GET</span></td>
+              <td><code>/api/v1/quiz/{episode_id}/profile</code></td>
+              <td><span class="tag">quiz</span></td>
+              <td>获取某集剧末人格测试题。</td>
+              <td><code>episode_id</code></td>
+            </tr>
+            <tr>
+              <td><span class="method post">POST</span></td>
+              <td><code>/api/v1/quiz/submit</code></td>
+              <td><span class="tag">quiz</span></td>
+              <td>提交测验答案，返回角色画像。</td>
+              <td><code>episode_id</code> <code>answers</code></td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </section>
+
+    <section class="grid two">
+      <div class="card">
+        <h2>请求示例</h2>
+        <h3>查询弹幕</h3>
+        <pre>GET http://127.0.0.1:8000/api/v1/episodes/5/danmaku?start_ms=0&amp;end_ms=90000&amp;limit=20</pre>
+        <br />
+        <h3>获取高光事件</h3>
+        <pre>GET http://127.0.0.1:8000/api/v1/episodes/5/events?mode=offline</pre>
+        <br />
+        <h3>互动点击上报</h3>
+        <pre>{
+  "episode_id": 5,
+  "highlight_dedup_key": "danmaku_0006",
+  "user_id": "anonymous"
+}</pre>
+      </div>
+
+      <div class="card">
+        <h2>响应结构速览</h2>
+        <h3>DanmakuResponse</h3>
+        <pre>{
+  "episode_id": 5,
+  "total": 2157,
+  "items": [
+    {
+      "id": 4,
+      "episode_title": "第5集",
+      "time_ms": 80184,
+      "like_count": 4,
+      "content": "大哥也穷啊[捂脸]资产被收回了"
+    }
+  ]
+}</pre>
+        <br />
+        <h3>EventsResponse</h3>
+        <pre>{
+  "episode_id": 5,
+  "mode": "offline",
+  "degraded": false,
+  "events": [
+    {
+      "start_ms": 65000,
+      "end_ms": 70000,
+      "title": "角色乱立flag观众坐等打脸",
+      "event_type": "cool"
+    }
+  ]
+}</pre>
+      </div>
+    </section>
+
+    <section class="grid">
+      <div class="card">
+        <h2>联调注意事项</h2>
+        <p class="note">后端默认读取 <code>backend/.env</code>，默认数据库路径是 <code>sqlite:///./shortvideo.db</code>。启动和导入数据时建议都在 <code>backend/</code> 目录执行，避免生成另一个 SQLite 文件。</p>
+        <p class="note">调用 <code>/api/v1/highlights/detect</code> 需要配置 <code>ARK_API_KEY</code> 和 <code>ARK_MODEL</code>；其他本地数据接口不需要模型 Key。</p>
+      </div>
+    </section>
+
+    <div class="footer">这是一次静态 API 快照；路由变更后需要重新生成本文件。</div>
+  </main>
+</body>
+</html>

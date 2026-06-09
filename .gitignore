@@ -14,14 +14,18 @@ __pycache__/
 # IDE
 .vscode/
 .idea/
+.claude/
 
 # Node
 mobile/node_modules/
 mobile/.expo/
+web/node_modules/
+web/dist/
 
 # OS
 .DS_Store
 Thumbs.db
+*.log
 
 # Test
 .pytest_cache/
