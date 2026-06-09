@@ -1,9 +1,9 @@
 import React, { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import {
   Animated,
-  Dimensions,
   Easing,
   KeyboardAvoidingView,
+  LayoutChangeEvent,
   PanResponder,
   Platform,
   Pressable,
@@ -23,10 +23,10 @@ import { COLORS } from '../config/theme';
 import type { Highlight } from '../data/types';
 import { safeHaptic } from '../utils/haptics';
 
-const { width: W, height: H } = Dimensions.get('window');
 const COMBO_WINDOW_MS = 2000;
 const COMIC_WORDS = ['BANG', 'POW', 'SMASH', 'BOOM'];
 const DANMAKU_SAMPLES = ['太爽了', '打他打他', '这一段名场面', '女主太飒了', '解气！', '这反转绝了'];
+const DEFAULT_LAYOUT = { width: 390, height: 844 };
 
 type LiveDanmaku = {
   id: number;
@@ -79,8 +79,10 @@ const PlayerScreen: React.FC = () => {
   const effectIdRef = useRef(0);
   const firedRef = useRef<Record<number, boolean>>({});
   const panStartY = useRef(0);
+  const progressWidthRef = useRef(DEFAULT_LAYOUT.width - 24);
 
   const shakeX = useRef(new Animated.Value(0)).current;
+  const [layout, setLayout] = useState(DEFAULT_LAYOUT);
   const [epIdx, setEpIdx] = useState(0);
   const [playing, setPlaying] = useState(false);
   const [timeMs, setTimeMs] = useState(0);
@@ -105,13 +107,16 @@ const PlayerScreen: React.FC = () => {
     [highlights],
   );
 
+  const screenW = layout.width;
+  const screenH = layout.height;
   const progress = durMs > 0 ? Math.min(100, (timeMs / durMs) * 100) : 0;
   const face = punchHighlight?.character?.facePosition ?? { x: 0.5, y: 0.34, width: 0.28, height: 0.28 };
+  const faceCenter = { x: face.x * screenW, y: face.y * screenH };
   const faceRect = {
-    left: face.x * W - (face.width * W) / 2,
-    top: face.y * H - (face.height * H) / 2,
-    width: face.width * W,
-    height: face.height * H,
+    left: faceCenter.x - (face.width * screenW) / 2,
+    top: faceCenter.y - (face.height * screenH) / 2,
+    width: Math.max(72, face.width * screenW),
+    height: Math.max(72, face.height * screenH),
   };
 
   useEffect(() => {
@@ -140,11 +145,11 @@ const PlayerScreen: React.FC = () => {
       id: dmIdRef.current++,
       text: clean,
       track: randInt(0, 3),
-      x: new Animated.Value(W + 80),
+      x: new Animated.Value(screenW + 80),
     };
-    setDanmakuList((prev) => [...prev.slice(-28), dm]);
+    setDanmakuList((prev) => [...prev.slice(-16), dm]);
     Animated.timing(dm.x, {
-      toValue: -W - 220,
+      toValue: -screenW - 220,
       duration: 7000,
       easing: Easing.linear,
       useNativeDriver: true,
@@ -155,7 +160,7 @@ const PlayerScreen: React.FC = () => {
       setDmText('');
       safeHaptic('light');
     }
-  }, []);
+  }, [screenW]);
 
   const togglePlay = useCallback(async () => {
     if (punchMode || pendingPunch) return;
@@ -237,8 +242,8 @@ const PlayerScreen: React.FC = () => {
     triggerShake();
 
     const id = effectIdRef.current++;
-    const x = face.x * W + rand(-18, 18);
-    const y = face.y * H + rand(-12, 16);
+    const x = faceCenter.x + rand(-12, 12);
+    const y = faceCenter.y + rand(-10, 12);
     const fx: HitEffect = {
       id,
       x,
@@ -248,9 +253,10 @@ const PlayerScreen: React.FC = () => {
       scale: new Animated.Value(0.2),
       opacity: new Animated.Value(1),
       fly: new Animated.Value(0),
-      sparks: Array.from({ length: nextCombo >= 3 ? 10 : 7 }, (_, i) => {
-        const angle = (Math.PI * 2 * i) / (nextCombo >= 3 ? 10 : 7);
-        const dist = rand(36, nextCombo >= 3 ? 86 : 64);
+      sparks: Array.from({ length: nextCombo >= 3 ? 5 : 3 }, (_, i) => {
+        const count = nextCombo >= 3 ? 5 : 3;
+        const angle = (Math.PI * 2 * i) / count;
+        const dist = rand(28, nextCombo >= 3 ? 58 : 42);
         return {
           id: i,
           dx: Math.cos(angle) * dist,
@@ -261,7 +267,7 @@ const PlayerScreen: React.FC = () => {
       }),
     };
 
-    setHitEffects((prev) => [...prev.slice(-3), fx]);
+    setHitEffects((prev) => [...prev.slice(-1), fx]);
     Animated.parallel([
       Animated.spring(fx.scale, { toValue: 1, friction: 4, tension: 150, useNativeDriver: true }),
       Animated.timing(fx.fly, { toValue: 1, duration: 560, easing: Easing.out(Easing.cubic), useNativeDriver: true }),
@@ -269,7 +275,23 @@ const PlayerScreen: React.FC = () => {
     ]).start(() => {
       setHitEffects((prev) => prev.filter((item) => item.id !== id));
     });
-  }, [combo, face.x, face.y, punchMode, triggerShake]);
+  }, [combo, faceCenter.x, faceCenter.y, punchMode, triggerShake]);
+
+  const onScreenLayout = useCallback((evt: LayoutChangeEvent) => {
+    const { width, height } = evt.nativeEvent.layout;
+    if (width > 0 && height > 0) {
+      setLayout((prev) => (
+        Math.abs(prev.width - width) > 1 || Math.abs(prev.height - height) > 1
+          ? { width, height }
+          : prev
+      ));
+    }
+  }, []);
+
+  const onProgressLayout = useCallback((evt: LayoutChangeEvent) => {
+    const width = evt.nativeEvent.layout.width;
+    if (width > 0) progressWidthRef.current = width;
+  }, []);
 
   const panResponder = useMemo(() => PanResponder.create({
     onMoveShouldSetPanResponder: (_, gesture) => !punchMode && !pendingPunch && Math.abs(gesture.dy) > 12,
@@ -289,7 +311,7 @@ const PlayerScreen: React.FC = () => {
   }), [epIdx, pendingPunch, punchMode]);
 
   return (
-    <Animated.View style={[styles.screen, { transform: [{ translateX: shakeX }] }]} {...panResponder.panHandlers}>
+    <View style={styles.screen} onLayout={onScreenLayout} {...panResponder.panHandlers}>
       <StatusBar hidden />
       <VideoLayer videoRef={videoRef} source={ep.video} onStatusUpdate={onStatus} />
 
@@ -359,10 +381,11 @@ const PlayerScreen: React.FC = () => {
 
       <Pressable
         style={styles.progressWrap}
+        onLayout={onProgressLayout}
         onPress={(evt) => {
           if (!durMs) return;
           const x = evt.nativeEvent.locationX;
-          const next = Math.max(0, Math.min(1, x / Math.max(W - 24, 1))) * durMs;
+          const next = Math.max(0, Math.min(1, x / Math.max(progressWidthRef.current, 1))) * durMs;
           videoRef.current?.setPositionAsync(next);
           setTimeMs(next);
         }}
@@ -436,7 +459,7 @@ const PlayerScreen: React.FC = () => {
             style={[styles.faceTarget, faceRect]}
             onPress={triggerPunch}
           >
-            <Text style={styles.faceIcon}>👊</Text>
+            <View style={styles.faceHitArea} />
           </TouchableOpacity>
         </View>
       )}
@@ -477,7 +500,7 @@ const PlayerScreen: React.FC = () => {
           </Animated.View>
         ))}
       </View>
-    </Animated.View>
+    </View>
   );
 };
 
@@ -486,8 +509,7 @@ export default PlayerScreen;
 const styles = StyleSheet.create({
   screen: {
     flex: 1,
-    width: W,
-    height: H,
+    alignSelf: 'stretch',
     backgroundColor: COLORS.bg,
     overflow: 'hidden',
   },
@@ -546,10 +568,11 @@ const styles = StyleSheet.create({
     fontWeight: '800',
   },
   topTitle: {
-    maxWidth: W - 120,
+    flex: 1,
     color: '#fff',
     fontSize: 16,
     fontWeight: '800',
+    textAlign: 'center',
   },
   rightRail: {
     position: 'absolute',
@@ -855,7 +878,8 @@ const styles = StyleSheet.create({
     gap: 8,
   },
   punchHint: {
-    maxWidth: W * 0.58,
+    flexShrink: 1,
+    maxWidth: '62%',
     color: '#fff',
     fontSize: 12,
     fontWeight: '700',
@@ -886,16 +910,12 @@ const styles = StyleSheet.create({
     minWidth: 86,
     minHeight: 86,
     borderRadius: 999,
-    borderWidth: 3,
-    borderColor: '#ff3b30',
-    borderStyle: 'dashed',
-    backgroundColor: 'rgba(255,255,255,0.06)',
     alignItems: 'center',
     justifyContent: 'center',
   },
-  faceIcon: {
-    fontSize: 42,
-    opacity: 0.76,
+  faceHitArea: {
+    ...StyleSheet.absoluteFillObject,
+    backgroundColor: 'transparent',
   },
   hitEffectLayer: {
     ...StyleSheet.absoluteFillObject,
@@ -910,17 +930,17 @@ const styles = StyleSheet.create({
   },
   fist: {
     position: 'absolute',
-    left: -22,
-    top: -24,
-    fontSize: 46,
+    left: -18,
+    top: -21,
+    fontSize: 38,
     textShadowColor: 'rgba(0,0,0,0.5)',
     textShadowRadius: 8,
   },
   hitWord: {
     position: 'absolute',
-    top: -54,
+    top: -48,
     color: '#ff3b30',
-    fontSize: 31,
+    fontSize: 26,
     fontWeight: '900',
     textShadowColor: '#111',
     textShadowRadius: 4,
