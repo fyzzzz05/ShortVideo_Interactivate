@@ -80,6 +80,7 @@ const PlayerScreen: React.FC = () => {
   const firedRef = useRef<Record<number, boolean>>({});
   const panStartY = useRef(0);
   const progressWidthRef = useRef(DEFAULT_LAYOUT.width - 24);
+  const progressLeftRef = useRef(12);
 
   const shakeX = useRef(new Animated.Value(0)).current;
   const [layout, setLayout] = useState(DEFAULT_LAYOUT);
@@ -117,6 +118,12 @@ const PlayerScreen: React.FC = () => {
     top: faceCenter.y - (face.height * screenH) / 2,
     width: Math.max(72, face.width * screenW),
     height: Math.max(72, face.height * screenH),
+  };
+  const faceHitRect = {
+    left: faceRect.left - faceRect.width * 0.28,
+    top: faceRect.top - faceRect.height * 0.25,
+    right: faceRect.left + faceRect.width * 1.28,
+    bottom: faceRect.top + faceRect.height * 1.25,
   };
 
   useEffect(() => {
@@ -230,7 +237,16 @@ const PlayerScreen: React.FC = () => {
     ]).start();
   }, [shakeX]);
 
-  const triggerPunch = useCallback(() => {
+  const seekToScreenX = useCallback((screenX: number) => {
+    if (!durMs) return;
+    const localX = screenX - progressLeftRef.current;
+    const ratio = Math.max(0, Math.min(1, localX / Math.max(progressWidthRef.current, 1)));
+    const next = ratio * durMs;
+    videoRef.current?.setPositionAsync(next);
+    setTimeMs(next);
+  }, [durMs]);
+
+  const triggerPunch = useCallback((x = faceCenter.x, y = faceCenter.y) => {
     if (!punchMode) return;
     const nextCombo = combo + 1;
     if (comboTimerRef.current) clearTimeout(comboTimerRef.current);
@@ -242,12 +258,12 @@ const PlayerScreen: React.FC = () => {
     triggerShake();
 
     const id = effectIdRef.current++;
-    const x = faceCenter.x + rand(-12, 12);
-    const y = faceCenter.y + rand(-10, 12);
+    const fxX = x + rand(-10, 10);
+    const fxY = y + rand(-8, 10);
     const fx: HitEffect = {
       id,
-      x,
-      y,
+      x: fxX,
+      y: fxY,
       combo: nextCombo,
       word: COMIC_WORDS[randInt(0, COMIC_WORDS.length - 1)],
       scale: new Animated.Value(0.2),
@@ -277,6 +293,20 @@ const PlayerScreen: React.FC = () => {
     });
   }, [combo, faceCenter.x, faceCenter.y, punchMode, triggerShake]);
 
+  const handlePunchAt = useCallback((x: number, y: number) => {
+    if (!punchMode) return;
+    const hit =
+      x >= faceHitRect.left &&
+      x <= faceHitRect.right &&
+      y >= faceHitRect.top &&
+      y <= faceHitRect.bottom;
+    if (hit) {
+      triggerPunch(Math.max(faceRect.left, Math.min(x, faceRect.left + faceRect.width)), Math.max(faceRect.top, Math.min(y, faceRect.top + faceRect.height)));
+    } else {
+      safeHaptic('light');
+    }
+  }, [faceHitRect.bottom, faceHitRect.left, faceHitRect.right, faceHitRect.top, faceRect.height, faceRect.left, faceRect.top, faceRect.width, punchMode, triggerPunch]);
+
   const onScreenLayout = useCallback((evt: LayoutChangeEvent) => {
     const { width, height } = evt.nativeEvent.layout;
     if (width > 0 && height > 0) {
@@ -289,9 +319,30 @@ const PlayerScreen: React.FC = () => {
   }, []);
 
   const onProgressLayout = useCallback((evt: LayoutChangeEvent) => {
-    const width = evt.nativeEvent.layout.width;
+    const { width, x } = evt.nativeEvent.layout;
     if (width > 0) progressWidthRef.current = width;
+    progressLeftRef.current = x;
   }, []);
+
+  const progressResponder = useMemo(() => PanResponder.create({
+    onStartShouldSetPanResponder: () => true,
+    onMoveShouldSetPanResponder: () => true,
+    onPanResponderGrant: (evt) => {
+      seekToScreenX(evt.nativeEvent.pageX || evt.nativeEvent.locationX + progressLeftRef.current);
+    },
+    onPanResponderMove: (evt) => {
+      seekToScreenX(evt.nativeEvent.pageX || evt.nativeEvent.locationX + progressLeftRef.current);
+    },
+  }), [seekToScreenX]);
+
+  const punchResponder = useMemo(() => PanResponder.create({
+    onStartShouldSetPanResponder: () => punchMode,
+    onMoveShouldSetPanResponder: () => false,
+    onPanResponderGrant: (evt) => {
+      const { locationX, locationY, pageX, pageY } = evt.nativeEvent;
+      handlePunchAt(pageX || locationX, pageY || locationY);
+    },
+  }), [handlePunchAt, punchMode]);
 
   const panResponder = useMemo(() => PanResponder.create({
     onMoveShouldSetPanResponder: (_, gesture) => !punchMode && !pendingPunch && Math.abs(gesture.dy) > 12,
@@ -382,13 +433,7 @@ const PlayerScreen: React.FC = () => {
       <Pressable
         style={styles.progressWrap}
         onLayout={onProgressLayout}
-        onPress={(evt) => {
-          if (!durMs) return;
-          const x = evt.nativeEvent.locationX;
-          const next = Math.max(0, Math.min(1, x / Math.max(progressWidthRef.current, 1))) * durMs;
-          videoRef.current?.setPositionAsync(next);
-          setTimeMs(next);
-        }}
+        {...progressResponder.panHandlers}
       >
         {punchHighlight && durMs > 0 && (
           <View
@@ -444,6 +489,7 @@ const PlayerScreen: React.FC = () => {
 
       {punchMode && (
         <View style={styles.punchLayer} pointerEvents="box-none">
+          <View style={styles.punchTouchLayer} {...punchResponder.panHandlers} />
           <View style={styles.punchHud}>
             <Text style={styles.hitPill}>HIT {hitCount}</Text>
             <TouchableOpacity style={styles.resumeButton} onPress={exitPunchAndResume}>
@@ -454,13 +500,6 @@ const PlayerScreen: React.FC = () => {
             <Text style={styles.punchHint}>点击脸部打击，想打多久都可以</Text>
             <Text style={[styles.comboPill, combo >= 2 ? styles.comboVisible : styles.comboHidden]}>🔥 {combo} COMBO</Text>
           </View>
-          <TouchableOpacity
-            activeOpacity={0.88}
-            style={[styles.faceTarget, faceRect]}
-            onPress={triggerPunch}
-          >
-            <View style={styles.faceHitArea} />
-          </TouchableOpacity>
         </View>
       )}
 
@@ -831,6 +870,10 @@ const styles = StyleSheet.create({
     ...StyleSheet.absoluteFillObject,
     zIndex: 40,
   },
+  punchTouchLayer: {
+    ...StyleSheet.absoluteFillObject,
+    zIndex: 1,
+  },
   punchHud: {
     position: 'absolute',
     top: 58,
@@ -839,6 +882,7 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     justifyContent: 'space-between',
     alignItems: 'center',
+    zIndex: 2,
   },
   hitPill: {
     minWidth: 86,
@@ -876,6 +920,7 @@ const styles = StyleSheet.create({
     alignItems: 'flex-start',
     justifyContent: 'space-between',
     gap: 8,
+    zIndex: 2,
   },
   punchHint: {
     flexShrink: 1,
