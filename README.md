@@ -3,8 +3,8 @@
 短剧互动平台 monorepo。当前仓库包含三条主线：
 
 - `backend/`：FastAPI 后端，负责剧集、事件流、高光识别、互动上报、测验和同款搜索等接口。
-- `mobile/`：Expo / React Native 移动端主交付，提供全屏短剧播放器、互动高光、打脸/连击等移动端体验。
-- `web/`：Vite / React Web 辅助演示，复刻竖屏短剧播放体验，并集成弹幕、进度点、打脸互动和粒子效果。
+- `web/`：Vite / React Web 主交付界面，复刻竖屏短剧播放体验，并集成弹幕、进度点、打脸互动和粒子效果；同时通过 Capacitor 封装为 Android WebView APK。
+- `mobile/`：Expo / React Native 历史原型，保留全屏短剧播放器、互动高光、打脸/连击等移动端组件，当前不再作为主交付链路。
 
 项目当前处于本地演示与联调阶段，默认使用 SQLite，本地视频和演示数据已放在仓库内。
 
@@ -25,8 +25,8 @@ ShortVideo-Platform/
 │   ├── scripts/                # 数据处理、导入、检测、冒烟测试脚本
 │   ├── tests/                  # pytest 测试
 │   └── requirements.txt
-├── mobile/                     # Expo React Native 客户端
-├── web/                        # Vite React Web 客户端
+├── mobile/                     # Expo React Native 历史原型
+├── web/                        # Vite React Web 主界面 + Capacitor Android APK 工程
 ├── docs/                       # Android / 模型接口文档
 ├── shared/                     # 跨端共享契约
 ├── scripts/                    # 仓库级辅助脚本
@@ -46,7 +46,18 @@ ShortVideo-Platform/
 - 支持弹幕查询、离线事件流、hybrid 事件流、互动统计、测验、同款搜索和豆包高光识别
 - `workers/` 中已有 Celery 任务骨架，Redis/Celery 依赖已在 requirements 中，但当前主链路可不启动 worker
 
-### 移动端
+### WebView APK / Web 端
+
+- Vite + React + TypeScript + Tailwind
+- Capacitor Android WebView 壳，包名 `com.shortvedio.interaction`，应用名 `短剧互动`
+- 离线内置 `web/public/nvpin/*.mp4` 短剧视频，构建后进入 `web/dist/nvpin/`
+- 竖屏短剧播放器原型
+- 本地视频播放、上下滑切集、点赞/评论/收藏/分享 UI
+- 弹幕输入与滚动展示
+- 第 5 集触发打脸互动，使用 `web/src/data/punch_bbox.json` 做脸部命中检测
+- Canvas 粒子、震屏、HP、Combo、K.O. 效果
+
+### Expo 历史原型
 
 - Expo + React Native + TypeScript
 - 全屏短剧播放器
@@ -54,20 +65,12 @@ ShortVideo-Platform/
 - 互动浮层、倒计时、连击、脸部高亮、肿胀特效
 - `usePunchModule` / `PunchGame` / `PunchHUD` 提供打脸互动模块
 
-### Web 端
-
-- Vite + React + TypeScript + Tailwind
-- 竖屏短剧播放器原型
-- 本地视频播放、上下滑切集、点赞/评论/收藏/分享 UI
-- 弹幕输入与滚动展示
-- 第 5 集触发打脸互动，使用 `web/src/data/punch_bbox.json` 做脸部命中检测
-- Canvas 粒子、震屏、HP、Combo、K.O. 效果
-
 ## 环境要求
 
 - Python 3.10+
 - Node.js 18+
 - npm
+- 构建 APK 时需要 JDK 17+、Android SDK / Android Studio
 - 可选：conda 环境 `shortvideo`
 - 可选：豆包 / 火山 Ark 模型 API Key
 
@@ -193,12 +196,12 @@ python scripts/seed_demo_data.py
 
 ## 最终交付说明
 
-当前按“移动端 + 服务端”作为项目主交付链路：
+当前按“WebView APK + 服务端”作为项目主交付链路：
 
-- 移动端负责最终展示：竖屏短剧播放、高光点、打脸互动、Combo/K.O. 反馈和沉浸式操作。
+- WebView APK 负责最终展示：竖屏短剧播放、高光点、打脸互动、Combo/K.O. 反馈和沉浸式操作。
 - 服务端负责接口和数据：剧集、弹幕、高光事件、互动上报、互动汇总、测验和同款搜索。
-- Web 端作为辅助演示入口，便于浏览器录屏和快速联调。
-- Expo 移动端已配置 Android package、iOS bundle identifier、图标/启动页资源和 EAS 构建配置；正式发布仍需账号、签名和真实后端地址。
+- 同一套 `web/` 代码也可作为浏览器演示入口，便于录屏和快速联调。
+- `mobile/` Expo 工程保留为历史原型；当前不再作为结赛 APK 的主构建入口。
 
 项目展示录屏位于 `demo/`，飞书技术文档可直接参考 `docs/technical_report.md`。
 
@@ -229,7 +232,46 @@ python scripts/import_offline_events.py `
 
 其他数据处理脚本位于 `backend/scripts/`，包括弹幕分析、字幕切分、弹幕训练集构建、导出高光等。
 
-## 移动端启动
+## WebView APK 构建
+
+安装依赖并生成 Web 静态包：
+
+```powershell
+cd web
+npm install
+npm run build
+```
+
+首次生成 Android 工程：
+
+```powershell
+cd web
+npm run android:add
+```
+
+同步 Web 产物到 Android WebView 壳：
+
+```powershell
+cd web
+npm run android:sync
+```
+
+打包 debug APK：
+
+```powershell
+cd web
+npm run android:apk
+```
+
+APK 输出路径：
+
+```text
+web/android/app/build/outputs/apk/debug/app-debug.apk
+```
+
+如果本机未安装 JDK / Android SDK，可使用 Android Studio 打开 `web/android/` 后执行 Gradle 构建。
+
+## Expo 历史原型启动
 
 ```powershell
 cd mobile
@@ -275,6 +317,11 @@ cd web
 npm run build
 ```
 
+Capacitor Android 工程入口：
+
+- `web/capacitor.config.ts`
+- `web/android/`
+
 ## 测试
 
 后端使用 pytest：
@@ -301,8 +348,8 @@ SQLite: danmaku 原始弹幕 + events 高光事件
 FastAPI: /api/v1/episodes/{episode_id}/danmaku
 FastAPI: /api/v1/episodes/{episode_id}/events
         │
-        ├── mobile: 互动播放器 / 高光浮层 / 打脸模块
-        └── web: 竖屏播放器 / 弹幕 / 打脸互动 / 粒子效果
+        ├── web: 竖屏播放器 / 弹幕 / 打脸互动 / 粒子效果
+        └── Capacitor Android: WebView APK 离线演示
 ```
 
 ## 关键契约
@@ -345,6 +392,7 @@ FastAPI: /api/v1/episodes/{episode_id}/events
 ## 当前注意事项
 
 - 仓库包含本地演示视频资源，体积会明显大于纯代码项目。
+- `web/android/` 是 Capacitor 生成的 Android WebView APK 工程。
 - `mobile/dist/` 是 Expo Web 构建产物，当前仍在仓库中。
 - `demo/` 目前是未跟踪目录，包含演示录屏素材。
 - `start_backend.ps1` 使用了本机固定 conda Python 路径，如换机器需要修改。

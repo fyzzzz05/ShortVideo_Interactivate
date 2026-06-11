@@ -5,42 +5,42 @@ export const EPISODES: Episode[] = [
     author: "逆袭女王",
     description: "假千金冒充真千金多年，女主霸气反击 — 撕夜",
     tags: ["复仇","女强","爽文"],
-    src: "/nvpin/第5集.mp4",
+    src: "./nvpin/第5集.mp4",
     stats: { likes: 50000, comments: 8000, saves: 23000 }
   },
   { id: 6, title: "逆袭女王 第6集",
     author: "逆袭女王",
     description: "假千金冒充真千金多年，女主霸气反击 — 家里家外",
     tags: ["复仇","女强","爽文"],
-    src: "/nvpin/第6集.mp4",
+    src: "./nvpin/第6集.mp4",
     stats: { likes: 56000, comments: 9000, saves: 26000 }
   },
   { id: 7, title: "逆袭女王 第7集",
     author: "逆袭女王",
     description: "假千金冒充真千金多年，女主霸气反击 — 那年冬至",
     tags: ["复仇","女强","爽文"],
-    src: "/nvpin/第7集.mp4",
+    src: "./nvpin/第7集.mp4",
     stats: { likes: 62000, comments: 10000, saves: 29000 }
   },
   { id: 10, title: "逆袭女王 第10集",
     author: "逆袭女王",
     description: "假千金冒充真千金多年，女主霸气反击 — 幸得相遇离婚时",
     tags: ["复仇","女强","爽文"],
-    src: "/nvpin/第10集.mp4",
+    src: "./nvpin/第10集.mp4",
     stats: { likes: 80000, comments: 13000, saves: 38000 }
   },
   { id: 11, title: "逆袭女王 第11集",
     author: "逆袭女王",
     description: "假千金冒充真千金多年，女主霸气反击 — 荒年全村啃树皮，我有系统满仓肉",
     tags: ["复仇","女强","爽文"],
-    src: "/nvpin/第11集.mp4",
+    src: "./nvpin/第11集.mp4",
     stats: { likes: 86000, comments: 14000, saves: 41000 }
   },
   { id: 12, title: "逆袭女王 第12集",
     author: "逆袭女王",
     description: "假千金冒充真千金多年，女主霸气反击 — 荒年全村啃树皮，我有系统满仓肉",
     tags: ["复仇","女强","爽文"],
-    src: "/nvpin/第12集.mp4",
+    src: "./nvpin/第12集.mp4",
     stats: { likes: 92000, comments: 15000, saves: 44000 }
   }
 ];
